@@ -1,0 +1,46 @@
+<template>
+  <div class="footer">
+    <img src="~@/assets/images/buildings.png" class="buildings">
+  </div>
+</template>
+<script>
+export default {
+  name: 'Footer',
+};
+</script>
+<style lang="scss" scoped>
+  @import '~assets/styles/main.scss';
+
+  img {
+    height: auto;
+  }
+  .footer {
+    bottom: 0;
+  }
+  @media (max-width: $screen-xs-max) {
+    .buildings {
+      width: 95%;
+    }
+    .footer {
+      position: static;
+    }
+  }
+  @media (min-width: $screen-sm-min) {
+    .buildings {
+      width: 80%;
+    }
+    .footer {
+      position: absolute;
+    }
+  }
+  @media (min-width: $screen-md-min) {
+    .buildings {
+      width: 85%;
+    }
+  }
+  @media (min-width: $screen-lg-min) {
+    .buildings {
+      width: 55%;
+    }
+  }
+</style>
