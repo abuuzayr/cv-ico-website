@@ -31,7 +31,7 @@ module.exports = {
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /(node_modules)/,
-          include: [resolve('src'), resolve('test')],
+          include: [resolve('app'), resolve('test')],
           options: {
             formatter,
           },

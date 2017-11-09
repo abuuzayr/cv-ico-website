@@ -35,7 +35,7 @@
     name: 'app',
     head() {
       return {
-        title: this.$store.state.states.appTitle,
+        title: this.$store.state.appTitle,
       };
     },
     mounted() {

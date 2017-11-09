@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-# reidao-site
+# crowdvilla-ico-website
 
 > REIDAO countdown
 
@@ -27,8 +26,3 @@ npm run e2e
 # run all tests
 npm test
 ```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
-=======
-# vue-login-example
->>>>>>> 8d7417e434db63eca52ae14ec40deeec0a433b46

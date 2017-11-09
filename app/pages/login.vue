@@ -1,147 +1,128 @@
-<template>
-  <div class="modal-registration">
-    <!-- <b-card no-body>
-      <b-tabs class="nav-justified">
-        <b-tab title="Login" v-on:click="clear">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-12">
-                <h6>Login using your email and password credentials</h6>
-              </div>
-              <div class="col-12">
-                <b-form-group
-                  v-bind:feedback="feedbackEmail(checkValidEmail)"
-                  v-bind:state="checkValidEmail"
-                >
-                  <b-input-group>
-                    <i
-                      class="fa fa-user input-group-addon"
-                      slot="left"
-                    />
-                    <b-form-input
-                      v-model="email"
-                      v-bind:state="checkValidEmail"
-                      placeholder="Email"
-                      ref="email"
-                    >
-                    </b-form-input>
-                  </b-input-group>
-                </b-form-group>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12">
-                <b-form-fieldset>
-                  <b-input-group>
-                    <i
-                      class="fa fa-lock input-group-addon"
-                      slot="left"
-                    />
-                    <b-form-input
-                      v-model="password"
-                      placeholder="Password"
-                      type="password"
-                    >
-                    </b-form-input>
-                  </b-input-group>
-                </b-form-fieldset>
-              </div>
-            </div>
-            <div class="row justify-content-center">
-              <b-button size="lg" variant="primary" type="button" v-on:click="login({ email, password })">
-                Login
-              </b-button>
-            </div>
-            <div class="row justify-content-center">
-              <h6><a href="#">Forgot your password?</a></h6>
-            </div>
-          </div>
-        </b-tab>
-        <b-tab title="Sign Up" v-on:click="clear">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-12">
-                <h6>Create a new account</h6>
-              </div>
-              <div class="col-12">
-                <b-form-group
-                  v-bind:feedback="feedbackEmail(checkValidEmail)"
-                  v-bind:state="checkValidEmail"
-                >
-                  <b-input-group>
-                    <i
-                      class="fa fa-user input-group-addon"
-                      slot="left"
-                    />
-                    <b-form-input
-                      v-model="email"
-                      v-bind:state="checkValidEmail"
-                      placeholder="Email"
-                    >
-                    </b-form-input>
-                  </b-input-group>
-                </b-form-group>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12">
-                <b-form-fieldset
-                  v-bind:feedback="feedbackPassword(checkValidPassword)"
-                  v-bind:state="checkValidPassword"
-                >
-                  <b-input-group>
-                    <i
-                      class="fa fa-lock input-group-addon"
-                      slot="left"
-                    />
-                    <b-form-input
-                      v-model="password"
-                      v-bind:state="checkValidPassword"
-                      placeholder="Password"
-                      type="password"
-                    >
-                    </b-form-input>
-                  </b-input-group>
-                </b-form-fieldset>
-              </div>
-              <div class="col-12">
-                <b-form-fieldset
-                  v-bind:feedback="feedbackConfirmPassword(checkPasswordMatch)"
-                  v-bind:state="checkPasswordMatch"
-                >
-                  <b-input-group>
-                    <i
-                      class="fa fa-lock input-group-addon"
-                      slot="left"
-                    />
-                    <b-form-input
-                      v-model="confirmPassword"
-                      v-bind:state="checkPasswordMatch"
-                      placeholder="Confirm Password"
-                      type="password"
-                    >
-                    </b-form-input>
-                  </b-input-group>
-                </b-form-fieldset>
-              </div>
-            </div>
-            <div class="row justify-content-center">
-              <b-button size="lg" variant="primary" type="button" v-bind:disabled="checkSignupStates" v-on:click="register({ email, password })">
-                Create account
-              </b-button>
-            </div>
-            <div class="row justify-content-center">
-              <h6>Need help? <a href="#">support@reidao.io</a></h6>
-            </div>
-          </div>
-        </b-tab>
-      </b-tabs>
-    </b-card> -->
-  </div>
-</template>
 <script>
-  import '~/controllers/login.js';
+  import { mapActions } from 'vuex';
+
+  // Declare scoped vars
+  let vm;
+
+  export default {
+    name: 'Login',
+    created() {
+      // Instantiate view model
+      vm = this;
+    },
+    data() {
+      return {
+        email: '',
+        password: '',
+        confirmPassword: '',
+        stateEmail: false,
+        statePassword: false,
+        stateConfirmPassword: false,
+      };
+    },
+    computed: {
+      checkLoginStates() {
+        return !(vm.stateEmail &&
+                 vm.statePassword);
+      },
+      checkSignupStates() {
+        return !(vm.stateEmail &&
+                 vm.statePassword &&
+                 vm.stateConfirmPassword);
+      },
+      checkValidEmail() {
+        const re = /\S+@\S+\.\S+/;
+        let result;
+
+        if (vm.email.length === 0) {
+          result = null;
+        } else if (re.test(vm.email)) {
+          vm.stateEmail = true;
+          result = 'valid';
+        } else {
+          vm.stateEmail = false;
+          result = 'invalid';
+        }
+
+        return result;
+      },
+      checkValidPassword() {
+        const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/;
+        let result;
+
+        if (vm.password.length === 0) {
+          result = null;
+        } else if (re.test(vm.password)) {
+          vm.statePassword = true;
+          result = 'valid';
+        } else {
+          vm.statePassword = false;
+          result = 'invalid';
+        }
+
+        return result;
+      },
+      checkPasswordMatch() {
+        let result;
+
+        if (vm.confirmPassword === '') {
+          result = null;
+        } else if (vm.password === vm.confirmPassword) {
+          vm.stateConfirmPassword = true;
+          result = 'valid';
+        } else {
+          vm.stateConfirmPassword = false;
+          result = 'invalid';
+        }
+
+        return result;
+      },
+    },
+    methods: {
+      clear() {
+        vm.email = '';
+        vm.password = '';
+        vm.confirmPassword = '';
+        vm.stateEmail = false;
+        vm.statePassword = false;
+        vm.stateConfirmPassword = false;
+      },
+      feedbackEmail(input) {
+        return input === 'invalid' ? 'Please enter a valid email address' : '';
+      },
+      feedbackPassword(input) {
+        return input === 'invalid' ? 'Password must contain at least eight '
+                                      + 'characters: both lower and uppercase letters, '
+                                      + 'at least one number, '
+                                      + 'and at least one special character' : '';
+      },
+      feedbackConfirmPassword(input) {
+        return input === 'invalid' ? 'Password does not match!' : '';
+      },
+      gotoRoute() {
+        vm.$router.push('dashboard');
+      },
+      ...mapActions([
+        'jwt',
+        'login',
+        'logout',
+        'register',
+      ]),
+    },
+    // middleware: 'anonymous',
+    notifications: {
+      errorLogin: {
+        title: 'Login Failed',
+        message: 'Failed to authenticate',
+        type: 'error',
+      },
+      successRegistration: {
+        title: 'Registration Successful',
+        message: 'Please check your email',
+        type: 'success',
+      },
+    },
+  };
 </script>
-<style lang="scss" scoped>
-  @import '~assets/styles/login.scss';
-</style>
+<template src="~/templates/login.html"></template>
+<style src="~/assets/styles/login.scss" lang="scss" scoped></style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="crowdvilla">
+  <div class="kyc">
   </div>
 </template>
 <script>
@@ -7,7 +7,7 @@
   let vm;
 
   export default {
-    name: 'Crowdvilla',
+    name: 'KYC',
     created() {
       // Instantiate view model
       vm = this;
