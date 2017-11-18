@@ -68,6 +68,7 @@ module.exports = {
     ],
     script: [
       { src: 'https://s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js' },
+      { src: 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit' },
     ],
   },
   /*
@@ -85,6 +86,7 @@ module.exports = {
     { src: '@/plugins/vue-plugins-ssr.js', ssr: true },
     { src: '@/plugins/vue-plugins.js', ssr: false },
     { src: '@/plugins/filters.js', ssr: true },
+    { src: '@/plugins/local-storage.js', ssr: false },
     { src: '@/plugins/ga.js', ssr: false },
   ],
   // router: {

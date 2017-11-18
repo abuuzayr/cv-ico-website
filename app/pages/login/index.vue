@@ -1,6 +1,6 @@
 <template>
-  <div class="registration-page">
-    <Registration></Registration>
+  <div class="login-page">
+    <Login></Login>
   </div>
 </template>
 <script>
@@ -8,7 +8,7 @@
   let vm;
 
   export default {
-    name: 'Registration-Page',
+    name: 'Login-Page',
     created() {
       // Instantiate view model
       vm = this;

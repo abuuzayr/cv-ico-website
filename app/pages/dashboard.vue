@@ -1,19 +1,20 @@
 <template>
-  <div class="registration-page">
-    <Registration></Registration>
+  <div class="dashboard-page">
+    <Dashboard></Dashboard>
   </div>
 </template>
 <script>
   // Declare scoped vars
   let vm;
+  import * as Cookies from 'js-cookie';
 
   export default {
-    name: 'Registration-Page',
+    name: 'Dashboard-Page',
     created() {
       // Instantiate view model
       vm = this;
     },
-    middleware: 'authenticated',
+    middleware: 'unauthenticated',
   };
 </script>
 <style lang="scss" scoped>

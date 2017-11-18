@@ -1,5 +1,6 @@
 <template>
-  <div class="kyc">
+  <div class="kyc-page">
+    <KYC></KYC>
   </div>
 </template>
 <script>
@@ -7,11 +8,12 @@
   let vm;
 
   export default {
-    name: 'KYC',
+    name: 'KYC-Page',
     created() {
       // Instantiate view model
       vm = this;
     },
+    middleware: 'unauthenticated',
   };
 </script>
 <style lang="scss" scoped>
