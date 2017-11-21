@@ -34,6 +34,19 @@ export const getters = {
   },
 };
 
+async function setPersistence(action, commit, accessToken) {
+  const { userId } = decode(accessToken);
+
+  action.$axios.setToken(accessToken, 'Bearer');
+
+  const { data } = await action.$axios.get(`users/${userId}`);
+
+  commit('SET_ACCESSTOKEN', accessToken);
+  commit('SET_USER', userId);
+  commit('SET_EMAIL', data.email);
+  commit('SET_NAME', { fname: data.kyc.first_name, lname: data.kyc.last_name });
+}
+
 export const actions = {
   async jwt({ commit }, { accessToken }) {
     try {
@@ -41,23 +54,26 @@ export const actions = {
         strategy: 'jwt',
         accessToken,
       });
-      const { userId } = decode(res.accessToken);
 
-      this.$axios.setToken(res.accessToken, 'Bearer');
+      await setPersistence(this, commit, res.accessToken);
 
-      const { data } = await this.$axios.get(`users/${userId}`);
-
-      commit('SET_ACCESSTOKEN', res.accessToken);
-      commit('SET_USER', userId);
-      commit('SET_EMAIL', data.email);
-      commit('SET_NAME', { fname: data.kyc.first_name, lname: data.kyc.last_name });
+      // const { userId } = decode(res.accessToken);
+      //
+      // this.$axios.setToken(res.accessToken, 'Bearer');
+      //
+      // const { data } = await this.$axios.get(`users/${userId}`);
+      //
+      // commit('SET_ACCESSTOKEN', res.accessToken);
+      // commit('SET_USER', userId);
+      // commit('SET_EMAIL', data.email);
+      // commit('SET_NAME', { fname: data.kyc.first_name, lname: data.kyc.last_name });
     } catch (error) {
       if (error.response && error.response.status === 401) {
         throw new Error('Bad credentials');
       }
     }
   },
-  async login({ dispatch }, { email, password, recaptcha }) {
+  async login({ commit }, { email, password, recaptcha }) {
     try {
       const { accessToken } = await this.$axios.$post('authentication', {
         strategy: 'local',
@@ -68,7 +84,7 @@ export const actions = {
 
       this.$axios.setToken(accessToken, 'Bearer');
 
-      await dispatch('jwt', { accessToken });
+      await setPersistence(this, commit, accessToken);
     } catch (error) {
       if (error.response && error.response.status === 401) {
         throw new Error('Bad credentials');
@@ -83,12 +99,11 @@ export const actions = {
     commit('SET_EMAIL', null);
     commit('SET_NAME', null, null);
   },
-  async register({ dispatch }, { email, password, recaptcha }) {
+  async register({ commit }, { email, password, recaptcha }) { // eslint-disable-line no-unused-vars
     await this.$axios.$post('users', {
       email,
       password,
+      recaptcha,
     });
-
-    await dispatch('login', { email, password, recaptcha });
   },
 };

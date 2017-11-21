@@ -1,6 +1,12 @@
 <script>
   import { mapActions } from 'vuex';
-  import authentication from '~/helpers/authentication';
+  import {
+    feedbackEmail,
+    feedbackPassword,
+    feedbackConfirmPassword,
+    isValidEmail,
+    isValidPassword
+  } from '~/helpers/authentication';
 
   // Declare scoped vars
   let vm;
@@ -24,6 +30,7 @@
         email: '',
         password: '',
         recaptcha: '',
+        recaptchaKey: process.env.RECAPTCHA
       };
     },
     computed: {
@@ -34,7 +41,7 @@
           return null;
         }
 
-        if (authentication.isValidEmail(vm.email)) {
+        if (isValidEmail(vm.email)) {
           states.email = true;
           return 'valid';
         }
@@ -48,7 +55,7 @@
           return null;
         }
 
-        if (authentication.isValidPassword(vm.password)) {
+        if (isValidPassword(vm.password)) {
           states.password = true;
           return 'valid';
         }
@@ -67,24 +74,15 @@
       },
     },
     methods: {
-      checkLoginStates() {
-        return !(states.email && states.password && states.recaptcha);
-      },
-      feedbackEmail(input) {
-        return input === 'invalid' ? 'Please enter a valid email address' : '';
-      },
-      feedbackPassword(input) {
-        return input === 'invalid' ? 'Password must contain at least eight '
-                                      + 'characters: both lower and uppercase letters, '
-                                      + 'at least one number, '
-                                      + 'and at least one special character' : '';
-      },
-      feedbackConfirmPassword(input) {
-        return input === 'invalid' ? 'Password does not match!' : '';
-      },
       ...mapActions({
         login: 'authentication/login',
       }),
+      feedbackEmail,
+      feedbackPassword,
+      feedbackConfirmPassword,
+      checkLoginStates() {
+        return !(states.email && states.password && states.recaptcha);
+      },
       setRecaptcha(event) {
         vm.recaptcha = event;
       },

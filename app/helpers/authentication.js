@@ -1,21 +1,43 @@
-export default {
-  isValidEmail(email) {
-    const re = /\S+@\S+\.\S+/;
+function feedbackEmail(input) {
+  return input === 'invalid' ? 'Please enter a valid email address' : '';
+}
 
-    if (re.test(email)) {
-      return true;
-    }
+function feedbackPassword(input) {
+  return input === 'invalid' ? 'Password must contain at least eight '
+                                + 'characters: both lower and uppercase letters, '
+                                + 'at least one number, '
+                                + 'and at least one special character' : '';
+}
 
-    return false;
-  },
+function feedbackConfirmPassword(input) {
+  return input === 'invalid' ? 'Password does not match!' : '';
+}
 
-  isValidPassword(password) {
-    const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/;
+function isValidEmail(email) {
+  const re = /\S+@\S+\.\S+/;
 
-    if (re.test(password)) {
-      return true;
-    }
+  if (re.test(email)) {
+    return true;
+  }
 
-    return false;
-  },
+  return false;
+}
+
+function isValidPassword(password) {
+  const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/;
+
+  if (re.test(password)) {
+    return true;
+  }
+
+  return false;
+}
+
+export default null;
+export {
+  feedbackEmail,
+  feedbackPassword,
+  feedbackConfirmPassword,
+  isValidEmail,
+  isValidPassword,
 };

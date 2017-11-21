@@ -70,10 +70,15 @@
             </div>
           </div>
           <div class="row justify-content-center">
-            <reCAPTCHA sitekey="6LezJzkUAAAAABaUC2oVMayPqXKTFynYrrvxKJtS" v-on:verify="setRecaptcha"></reCAPTCHA>
+            <reCAPTCHA
+              v-bind:sitekey="recaptchaKey"
+              v-bind:state="checkValidRecaptcha"
+              v-on:verify="setRecaptcha"
+            >
+            </reCAPTCHA>
           </div>
           <div class="row justify-content-center">
-            <b-button size="lg" variant="primary" type="button" v-bind:disabled="checkRegistrationStates()" v-on:click="submit(email, password)">
+            <b-button size="lg" variant="primary" type="button" v-bind:disabled="checkRegistrationStates()" v-on:click="submit(email, password, recaptcha)">
               Create account
             </b-button>
           </div>

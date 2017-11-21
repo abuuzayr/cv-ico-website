@@ -51,6 +51,7 @@ module.exports = {
   env: {
     HOST: process.env.HOST || 'localhost',
     PORT: process.env.PORT || 1338,
+    RECAPTCHA: process.env.RECAPTCHA_KEY,
   },
   /*
   ** Headers of the page
@@ -68,7 +69,7 @@ module.exports = {
     ],
     script: [
       { src: 'https://s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js' },
-      { src: 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit' },
+      { src: 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit', async: undefined, defer: undefined },
     ],
   },
   /*

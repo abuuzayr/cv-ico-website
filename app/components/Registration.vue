@@ -1,6 +1,12 @@
 <script>
   import { mapActions } from 'vuex';
-  import authentication from '~/helpers/authentication';
+  import {
+    feedbackEmail,
+    feedbackPassword,
+    feedbackConfirmPassword,
+    isValidEmail,
+    isValidPassword
+  } from '~/helpers/authentication';
 
   // Declare global scoped vars
   let vm;
@@ -17,6 +23,7 @@
         email: false,
         password: false,
         confirmPassword: false,
+        recaptcha: false,
       }
     },
     data() {
@@ -24,6 +31,8 @@
         email: '',
         password: '',
         confirmPassword: '',
+        recaptcha: '',
+        recaptchaKey: process.env.RECAPTCHA
       };
     },
     computed: {
@@ -34,7 +43,7 @@
           return null;
         }
 
-        if (authentication.isValidEmail(vm.email)) {
+        if (isValidEmail(vm.email)) {
           states.email = true;
           return 'valid';
         }
@@ -48,8 +57,18 @@
           return null;
         }
 
-        if (authentication.isValidPassword(vm.password)) {
+        if (isValidPassword(vm.password)) {
           states.password = true;
+          return 'valid';
+        }
+
+        return 'invalid';
+      },
+      checkValidRecaptcha() {
+        states.recaptcha = false;
+
+        if (vm.recaptcha !== '') {
+          states.recaptcha = true;
           return 'valid';
         }
 
@@ -71,26 +90,20 @@
       },
     },
     methods: {
-      checkRegistrationStates() {
-        return !(states.email && states.password && states.confirmPassword);
-      },
-      feedbackEmail(input) {
-        return input === 'invalid' ? 'Please enter a valid email address' : '';
-      },
-      feedbackPassword(input) {
-        return input === 'invalid' ? 'Password must contain at least eight '
-                                      + 'characters: both lower and uppercase letters, '
-                                      + 'at least one number, '
-                                      + 'and at least one special character' : '';
-      },
-      feedbackConfirmPassword(input) {
-        return input === 'invalid' ? 'Password does not match!' : '';
-      },
       ...mapActions({
         register: 'authentication/register',
       }),
-      submit(email, password) {
-        vm.register({ email, password }).then(() => {
+      feedbackEmail,
+      feedbackPassword,
+      feedbackConfirmPassword,
+      checkRegistrationStates() {
+        return !(states.email && states.password && states.confirmPassword && states.recaptcha);
+      },
+      setRecaptcha(event) {
+        vm.recaptcha = event;
+      },
+      submit(email, password, recaptcha) {
+        vm.register({ email, password, recaptcha }).then(() => {
           vm.$router.push('dashboard');
         });
       },
