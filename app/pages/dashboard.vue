@@ -1,24 +1,52 @@
 <template>
-  <div class="dashboard-page">
-    <Dashboard></Dashboard>
+  <div class="dashboard">
+    <Header />
+    <Sidebar id="Sidebar" />
+    <KYC />
+    <div style="font-style:bold;color:white;">
+      Test web3 {{ totalRaised }}
+    </div>
   </div>
 </template>
 <script>
-  // Declare scoped vars
+  import { mapState } from 'vuex';
+
+  // Declare global scoped vars
   let vm;
-  import * as Cookies from 'js-cookie';
 
   export default {
-    name: 'Dashboard-Page',
+    name: 'Dashboard',
+    middleware: 'unauthenticated',
+    beforeMount() {
+      vm.$axios.setToken(vm.authentication.accessToken, 'Bearer');
+    },
     created() {
       // Instantiate view model
       vm = this;
     },
-    middleware: 'unauthenticated',
+    data() {
+      return {
+        balCRV: 3000,
+        balETH: 100,
+        totalRaised: null,
+      };
+    },
+    async mounted() {
+      vm.totalRaised = await vm.$eth.methods.totalFund().call();
+    },
+    computed: {
+      ...mapState([
+        'authentication',
+      ]),
+    },
   };
 </script>
 <style lang="scss" scoped>
   @import '~assets/styles/main.scss';
+
+  #Sidebar {
+    float: left;
+  }
 
   @media (max-width: $screen-xs-max) {
   }

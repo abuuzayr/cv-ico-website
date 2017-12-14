@@ -1,0 +1,21 @@
+<div class="header">
+  <b-navbar class="topbar" v-bind:toggleable="true" toggle-breakpoint="sm" type="dark" variant="info">
+    <b-nav-toggle target="nav-collapse"></b-nav-toggle>
+    <b-collapse is-nav id="nav-collapse">
+      <b-navbar-nav class="ml-auto">
+        <b-nav-item class="label">
+          <i v-if="isVerified"
+            class="fa fa-check"
+            slot="left"
+          />
+          <i v-else
+            class="fa fa-times"
+            slot="left"
+          />
+        </b-nav-item>
+        <b-nav-item class="label">{{ authentication.email }}</b-nav-item>
+        <b-nav-item class="label" v-on:click="signOut">Sign Out</b-nav-item>
+      </b-navbar-nav>
+    </b-collapse>
+  </b-navbar>
+</div>

@@ -29,17 +29,23 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
   import MiniToastr from 'mini-toastr';
 
   export default {
     name: 'app',
     head() {
       return {
-        title: this.$store.state.appTitle,
+        title: this.appTitle,
       };
     },
     mounted() {
       MiniToastr.init();
+    },
+    computed: {
+      ...mapState([
+        'appTitle',
+      ]),
     },
   };
 </script>

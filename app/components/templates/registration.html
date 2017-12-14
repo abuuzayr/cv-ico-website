@@ -1,11 +1,11 @@
-<div class="modal-registration">
+<div class="registration">
   <b-card no-body>
     <b-tabs class="nav-justified">
-      <b-tab title="Login">
+      <b-tab title="Registration">
         <div class="container-fluid">
           <div class="row">
             <div class="col-12">
-              <h6>Login using your email and password credentials</h6>
+              <h6>Create a new account</h6>
             </div>
             <div class="col-12">
               <b-form-group
@@ -21,7 +21,6 @@
                     v-model="email"
                     v-bind:state="checkValidEmail"
                     placeholder="Email"
-                    ref="email"
                   >
                   </b-form-input>
                 </b-input-group>
@@ -49,6 +48,46 @@
                 </b-input-group>
               </b-form-group>
             </div>
+            <div class="col-12">
+              <b-form-group
+                v-bind:feedback="feedbackConfirmPassword(checkPasswordMatch)"
+                v-bind:state="checkPasswordMatch"
+              >
+                <b-input-group>
+                  <i
+                    class="fa fa-lock input-group-addon"
+                    slot="left"
+                  />
+                  <b-form-input
+                    v-model="confirmPassword"
+                    v-bind:state="checkPasswordMatch"
+                    placeholder="Confirm Password"
+                    type="password"
+                  >
+                  </b-form-input>
+                </b-input-group>
+              </b-form-group>
+            </div>
+            <div class="col-12">
+              <b-form-group>
+                <b-input-group>
+                  <i
+                    class="fa fa-lock input-group-addon"
+                    slot="left"
+                  />
+                  <b-form-input
+                    v-model="referralCode"
+                    v-bind:state="checkValidReferralCode"
+                    placeholder="Referral Code"
+                    type="text"
+                  >
+                  </b-form-input>
+                  <b-button size="lg" variant="primary" type="button" v-on:click="checkReferralCode(referralCode)">
+                    Check
+                  </b-button>
+                </b-input-group>
+              </b-form-group>
+            </div>
           </div>
           <div class="row justify-content-center">
             <reCAPTCHA
@@ -59,12 +98,12 @@
             </reCAPTCHA>
           </div>
           <div class="row justify-content-center">
-            <b-button size="lg" variant="primary" type="button" v-bind:disabled="checkLoginStates()" v-on:click="submit(email, password, recaptcha)">
-              Login
+            <b-button size="lg" variant="primary" type="button" v-bind:disabled="checkRegistrationStates()" v-on:click="submit(email, password, recaptcha)">
+              Create account
             </b-button>
           </div>
           <div class="row justify-content-center">
-            <h6><a href="#">Forgot your password?</a></h6>
+            <h6>Need help? <a href="#">support@reidao.io</a></h6>
           </div>
         </div>
       </b-tab>

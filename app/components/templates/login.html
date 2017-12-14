@@ -1,11 +1,11 @@
-<div class="registration">
+<div class="modal-registration">
   <b-card no-body>
     <b-tabs class="nav-justified">
-      <b-tab title="Registration">
+      <b-tab title="Login">
         <div class="container-fluid">
           <div class="row">
             <div class="col-12">
-              <h6>Create a new account</h6>
+              <h6>Login using your email and password credentials</h6>
             </div>
             <div class="col-12">
               <b-form-group
@@ -21,6 +21,8 @@
                     v-model="email"
                     v-bind:state="checkValidEmail"
                     placeholder="Email"
+                    ref="email"
+                    type="text"
                   >
                   </b-form-input>
                 </b-input-group>
@@ -42,26 +44,7 @@
                     v-model="password"
                     v-bind:state="checkValidPassword"
                     placeholder="Password"
-                    type="password"
-                  >
-                  </b-form-input>
-                </b-input-group>
-              </b-form-group>
-            </div>
-            <div class="col-12">
-              <b-form-group
-                v-bind:feedback="feedbackConfirmPassword(checkPasswordMatch)"
-                v-bind:state="checkPasswordMatch"
-              >
-                <b-input-group>
-                  <i
-                    class="fa fa-lock input-group-addon"
-                    slot="left"
-                  />
-                  <b-form-input
-                    v-model="confirmPassword"
-                    v-bind:state="checkPasswordMatch"
-                    placeholder="Confirm Password"
+                    ref="password"
                     type="password"
                   >
                   </b-form-input>
@@ -78,12 +61,12 @@
             </reCAPTCHA>
           </div>
           <div class="row justify-content-center">
-            <b-button size="lg" variant="primary" type="button" v-bind:disabled="checkRegistrationStates()" v-on:click="submit(email, password, recaptcha)">
-              Create account
+            <b-button size="lg" variant="primary" type="button" v-bind:disabled="checkLoginStates()" v-on:click="submit(email, password, recaptcha)">
+              Login
             </b-button>
           </div>
           <div class="row justify-content-center">
-            <h6>Need help? <a href="#">support@reidao.io</a></h6>
+            <h6><a href="#">Forgot your password?</a></h6>
           </div>
         </div>
       </b-tab>

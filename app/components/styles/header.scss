@@ -1,0 +1,62 @@
+@import '~assets/styles/main.scss';
+
+#nav-collapse {
+  border-color: transparent;
+  border: 0;
+}
+.label {
+  font-family: $font-normal;
+}
+.custom-modal-header {
+  background-color: $dark-green;
+  border-top-left-radius: 0.5vw;
+  border-top-right-radius: 0.5vw;
+  color: $white;
+  font-family: $font-condensed;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  padding: 0;
+  width: 100%;
+}
+.topbar {
+  background-color: transparent !important;
+  border: 0;
+}
+@media (max-width: $screen-xs-max) {
+  .custom-modal-header {
+    font-size: 5vw;
+    padding: 1vw 1vw;
+  }
+  .label {
+    font-size: 5vw;
+    font-weight: 900;
+    line-height: 2;
+  }
+}
+@media (min-width: $screen-sm-min) {
+  .custom-modal-header {
+    font-size: 1.8vw;
+    padding: 0.5vw 0.5vw;
+  }
+  .label {
+    font-size: 1.5vw;
+    font-weight: 900;
+    line-height: 2;
+  }
+}
+@media (min-width: $screen-md-min) {
+  .label {
+    font-size: 1.3vw;
+  }
+}
+@media (min-width: $screen-lg-min) {
+  .custom-modal-header {
+    font-size: 1.2vw;
+    padding: 1vw 1vw;
+  }
+  .label {
+    font-size: 0.9vw;
+    font-weight: 900;
+    line-height: 1.88;
+  }
+}

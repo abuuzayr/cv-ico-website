@@ -13,6 +13,10 @@ function feedbackConfirmPassword(input) {
   return input === 'invalid' ? 'Password does not match!' : '';
 }
 
+function feedbackReferralCode(input) {
+  return input === 'invalid' ? 'Referral code is invalid!' : '';
+}
+
 function isValidEmail(email) {
   const re = /\S+@\S+\.\S+/;
 
@@ -38,6 +42,7 @@ export {
   feedbackEmail,
   feedbackPassword,
   feedbackConfirmPassword,
+  feedbackReferralCode,
   isValidEmail,
   isValidPassword,
 };

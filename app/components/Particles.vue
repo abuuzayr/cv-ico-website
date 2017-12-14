@@ -1,24 +1,3 @@
-<template>
-  <div
-    id="particles-js"
-    :color="color"
-    :particleOpacity="particleOpacity"
-    :linesColor="linesColor"
-    :particlesNumber="particlesNumber"
-    :shapeType="shapeType"
-    :particleSize="particleSize"
-    :linesWidth="linesWidth"
-    :lineLinked="lineLinked"
-    :lineOpacity="lineOpacity"
-    :linesDistance="linesDistance"
-    :moveSpeed="moveSpeed"
-    :hoverEffect="hoverEffect"
-    :hoverMode="hoverMode"
-    :clickEffect="clickEffect"
-    :clickMode="clickMode"
-  >
-  </div>
-</template>
 <script>
   export default {
     name: 'Particles',
@@ -241,3 +220,4 @@
     },
   };
 </script>
+<template src="./templates/particles.html"></template>

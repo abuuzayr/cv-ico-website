@@ -16,4 +16,15 @@
     },
   };
 </script>
-<template></template>
+<template>
+  <div class="verify">
+    <b-card no-body>
+      <b-tabs class="nav-justified">
+        <b-tab title="Your email is now verified">
+          <div class="container-fluid">
+          </div>
+        </b-tab>
+      </b-tabs>
+    </b-card>
+  </div>
+</template>

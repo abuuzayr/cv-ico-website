@@ -4,6 +4,7 @@
     feedbackEmail,
     feedbackPassword,
     feedbackConfirmPassword,
+    feedbackReferralCode,
     isValidEmail,
     isValidPassword
   } from '~/helpers/authentication';
@@ -23,6 +24,7 @@
         email: false,
         password: false,
         confirmPassword: false,
+        referralCode: false,
         recaptcha: false,
       }
     },
@@ -31,6 +33,7 @@
         email: '',
         password: '',
         confirmPassword: '',
+        referralCode: '',
         recaptcha: '',
         recaptchaKey: process.env.RECAPTCHA
       };
@@ -59,6 +62,14 @@
 
         if (isValidPassword(vm.password)) {
           states.password = true;
+          return 'valid';
+        }
+
+        return 'invalid';
+      },
+      checkValidReferralCode() {
+        if (states.referralCode && vm.referralCode !== '') {
+          console.log('test');
           return 'valid';
         }
 
@@ -96,15 +107,20 @@
       feedbackEmail,
       feedbackPassword,
       feedbackConfirmPassword,
+      feedbackReferralCode,
       checkRegistrationStates() {
         return !(states.email && states.password && states.confirmPassword && states.recaptcha);
+      },
+      checkReferralCode(code) {
+        console.log(vm.referralCode);
+        states.referralCode = true;
       },
       setRecaptcha(event) {
         vm.recaptcha = event;
       },
       submit(email, password, recaptcha) {
         vm.register({ email, password, recaptcha }).then(() => {
-          vm.$router.push('dashboard');
+          vm.$router.push('login');
         });
       },
     },
@@ -117,5 +133,5 @@
     },
   };
 </script>
-<template src="~/templates/registration.html"></template>
-<style src="~/assets/styles/registration.scss" lang="scss" scoped></style>
+<template src="./templates/registration.html"></template>
+<style src="./styles/registration.scss" lang="scss" scoped></style>

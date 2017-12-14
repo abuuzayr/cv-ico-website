@@ -83,17 +83,13 @@ module.exports = {
     '@nuxtjs/font-awesome',
   ],
   plugins: [
-    { src: '@/plugins/vue-global-components.js', ssr: true },
+    { src: '@/plugins/vue-components-ssr.js', ssr: true },
     { src: '@/plugins/vue-plugins-ssr.js', ssr: true },
     { src: '@/plugins/vue-plugins.js', ssr: false },
     { src: '@/plugins/filters.js', ssr: true },
     { src: '@/plugins/local-storage.js', ssr: false },
     { src: '@/plugins/ga.js', ssr: false },
+    { src: '@/plugins/eth.js', ssr: false },
   ],
-  // router: {
-  //   base: '/',
-  //   linkActiveClass: 'active',
-  //   middleware: 'anonymous',
-  // },
   srcDir: 'app/',
 };

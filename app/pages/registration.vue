@@ -4,15 +4,8 @@
   </div>
 </template>
 <script>
-  // Declare scoped vars
-  let vm;
-
   export default {
     name: 'Registration-Page',
-    created() {
-      // Instantiate view model
-      vm = this;
-    },
     middleware: 'authenticated',
   };
 </script>

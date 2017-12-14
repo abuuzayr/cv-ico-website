@@ -15,7 +15,9 @@ export const actions = {
       const storage = JSON.parse(cookie.parse(req.headers.cookie).vuex);
       const { accessToken } = storage.authentication;
 
-      await dispatch('authentication/jwt', { accessToken });
+      if (accessToken !== null) {
+        await dispatch('authentication/jwt', { accessToken });
+      }
     }
   },
 };
