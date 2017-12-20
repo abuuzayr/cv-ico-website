@@ -53,8 +53,14 @@
 <style lang="scss">
   @import '~assets/styles/main.scss';
 
-  html, body {
-    background-color: $blue-bg-color !important;
+  html,
+  body,
+  #__nuxt,
+  #app {
+    height: 100%;
+  }
+  body {
+    background: $blue-bg-color !important;
   }
   #app {
     font-family: 'Roboto', serif;
