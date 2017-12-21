@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'Need Help',
+  name: 'NeedHelp',
 };
 </script>
 <template src="./templates/need_help.html"></template>
