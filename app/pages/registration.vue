@@ -1,8 +1,6 @@
 <template>
   <div class="registration-page">
-    <Header />
     <Registration v-bind:referral-code="$route.query.r"></Registration>
-    <Footer />
   </div>
 </template>
 <script>
@@ -13,6 +11,15 @@
 </script>
 <style lang="scss" scoped>
   @import '~assets/styles/main.scss';
+
+  .registration-page {
+    height: 100%;
+    background: url('~@/assets/images/full-size-bg.png') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
 
   @media (max-width: $screen-xs-max) {
   }
