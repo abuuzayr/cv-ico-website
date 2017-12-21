@@ -54,7 +54,7 @@ export const actions = {
       await dispatch('kyc/verify', {}, { root: true });
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        throw new Error('Bad credentials');
+        dispatch('logout');
       }
     }
   },
