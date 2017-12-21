@@ -26,6 +26,7 @@
         confirmPassword: false,
         referralCode: false,
         recaptcha: false,
+        agreeTerms: false
       }
     },
     data() {
@@ -34,7 +35,9 @@
         password: '',
         confirmPassword: '',
         recaptcha: '',
-        recaptchaKey: process.env.RECAPTCHA
+        recaptchaKey: process.env.RECAPTCHA,
+        agreeTerms: 'not_accepted',
+        touched: false
       };
     },
     computed: {
@@ -93,7 +96,17 @@
 
         if (vm.password === vm.confirmPassword) {
           states.confirmPassword = true;
-          return'valid';
+          return 'valid';
+        }
+
+        return 'invalid';
+      },
+      checkTermsAgreed() {
+        states.agreeTerms = false;
+
+        if (vm.agreeTerms === 'accepted') {
+          states.agreeTerms = true;
+          return 'valid';
         }
 
         return 'invalid';
@@ -108,7 +121,7 @@
       feedbackConfirmPassword,
       feedbackReferralCode,
       checkRegistrationStates() {
-        return !(states.email && states.password && states.confirmPassword && states.recaptcha);
+        return !(states.email && states.password && states.confirmPassword && states.recaptcha && states.agreeTerms);
       },
       checkReferralCode(code) {
         console.log(vm.referralCode);
@@ -121,6 +134,9 @@
         vm.register({ email, password, recaptcha }).then(() => {
           vm.$router.push('login');
         });
+      },
+      onCheck(checked) {
+        if (checked) this.touched = true;
       },
     },
     notifications: {
@@ -135,3 +151,15 @@
 </script>
 <template src="./templates/registration.html"></template>
 <style src="./styles/registration.scss" lang="scss" scoped></style>
+<style>
+  .modal-header .close {
+    padding: 15px;
+    margin: 0;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .modal-header .modal-title {
+    padding: 10px 30px;
+  }
+</style>
