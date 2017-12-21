@@ -77,7 +77,6 @@ module.exports = {
   */
   loading: { color: '#3B8070' },
   modules: [
-    // '@nuxtjs/auth',
     '@nuxtjs/axios',
     '@nuxtjs/bootstrap-vue',
     '@nuxtjs/font-awesome',

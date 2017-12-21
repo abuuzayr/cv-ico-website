@@ -33,7 +33,6 @@
         email: '',
         password: '',
         confirmPassword: '',
-        referralCode: '',
         recaptcha: '',
         recaptchaKey: process.env.RECAPTCHA
       };
@@ -131,6 +130,7 @@
         type: 'success',
       },
     },
+    props: ['referralCode'],
   };
 </script>
 <template src="./templates/registration.html"></template>

@@ -1,6 +1,8 @@
 <template>
   <div class="registration-page">
-    <Registration></Registration>
+    <Header />
+    <Registration v-bind:referral-code="$route.query.r"></Registration>
+    <Footer />
   </div>
 </template>
 <script>
