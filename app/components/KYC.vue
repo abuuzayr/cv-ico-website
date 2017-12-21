@@ -142,7 +142,7 @@
         const uri = getBase64DataURI(buffer, file.type);
         const res = await vm.$axios.post('documents', {
           uri: uri,
-          id: `${vm.authentication.user}_${type}`,
+          id: `${vm.authentication.user}_${type}.${file.type.split('/')[1]}`,
         });
 
         return res;
