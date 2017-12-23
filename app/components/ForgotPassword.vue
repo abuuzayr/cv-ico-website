@@ -56,19 +56,19 @@
     },
     methods: {
       feedbackEmail,
-      checkRegistrationStates() {
+      checkResetStates() {
         return !(states.email && states.recaptcha);
       },
       setRecaptcha(event) {
         vm.recaptcha = event;
       },
-      submit(email, password, recaptcha) {
+      submit(email, recaptcha) {
       },
     },
     notifications: {
-      successRegistration: {
-        title: 'Registration Successful',
-        message: 'Please check your email',
+      successReset: {
+        title: 'Message Sent',
+        message: 'Please check your email for the password reset instructions',
         type: 'success',
       },
     },
