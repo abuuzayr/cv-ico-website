@@ -11,7 +11,8 @@ import MailChimp from '../components/MailChimp.vue';
 import Particles from '../components/Particles.vue';
 import Registration from '../components/Registration.vue';
 import Sidebar from '../components/Sidebar.vue';
-import NeedHelp from '../components/NeedHelp.vue';
+import NeedHelp from "../components/NeedHelp.vue";
+import Notify from '../components/Notify.vue';
 
 Vue.component('Footer', Footer);
 Vue.component('ForgotPassword', ForgotPassword);
@@ -25,3 +26,4 @@ Vue.component('reCAPTCHA', reCAPTCHA);
 Vue.component('Registration', Registration);
 Vue.component("Sidebar", Sidebar);
 Vue.component("NeedHelp", NeedHelp);
+Vue.component("Notify", Notify);

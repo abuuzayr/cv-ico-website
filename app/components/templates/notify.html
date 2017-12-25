@@ -1,0 +1,27 @@
+<b-container class="notify">
+  <b-card no-body style="max-width: 25rem;">
+    <div class="container-fluid">
+      <div class="row mb-5">
+        <div class="col-12">
+          <img src="~@/assets/images/full-size-login-logo.png" alt="login" width="100%">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 mb-3 sub-title">
+          <template v-if="title != ''">
+            <h5 class="mb-5">
+              {{ title }}
+            </h5>
+          </template>
+          <h4 class="mb-3">
+             {{ subtitle }}
+          </h4>
+          <p>
+             {{ msg }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <NeedHelp />
+  </b-card>
+</b-container>
