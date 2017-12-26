@@ -1,29 +1,11 @@
 <script>
-  import { mapState } from 'vuex';
-
-  // Declare global scoped vars
-  let vm;
-
   export default {
-    name: 'Dashboard-Page',
-    middleware: 'unauthenticated',
-    beforeMount() {
-      vm.$axios.setToken(vm.authentication.accessToken, 'Bearer');
-    },
-    created() {
-      // Instantiate view model
-      vm = this;
-    },
-    computed: {
-      ...mapState([
-        'authentication',
-      ]),
-    },
+    name: 'ForgotPassword-Page',
   };
 </script>
 <template>
-  <div class="dashboard-page">
-    <b-container>
+  <div class="forgotpassword-page">
+    <b-container class="component-container">
       <Header />
       <Sidebar id="Sidebar" />
       <KYC />
@@ -36,6 +18,15 @@
   #Sidebar {
     float: left;
   }
+
+  .forgotpassword-page {
+    @include page-mixin();
+  }
+
+  .component-container {
+    max-width: 25rem;
+  }
+
 
   @media (max-width: $screen-xs-max) {
   }

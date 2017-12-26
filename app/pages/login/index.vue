@@ -1,6 +1,9 @@
 <template>
   <div class="login-page">
-    <Login></Login>
+    <b-container class="component-container">
+      <Login />
+      <NeedHelp />
+    </b-container>
   </div>
 </template>
 <script>
@@ -20,12 +23,7 @@
   @import '~assets/styles/main.scss';
 
   .login-page {
-    height: 100%;
-    background: url('~@/assets/images/full-size-bg.png') no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+    @include page-mixin();
   }
 
   @media (max-width: $screen-xs-max) {
