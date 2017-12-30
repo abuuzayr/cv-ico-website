@@ -1,17 +1,18 @@
+<script>
+  export default {
+    name: 'RegistrationSuccess-Page',
+    middleware: 'authenticated',
+  };
+</script>
 <template>
   <div class="registration-success">
     <Notify
       title="Create an account"
       subtitle="Thank you for registering"
-      msg="Please check your email for the verification link" />
+      msg="Please check your email for the verification link"
+    />
   </div>
 </template>
-<script>
-  export default {
-    name: 'Registration-success',
-    middleware: 'authenticated',
-  };
-</script>
 <style lang="scss" scoped>
   @import '~assets/styles/main.scss';
 

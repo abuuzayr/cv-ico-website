@@ -14,10 +14,20 @@
       // Instantiate view model
       vm = this;
     },
+    data() {
+      return {
+        component: 'dashboard',
+      }
+    },
     computed: {
       ...mapState([
         'authentication',
       ]),
+    },
+    methods: {
+      navigate(event) {
+        vm.component = event;
+      }
     },
   };
 </script>
@@ -25,8 +35,9 @@
   <div class="dashboard-page">
     <b-container>
       <Header />
-      <Sidebar id="Sidebar" />
-      <KYC />
+      <Sidebar id="Sidebar" v-on:event-navigate="navigate" />
+      <Profile v-if="component == 'profile'" />
+      <KYC v-if="component === 'kyc'" />
     </b-container>
   </div>
 </template>
