@@ -13,6 +13,8 @@ import NeedHelp from '../components/NeedHelp.vue';
 import Particles from '../components/Particles.vue';
 import Registration from '../components/Registration.vue';
 import Sidebar from '../components/Sidebar.vue';
+import NeedHelp from "../components/NeedHelp.vue";
+import Notify from '../components/Notify.vue';
 
 Vue.component('Dashboard', Dashboard);
 Vue.component('Footer', Footer);
@@ -26,4 +28,6 @@ Vue.component('NeedHelp', NeedHelp);
 Vue.component('Particles', Particles);
 Vue.component('Recaptcha', Recaptcha);
 Vue.component('Registration', Registration);
-Vue.component('Sidebar', Sidebar);
+Vue.component("Sidebar", Sidebar);
+Vue.component("NeedHelp", NeedHelp);
+Vue.component("Notify", Notify);

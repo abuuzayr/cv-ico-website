@@ -1,0 +1,56 @@
+@import '~assets/styles/main.scss';
+
+h6 {
+  color: $grey;
+  font-family: $font-condensed;
+  margin-bottom: 1vw;
+  margin-top: 1vw;
+  text-align: left;
+}
+
+.notify {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.card {
+   background: none;
+   border: 0;
+}
+
+.sub-title {
+  h4,
+  h5 {
+    color: $white;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  p {
+    color: white;
+    margin-right: auto;
+    margin-left: auto;
+    line-height: 1.2;
+  }
+}
+
+.sub-text,
+.sub-text a {
+  font-family: 'Roboto';
+  color: white;
+  font-size: x-small;
+}
+
+@media (max-width: $screen-xs-max) {
+
+}
+@media (min-width: $screen-sm-min) {
+
+}
+@media (min-width: $screen-md-min) {
+
+}
+@media (min-width: $screen-lg-min) {
+
+}
