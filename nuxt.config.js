@@ -1,3 +1,4 @@
+const postcsscssnext = require('postcss-cssnext');
 const path = require('path');
 const formatter = require('eslint-friendly-formatter');
 
@@ -38,6 +39,9 @@ module.exports = {
         });
       }
     },
+    postcss: [
+      postcsscssnext(),
+    ],
     vendor: [
       'vue-notifications',
       'vue-prism',
@@ -45,7 +49,6 @@ module.exports = {
   },
   css: [
     'animate.css/animate.css',
-    '~/assets/styles/main.scss',
   ],
   dev: process.env.NODE_ENV !== 'production',
   env: {

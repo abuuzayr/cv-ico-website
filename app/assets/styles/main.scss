@@ -1,3 +1,6 @@
+//== Libraries
+@import '~bourbon/app/assets/stylesheets/bourbon';
+
 //== Colors
 
 $anchor:                    #42B983;
@@ -79,6 +82,15 @@ $zindex-tooltip:           1070 !default;
 $font-condensed: 'Roboto Condensed', serif;
 $font-normal: 'Roboto', serif;
 
+// == Mixins
+
+@mixin page-mixin() {
+  height: 100%;
+  background: url('~@/assets/images/full-size-bg.png') no-repeat center fixed;
+  background-size: cover;
+  padding-top: 1rem;
+}
+
 //== Bootstrap Overrides
 
 // Form Checkbox Input
@@ -123,4 +135,10 @@ $font-normal: 'Roboto', serif;
   border-color: transparent;
   font-size: 1rem;
   z-index: $zindex-navbar;
+}
+
+//== Globals
+//==
+.component-container {
+  max-width: 25rem;
 }

@@ -132,7 +132,7 @@
       },
       submit(email, password, recaptcha) {
         vm.register({ email, password, recaptcha }).then(() => {
-          vm.$router.push('login');
+          vm.$router.push('registration/success');
         });
       },
       onCheck(checked) {

@@ -1,30 +1,32 @@
+<script>
+  export default {
+    name: 'ForgotPassword-Page',
+  };
+</script>
 <template>
-  <div class="login-page">
+  <div class="forgotpassword-page">
     <b-container class="component-container">
-      <Login />
-      <NeedHelp />
+      <Header />
+      <Sidebar id="Sidebar" />
+      <KYC />
     </b-container>
   </div>
 </template>
-<script>
-  // Declare scoped vars
-  let vm;
-
-  export default {
-    name: 'Login-Page',
-    created() {
-      // Instantiate view model
-      vm = this;
-    },
-    middleware: 'authenticated',
-  };
-</script>
 <style lang="scss" scoped>
   @import '~assets/styles/main.scss';
 
-  .login-page {
+  #Sidebar {
+    float: left;
+  }
+
+  .forgotpassword-page {
     @include page-mixin();
   }
+
+  .component-container {
+    max-width: 25rem;
+  }
+
 
   @media (max-width: $screen-xs-max) {
   }

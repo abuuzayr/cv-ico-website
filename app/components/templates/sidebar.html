@@ -1,6 +1,7 @@
 <div class="sidebar">
   <b-nav vertical>
-    <b-nav-item active>Dashboard</b-nav-item>
-    <b-nav-item>My Profile</b-nav-item>
+    <b-nav-item v-on:click="navigate('dashboard')">Dashboard</b-nav-item>
+    <b-nav-item v-on:click="navigate('profile')">Profile</b-nav-item>
+    <b-nav-item v-on:click="navigate('kyc')">KYC</b-nav-item>
   </b-nav>
 </div>

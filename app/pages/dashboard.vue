@@ -1,13 +1,3 @@
-<template>
-  <div class="dashboard">
-    <Header />
-    <Sidebar id="Sidebar" />
-    <KYC />
-    <div style="font-style:bold;color:white;">
-      Test web3 {{ totalRaised }}
-    </div>
-  </div>
-</template>
 <script>
   import { mapState } from 'vuex';
 
@@ -15,7 +5,7 @@
   let vm;
 
   export default {
-    name: 'Dashboard',
+    name: 'Dashboard-Page',
     middleware: 'unauthenticated',
     beforeMount() {
       vm.$axios.setToken(vm.authentication.accessToken, 'Bearer');
@@ -26,21 +16,31 @@
     },
     data() {
       return {
-        balCRV: 3000,
-        balETH: 100,
-        totalRaised: null,
-      };
-    },
-    async mounted() {
-      vm.totalRaised = await vm.$eth.methods.totalFund().call();
+        component: 'dashboard',
+      }
     },
     computed: {
       ...mapState([
         'authentication',
       ]),
     },
+    methods: {
+      navigate(event) {
+        vm.component = event;
+      }
+    },
   };
 </script>
+<template>
+  <div class="dashboard-page">
+    <b-container>
+      <Header />
+      <Sidebar id="Sidebar" v-on:event-navigate="navigate" />
+      <Profile v-if="component == 'profile'" />
+      <KYC v-if="component === 'kyc'" />
+    </b-container>
+  </div>
+</template>
 <style lang="scss" scoped>
   @import '~assets/styles/main.scss';
 

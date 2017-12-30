@@ -1,24 +1,22 @@
-<template>
-  <div class="registration-page">
-    <Registration v-bind:referral-code="$route.query.r"></Registration>
-  </div>
-</template>
 <script>
   export default {
     name: 'Registration-Page',
     middleware: 'authenticated',
   };
 </script>
+<template>
+  <div class="registration-page">
+    <b-container class="component-container">
+      <Registration v-bind:referral-code="$route.query.r" />
+      <NeedHelp />
+    </b-container>
+  </div>
+</template>
 <style lang="scss" scoped>
   @import '~assets/styles/main.scss';
 
   .registration-page {
-    height: 100%;
-    background: url('~@/assets/images/full-size-bg.png') no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+    @include page-mixin();
   }
 
   @media (max-width: $screen-xs-max) {
