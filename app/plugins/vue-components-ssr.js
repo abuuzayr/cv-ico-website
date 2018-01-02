@@ -10,11 +10,11 @@ import Login from '../components/Login.vue';
 import Logo from '../components/Logo.vue';
 import MailChimp from '../components/MailChimp.vue';
 import NeedHelp from '../components/NeedHelp.vue';
+import Notify from '../components/Notify.vue';
 import Particles from '../components/Particles.vue';
 import Profile from '../components/Profile.vue';
 import Registration from '../components/Registration.vue';
 import Sidebar from '../components/Sidebar.vue';
-import Notify from '../components/Notify.vue';
 
 Vue.component('Dashboard', Dashboard);
 Vue.component('Footer', Footer);
