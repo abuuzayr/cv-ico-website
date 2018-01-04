@@ -4,7 +4,7 @@ const infura = 'https://rinkeby.infura.io/mew';
 const web3 = new Web3(new Web3.providers.HttpProvider(infura));
 const address = '0xCFD8F28E959AF51A224344371a39127B767e9526';
 
-const abi = [{
+const icoABI = [{
   constant: true,
   inputs: [{
     name: '',
@@ -31,6 +31,14 @@ const abi = [{
   }],
   payable: false,
   stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [],
+  name: 'startCollection',
+  outputs: [],
+  payable: false,
+  stateMutability: 'nonpayable',
   type: 'function',
 }, {
   constant: true,
@@ -69,26 +77,23 @@ const abi = [{
   stateMutability: 'nonpayable',
   type: 'function',
 }, {
-  constant: true,
-  inputs: [{
-    name: '',
-    type: 'uint256',
-  }],
-  name: 'contributionsPerStretchGoal',
-  outputs: [{
-    name: '',
-    type: 'uint256',
-  }],
-  payable: false,
-  stateMutability: 'view',
-  type: 'function',
-}, {
   constant: false,
   inputs: [],
   name: 'endTokenSale',
   outputs: [],
   payable: false,
   stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [],
+  name: 'reidaoWallet',
+  outputs: [{
+    name: '',
+    type: 'address',
+  }],
+  payable: false,
+  stateMutability: 'view',
   type: 'function',
 }, {
   constant: true,
@@ -108,6 +113,20 @@ const abi = [{
   outputs: [{
     name: '',
     type: 'address',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [{
+    name: '',
+    type: 'bytes32',
+  }],
+  name: 'referralContribution',
+  outputs: [{
+    name: '',
+    type: 'uint256',
   }],
   payable: false,
   stateMutability: 'view',
@@ -306,6 +325,23 @@ const abi = [{
   type: 'function',
 }, {
   constant: true,
+  inputs: [{
+    name: '',
+    type: 'uint256',
+  }, {
+    name: '',
+    type: 'uint256',
+  }],
+  name: 'contributionsPerStretchGoal',
+  outputs: [{
+    name: '',
+    type: 'uint256',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: true,
   inputs: [],
   name: 'crvPerEth',
   outputs: [{
@@ -353,6 +389,31 @@ const abi = [{
   stateMutability: 'nonpayable',
   type: 'function',
 }, {
+  constant: false,
+  inputs: [{
+    name: '_old',
+    type: 'address',
+  }, {
+    name: '_new',
+    type: 'address',
+  }],
+  name: 'updateContributorAddress',
+  outputs: [],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [],
+  name: 'getREIDAODistributionTokenAmount',
+  outputs: [{
+    name: '',
+    type: 'uint256',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
   constant: true,
   inputs: [],
   name: 'minContribution',
@@ -370,17 +431,6 @@ const abi = [{
   outputs: [{
     name: '',
     type: 'uint8',
-  }],
-  payable: false,
-  stateMutability: 'view',
-  type: 'function',
-}, {
-  constant: true,
-  inputs: [],
-  name: 'getMgmtFeeTokenAmount',
-  outputs: [{
-    name: '',
-    type: 'uint256',
   }],
   payable: false,
   stateMutability: 'view',
@@ -444,20 +494,6 @@ const abi = [{
   stateMutability: 'view',
   type: 'function',
 }, {
-  constant: false,
-  inputs: [{
-    name: '_old',
-    type: 'address',
-  }, {
-    name: '_new',
-    type: 'address',
-  }],
-  name: 'UpdateContributorAddress',
-  outputs: [],
-  payable: false,
-  stateMutability: 'nonpayable',
-  type: 'function',
-}, {
   constant: true,
   inputs: [],
   name: 'opsAdmin',
@@ -480,6 +516,14 @@ const abi = [{
   stateMutability: 'nonpayable',
   type: 'function',
 }, {
+  constant: false,
+  inputs: [],
+  name: 'collectREIDAODistribution',
+  outputs: [],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
   inputs: [{
     name: '_stretchGoal1',
     type: 'uint256',
@@ -493,7 +537,10 @@ const abi = [{
     name: '_opsAdmin',
     type: 'address',
   }, {
-    name: '_wallet',
+    name: '_crowdvillaWallet',
+    type: 'address',
+  }, {
+    name: '_reidaoWallet',
     type: 'address',
   }, {
     name: '_crvTokenAddr',
@@ -599,11 +646,899 @@ const abi = [{
   type: 'event',
 }];
 
-const contract = new web3.eth.Contract(abi, address);
+const tokenABI = [{
+  constant: false,
+  inputs: [{
+    name: '_wallet',
+    type: 'address',
+  }],
+  name: 'addHostedWallet',
+  outputs: [],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [{
+    name: '',
+    type: 'address',
+  }],
+  name: 'owners',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [],
+  name: 'mintingFinished',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [],
+  name: 'name',
+  outputs: [{
+    name: '',
+    type: 'string',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [{
+    name: '_spender',
+    type: 'address',
+  }, {
+    name: '_value',
+    type: 'uint256',
+  }],
+  name: 'approve',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [{
+    name: '_address',
+    type: 'address',
+  }],
+  name: 'removeOwner',
+  outputs: [],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [],
+  name: 'totalSupply',
+  outputs: [{
+    name: '',
+    type: 'uint256',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [{
+    name: '_from',
+    type: 'address',
+  }, {
+    name: '_to',
+    type: 'address',
+  }, {
+    name: '_value',
+    type: 'uint256',
+  }],
+  name: 'transferFrom',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [],
+  name: 'startTrading',
+  outputs: [],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [],
+  name: 'decimals',
+  outputs: [{
+    name: '',
+    type: 'uint256',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [{
+    name: '_to',
+    type: 'address',
+  }, {
+    name: '_amount',
+    type: 'uint256',
+  }],
+  name: 'mint',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [{
+    name: '_value',
+    type: 'uint256',
+  }],
+  name: 'burn',
+  outputs: [],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [{
+    name: '',
+    type: 'address',
+  }],
+  name: 'hostedWallets',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [],
+  name: 'tradingStarted',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [{
+    name: '_spender',
+    type: 'address',
+  }, {
+    name: '_subtractedValue',
+    type: 'uint256',
+  }],
+  name: 'decreaseApproval',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [{
+    name: '_holder',
+    type: 'address',
+  }],
+  name: 'getLockedTokens',
+  outputs: [{
+    name: '',
+    type: 'uint256',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [{
+    name: '_address',
+    type: 'address',
+  }],
+  name: 'addOwner',
+  outputs: [],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [{
+    name: '_to',
+    type: 'address',
+  }, {
+    name: '_value',
+    type: 'uint256',
+  }, {
+    name: '_lockUntil',
+    type: 'uint256',
+  }],
+  name: 'mintAndLockTokens',
+  outputs: [],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [{
+    name: '_owner',
+    type: 'address',
+  }],
+  name: 'balanceOf',
+  outputs: [{
+    name: 'balance',
+    type: 'uint256',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [{
+    name: '_holder',
+    type: 'address',
+  }],
+  name: 'transferableTokens',
+  outputs: [{
+    name: '',
+    type: 'uint256',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [],
+  name: 'finishMinting',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [],
+  name: 'symbol',
+  outputs: [{
+    name: '',
+    type: 'string',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [],
+  name: 'startMinting',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [{
+    name: '_to',
+    type: 'address',
+  }, {
+    name: '_value',
+    type: 'uint256',
+  }, {
+    name: '_lockUntil',
+    type: 'uint256',
+  }],
+  name: 'lockTokens',
+  outputs: [],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [{
+    name: '_to',
+    type: 'address',
+  }, {
+    name: '_value',
+    type: 'uint256',
+  }],
+  name: 'transfer',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [{
+    name: '',
+    type: 'address',
+  }, {
+    name: '',
+    type: 'uint256',
+  }],
+  name: 'locks',
+  outputs: [{
+    name: 'value',
+    type: 'uint256',
+  }, {
+    name: 'lockedUntil',
+    type: 'uint256',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [{
+    name: '_spender',
+    type: 'address',
+  }, {
+    name: '_addedValue',
+    type: 'uint256',
+  }],
+  name: 'increaseApproval',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [{
+    name: '_owner',
+    type: 'address',
+  }, {
+    name: '_spender',
+    type: 'address',
+  }],
+  name: 'allowance',
+  outputs: [{
+    name: '',
+    type: 'uint256',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [{
+    name: '_wallet',
+    type: 'address',
+  }],
+  name: 'removeHostedWallet',
+  outputs: [],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  anonymous: false,
+  inputs: [{
+    indexed: true,
+    name: 'burner',
+    type: 'address',
+  }, {
+    indexed: false,
+    name: 'value',
+    type: 'uint256',
+  }],
+  name: 'Burn',
+  type: 'event',
+}, {
+  anonymous: false,
+  inputs: [{
+    indexed: true,
+    name: 'to',
+    type: 'address',
+  }, {
+    indexed: false,
+    name: 'amount',
+    type: 'uint256',
+  }],
+  name: 'Mint',
+  type: 'event',
+}, {
+  anonymous: false,
+  inputs: [],
+  name: 'MintFinished',
+  type: 'event',
+}, {
+  anonymous: false,
+  inputs: [],
+  name: 'MintStarted',
+  type: 'event',
+}, {
+  anonymous: false,
+  inputs: [{
+    indexed: true,
+    name: 'owner',
+    type: 'address',
+  }],
+  name: 'OwnerAdded',
+  type: 'event',
+}, {
+  anonymous: false,
+  inputs: [{
+    indexed: true,
+    name: 'owner',
+    type: 'address',
+  }],
+  name: 'OwnerRemoved',
+  type: 'event',
+}, {
+  anonymous: false,
+  inputs: [{
+    indexed: true,
+    name: 'owner',
+    type: 'address',
+  }, {
+    indexed: true,
+    name: 'spender',
+    type: 'address',
+  }, {
+    indexed: false,
+    name: 'value',
+    type: 'uint256',
+  }],
+  name: 'Approval',
+  type: 'event',
+}, {
+  anonymous: false,
+  inputs: [{
+    indexed: true,
+    name: 'from',
+    type: 'address',
+  }, {
+    indexed: true,
+    name: 'to',
+    type: 'address',
+  }, {
+    indexed: false,
+    name: 'value',
+    type: 'uint256',
+  }],
+  name: 'Transfer',
+  type: 'event',
+}];
+
+const reiABI = [{
+  constant: true,
+  inputs: [{
+    name: '',
+    type: 'address',
+  }],
+  name: 'owners',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [],
+  name: 'mintingFinished',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [],
+  name: 'name',
+  outputs: [{
+    name: '',
+    type: 'string',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [{
+    name: '_spender',
+    type: 'address',
+  }, {
+    name: '_value',
+    type: 'uint256',
+  }],
+  name: 'approve',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [{
+    name: '_address',
+    type: 'address',
+  }],
+  name: 'removeOwner',
+  outputs: [],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [],
+  name: 'totalSupply',
+  outputs: [{
+    name: '',
+    type: 'uint256',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [{
+    name: '_from',
+    type: 'address',
+  }, {
+    name: '_to',
+    type: 'address',
+  }, {
+    name: '_value',
+    type: 'uint256',
+  }],
+  name: 'transferFrom',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [],
+  name: 'startTrading',
+  outputs: [],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [],
+  name: 'decimals',
+  outputs: [{
+    name: '',
+    type: 'uint256',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [{
+    name: '_to',
+    type: 'address',
+  }, {
+    name: '_amount',
+    type: 'uint256',
+  }],
+  name: 'mint',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [],
+  name: 'wallet',
+  outputs: [{
+    name: '',
+    type: 'address',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [],
+  name: 'tradingStarted',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [{
+    name: '_spender',
+    type: 'address',
+  }, {
+    name: '_subtractedValue',
+    type: 'uint256',
+  }],
+  name: 'decreaseApproval',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [{
+    name: '_address',
+    type: 'address',
+  }],
+  name: 'addOwner',
+  outputs: [],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [{
+    name: '_owner',
+    type: 'address',
+  }],
+  name: 'balanceOf',
+  outputs: [{
+    name: 'balance',
+    type: 'uint256',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [],
+  name: 'finishMinting',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [],
+  name: 'symbol',
+  outputs: [{
+    name: '',
+    type: 'string',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [{
+    name: '_wallet',
+    type: 'address',
+  }],
+  name: 'changeWallet',
+  outputs: [],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [],
+  name: 'startMinting',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [{
+    name: '_to',
+    type: 'address',
+  }, {
+    name: '_value',
+    type: 'uint256',
+  }],
+  name: 'transfer',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [],
+  name: 'disburseToREIDAO',
+  outputs: [],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: false,
+  inputs: [{
+    name: '_spender',
+    type: 'address',
+  }, {
+    name: '_addedValue',
+    type: 'uint256',
+  }],
+  name: 'increaseApproval',
+  outputs: [{
+    name: '',
+    type: 'bool',
+  }],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'function',
+}, {
+  constant: true,
+  inputs: [{
+    name: '_owner',
+    type: 'address',
+  }, {
+    name: '_spender',
+    type: 'address',
+  }],
+  name: 'allowance',
+  outputs: [{
+    name: '',
+    type: 'uint256',
+  }],
+  payable: false,
+  stateMutability: 'view',
+  type: 'function',
+}, {
+  inputs: [{
+    name: '_wallet',
+    type: 'address',
+  }],
+  payable: false,
+  stateMutability: 'nonpayable',
+  type: 'constructor',
+}, {
+  anonymous: false,
+  inputs: [{
+    indexed: false,
+    name: 'wave',
+    type: 'uint256',
+  }, {
+    indexed: false,
+    name: 'amount',
+    type: 'uint256',
+  }],
+  name: 'WaveReleased',
+  type: 'event',
+}, {
+  anonymous: false,
+  inputs: [{
+    indexed: true,
+    name: 'to',
+    type: 'address',
+  }, {
+    indexed: false,
+    name: 'amount',
+    type: 'uint256',
+  }],
+  name: 'Mint',
+  type: 'event',
+}, {
+  anonymous: false,
+  inputs: [],
+  name: 'MintFinished',
+  type: 'event',
+}, {
+  anonymous: false,
+  inputs: [],
+  name: 'MintStarted',
+  type: 'event',
+}, {
+  anonymous: false,
+  inputs: [{
+    indexed: true,
+    name: 'owner',
+    type: 'address',
+  }],
+  name: 'OwnerAdded',
+  type: 'event',
+}, {
+  anonymous: false,
+  inputs: [{
+    indexed: true,
+    name: 'owner',
+    type: 'address',
+  }],
+  name: 'OwnerRemoved',
+  type: 'event',
+}, {
+  anonymous: false,
+  inputs: [{
+    indexed: true,
+    name: 'owner',
+    type: 'address',
+  }, {
+    indexed: true,
+    name: 'spender',
+    type: 'address',
+  }, {
+    indexed: false,
+    name: 'value',
+    type: 'uint256',
+  }],
+  name: 'Approval',
+  type: 'event',
+}, {
+  anonymous: false,
+  inputs: [{
+    indexed: true,
+    name: 'from',
+    type: 'address',
+  }, {
+    indexed: true,
+    name: 'to',
+    type: 'address',
+  }, {
+    indexed: false,
+    name: 'value',
+    type: 'uint256',
+  }],
+  name: 'Transfer',
+  type: 'event',
+}];
+
+const icoContract = new web3.eth.Contract(icoABI, address);
+const tokenContract = new web3.eth.Contract(tokenABI, address);
+const reiContract = new web3.eth.Contract(reiABI, address);
 
 /* eslint no-param-reassign: ["error", { "props": false }] */
-export default (ctx, inject) => {
+export default(ctx, inject) => {
   // Inject web3 to the context as $eth
-  ctx.$eth = contract;
-  inject('eth', contract);
+  ctx.$eth = web3.eth;
+  ctx.$eth.ico = icoContract;
+  ctx.$eth.token = tokenContract;
+  ctx.$eth.rei = reiContract;
+  inject('eth', ctx.$eth);
 };
