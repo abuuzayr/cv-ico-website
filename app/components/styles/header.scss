@@ -19,44 +19,76 @@
   width: 100%;
 }
 .topbar {
-  background-color: transparent !important;
+  background-color: $blue-bg-color!important;
   border: 0;
 }
 @media (max-width: $screen-xs-max) {
-  .custom-modal-header {
-    font-size: 5vw;
-    padding: 1vw 1vw;
-  }
-  .label {
-    font-size: 5vw;
-    font-weight: 900;
-    line-height: 2;
-  }
 }
 @media (min-width: $screen-sm-min) {
-  .custom-modal-header {
-    font-size: 1.8vw;
-    padding: 0.5vw 0.5vw;
-  }
-  .label {
-    font-size: 1.5vw;
-    font-weight: 900;
-    line-height: 2;
-  }
 }
 @media (min-width: $screen-md-min) {
-  .label {
-    font-size: 1.3vw;
-  }
 }
 @media (min-width: $screen-lg-min) {
-  .custom-modal-header {
-    font-size: 1.2vw;
-    padding: 1vw 1vw;
+}
+
+.label {
+  font-weight: 900;
+}
+
+.navbar-logo {
+  padding: 10px;
+  width: 140px;
+}
+
+.logout a {
+  color: #99b3cf;
+}
+
+.label.nav-item,
+.label.navbar-text {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.nav-two-layer {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  span {
+    display: block;
+    color: #fff;
   }
-  .label {
-    font-size: 0.9vw;
-    font-weight: 900;
-    line-height: 1.88;
+  .nav-sub-text {
+    margin-top: -5px;
+    font-size: 0.8em;
+    font-weight: 400;
   }
+}
+
+.navbar-nav .dim.nav-item .nav-link {
+  color: hsla(0,0%,100%,.5)!important;
+}
+
+.green-back {
+  background: $green;
+}
+
+.yellow-back {
+  background: #f3af5e;
+}
+
+.grey-back {
+  background: #9fa0a1;
+}
+
+.round-icon {
+  color: white;
+  border-radius: 100%;
+  padding: 2px;
+  font-size: 0.8em;
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
 }

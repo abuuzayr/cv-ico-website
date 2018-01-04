@@ -54,6 +54,7 @@
         selfie: null,
         residence: null,
         signedform: null,
+        email: null,
       };
     },
     async mounted() {
@@ -69,6 +70,8 @@
         { text: 'Gender', value: null },
         'MALE', 'FEMALE'
       ];
+
+      vm.email = vm.authentication.email;
     },
     computed: {
       ...mapState([

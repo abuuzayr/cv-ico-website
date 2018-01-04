@@ -5,8 +5,8 @@
 
 $anchor:                    #42B983;
 $blue:                      #56AFEA;
-$blue-bg-color:             #0967A8;
-$green:                     #9CD85A;
+$blue-bg-color:             #437cc0;
+$green:                     #59B54B;
 $light-green:               #B1DB50;
 $dark-green:                #7DBA3B;
 $light-grey:                #B2B3B4;
@@ -141,4 +141,20 @@ $font-normal: 'Roboto', serif;
 //==
 .component-container {
   max-width: 25rem;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.grey {
+  color: $grey;
+}
+
+.failure {
+  color: $red;
+}
+
+.white {
+  color: #fff;
 }

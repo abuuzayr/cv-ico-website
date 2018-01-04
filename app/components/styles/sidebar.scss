@@ -1,6 +1,42 @@
 @import '~assets/styles/main.scss';
 
 .sidebar {
-  background-color: $white;
+  background-color: $blue-bg-color;
   font-weight: bold;
+  display: none;
+  a {
+    color: #e4e9ee;
+    text-align: left;
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+  }
+  .nav-link {
+    &.active {
+      border-left: 5px solid #77cdcc;
+      background: #1c4877;
+      .img-wrapper {
+        padding-left: 15px;
+      }
+    }
+    .nav-text {
+      padding-left: 10px;
+    }
+  }
+  .img-wrapper {
+    // width: 50px;
+    padding: 0 15px 0 20px;
+  }
+}
+
+@media (max-width: $screen-xs-max) {
+}
+@media (min-width: $screen-sm-min) {
+}
+@media (min-width: $screen-md-min) {
+  .sidebar {
+    display: block;
+  }
+}
+@media (min-width: $screen-lg-min) {
 }

@@ -1,20 +1,287 @@
 <div class="dashboard">
   <div class="container-fluid">
-    <div class="row mb-5">
-      <div class="col-12">
-        <img src="~@/assets/images/full-size-login-logo.png" alt="login" width="100%">
-      </div>
-    </div>
     <div class="row">
-      <div class="col-12">
-        <h5 class="sub-title mb-3">Crowdvilla Token Sale</h5>
+      <div class="col-12 text-left notice">
+        <h6 class="grey uppercase">
+          Notices & announcements
+        </h6>
+        <span>
+          CRV token ICO to launch in {{ days }} days
+        </span>
+      </div>
+      <div class="col-12 notice text-left notify">
+        <h6 class="failure">
+          KYC Check Failed
+        </h6>
+        <div class="remarks">
+          <small>
+            <strong class="grey">
+              Remarks:
+            </strong>
+            <span class="failure">
+              Selfie blocks part of the passport, please reupload
+            </span>
+          </small>
+        </div>
       </div>
     </div>
-    <div class="row justify-content-center mt-2">
-      <h6 class="sub-text">
-        <a href="/registration">Create a new account</a> |
-        <a href="/forgot">Forgot password?</a>
-      </h6>
+  </div>
+  <div class="cards">
+    <b-card class="text-left">
+      <h5>
+        ICO Countdown
+      </h5>
+      <b-container>
+        <b-row class="mt-4">
+          <b-col cols="6">
+            <b-card class="contribution text-center no-margin white">
+              <h1>
+                {{ collected | numFormat }}
+              </h1>
+              <h6>
+                ETH CONTRIBUTED SO FAR
+              </h6>
+            </b-card>
+            <b-row class="mt-4 countdown">
+              <b-col cols="3">
+                <div class="countdown-box text-center">
+                  {{ days }}
+                  <p class="no-margin">
+                    days
+                  </p>
+                </div>
+              </b-col>
+              <b-col cols="3">
+                <div class="countdown-box text-center">
+                  {{ hours }}
+                  <p class="no-margin">
+                    hours
+                  </p>
+                </div>
+              </b-col>
+              <b-col cols="3">
+                <div class="countdown-box text-center">
+                  {{ min }}
+                  <p class="no-margin">
+                    minutes
+                  </p>
+                </div>
+              </b-col>
+              <b-col cols="3">
+                <div class="countdown-box text-center">
+                  {{ sec }}
+                  <p class="no-margin">
+                    seconds
+                  </p>
+                </div>
+              </b-col>
+            </b-row>
+          </b-col>
+          <b-col cols="6">
+            <h2>
+               Join Us
+            </h2>
+            <p class="dashboard-text">
+              in establishing a community-based sharing economy model for holiday properties with Crowdvilla's CRV token. If you have
+              used short-term apartment rental previously, and are expecting to keep using such services in the future, then this is for
+              you!
+            </p>
+          </b-col>
+        </b-row>
+      </b-container>
+      <b-container class="stretch mt-5">
+        <b-row class="text-center goals">
+          <b-col></b-col>
+          <b-col></b-col>
+          <b-col class="vert-line">
+            STRETCH GOAL 1
+            <p>
+              100,000 ETH
+            </p>
+          </b-col>
+          <b-col></b-col>
+          <b-col></b-col>
+          <b-col class="vert-line">
+            STRETCH GOAL 2
+            <p>
+              250,000 ETH
+            </p>
+          </b-col>
+          <b-col></b-col>
+          <b-col></b-col>
+          <b-col></b-col>
+          <b-col></b-col>
+          <b-col>
+            STRETCH GOAL 3
+            <p>
+              500,000 ETH
+            </p>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            <b-progress height="2rem" :max="target" show-value class="mt-2">
+              <b-progress-bar :value="collected" class="progressbar">{{ collected | numFormat }}</b-progress-bar>
+            </b-progress>
+          </b-col>
+        </b-row>
+      </b-container>
+      <b-container class="phases text-center mt-5">
+        <b-row>
+          <b-col cols="3">
+            <h6>Phase 1</h6>
+            <img src="~@/assets/images/full-size-phase-1-image.png"/>
+            <div class="phase-box mt-3">
+              <img src="~@/assets/images/countries-phase-1.png">
+              <div class="mt-3">
+                <strong>Phase 1 contributors</strong>
+                <p>
+                  1 ETH = 400 CRV
+                </p>
+              </div>
+            </div>
+          </b-col>
+          <b-col cols="3">
+            <h6>Phase 2</h6>
+            <img src="~@/assets/images/full-size-phase-2-image-locked.png" v-if="collected < 100000"/>
+            <img src="~@/assets/images/full-size-phase-2-image-unlocked.png" v-else/>
+            <div class="phase-box mt-3">
+              <img src="~@/assets/images/countries-phase-2.png">
+              <div class="mt-3">
+                <strong>Phase 1 contributors</strong>
+                <p>
+                  1 ETH = 440 CRV
+                </p>
+                <strong>Phase 2 contributors</strong>
+                <p>
+                  1 ETH = 400 CRV
+                </p>
+              </div>
+            </div>
+          </b-col>
+          <b-col cols="3">
+            <h6>Phase 3</h6>
+            <img src="~@/assets/images/full-size-phase-3-image-locked.png" v-if="collected < 250000"/>
+            <img src="~@/assets/images/full-size-phase-3-image-unlocked.png" v-else/>
+            <div class="phase-box mt-3">
+              <img src="~@/assets/images/countries-phase-3.png">
+              <div class="mt-3">
+                <strong>Phase 1 contributors</strong>
+                <p>
+                  1 ETH = 480 CRV
+                </p>
+                <strong>Phase 2 contributors</strong>
+                <p>
+                  1 ETH = 440 CRV
+                </p>
+                <strong>Phase 3 contributors</strong>
+                <p>
+                  1 ETH = 400 CRV
+                </p>
+              </div>
+            </div>
+          </b-col>
+          <b-col cols="3">
+            <h6>Phase 4</h6>
+            <img src="~@/assets/images/full-size-phase-4-image-locked.png" v-if="collected < 500000"/>
+            <img src="~@/assets/images/full-size-phase-4-image-unlocked.png" v-else/>
+            <div class="phase-box mt-3 world">
+              <img src="~@/assets/images/full-size-phase-3-worldwide-icon.png">
+              <h5>
+                Worldwide
+              </h5>
+              <div class="mt-3">
+                <strong>Phase 1 contributors</strong>
+                <p>
+                  1 ETH = 520 CRV
+                </p>
+                <strong>Phase 2 contributors</strong>
+                <p>
+                  1 ETH = 480 CRV
+                </p>
+                <strong>Phase 3 contributors</strong>
+                <p>
+                  1 ETH = 440 CRV
+                </p>
+              </div>
+            </div>
+          </b-col>
+        </b-row>
+      </b-container>
+    </b-card>
+
+    <b-card v-if="!verified">
+      <b-container class="text-center wallet">
+        <b-row>
+          <b-col>
+            <b-link v-on:click="navigate('profile')" class="link">
+              Verify your account
+            </b-link> to contribute to the ICO and receive CRV tokens.
+          </b-col>
+        </b-row>
+      </b-container>
+    </b-card>
+
+    <b-container v-if="verified" class="text-center wallet">
+      <b-row>
+        <b-col>
+          <b-card footer-tag="footer">
+            <h5>
+              Your CRV Tokens Balance
+            </h5>
+            <h1>
+              {{ crv | numFormat }}
+            </h1>
+            <div slot="footer" class="footer-text">
+              You are qualified for <br/>
+              <span class="green">
+                Phase 1
+              </span> contributions
+            </div>
+          </b-card>
+        </b-col>
+        <b-col>
+          <b-card footer-tag="footer">
+            <h5>
+              You have contributed
+            </h5>
+            <h1>
+              {{ eth | numFormat }}
+              <sup>
+                ETH
+              </sup>
+            </h1>
+            <div slot="footer">
+              <b-button>
+                Contribute More
+              </b-button>
+            </div>
+          </b-card>
+        </b-col>
+      </b-row>
+    </b-container>
+
+    <b-card class="text-left transactions" v-if="transactions.length > 0">
+      <h5>
+        Transaction History
+        <span class="tx-count">
+          {{ transactions.length }} transactions
+        </span>
+      </h5>
+      <b-table :items="transactions" class="mt-3 grey-table-head"></b-table>
+    </b-card>
+
+    <div class="empty-txn-wrapper" v-if="transactions.length == 0">
+      <b-card class="notif">
+        No transactions found
+      </b-card>
+      <b-card class="text-left empty transactions">
+        <h5>
+          Transaction History
+        </h5>
+        <b-table :items="emptyTxn" class="mt-3 grey-table-head"></b-table>
+      </b-card>
     </div>
+
   </div>
 </div>
