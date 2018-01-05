@@ -34,6 +34,7 @@
 <template>
   <div class="dashboard-page">
     <Header />
+    <MobileHeader v-on:event-navigate="navigate" />
     <div class="page">
       <Sidebar id="Sidebar" v-on:event-navigate="navigate" />
       <div class="side-page">

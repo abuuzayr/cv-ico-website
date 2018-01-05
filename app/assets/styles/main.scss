@@ -158,3 +158,57 @@ $font-normal: 'Roboto', serif;
 .white {
   color: #fff;
 }
+
+.pending {
+  color: #f3af5e;
+}
+
+.success-back {
+  background: $green;
+  -webkit-text-stroke: 1px $green;
+}
+
+.pending-back {
+  background: #f3af5e;
+  -webkit-text-stroke: 1px #f3af5e;
+}
+
+.grey-back {
+  background: #9fa0a1;
+}
+
+.failure-back {
+  background: $red;
+  -webkit-text-stroke: 1px $red;
+}
+
+.no-margin {
+  margin: 0!important;
+}
+
+.inner-flex {
+  flex: 1 1 auto;
+}
+
+.word-break-all {
+  word-break: break-all;
+}
+
+.card {
+  margin: 20px;
+  padding: 0px;
+  border: 1px solid #fff;
+  border-radius: 6px;
+  box-shadow: 1px 1px 3px 0 rgba(0,0,0,.10);
+}
+
+.navbar-dark .navbar-toggler-icon {
+  background-image: url('~@/assets/images/mobile-menu-icon.png');
+}
+
+@media (min-width: $screen-sm-min) {
+  .card {
+    margin: 40px;
+    padding: 20px;
+  }
+}

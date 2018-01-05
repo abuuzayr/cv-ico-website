@@ -3,7 +3,8 @@
 .sidebar {
   background-color: $blue-bg-color;
   font-weight: bold;
-  display: none;
+  margin-left: -250px;
+  transition: margin-left 0.5s ease-in-out;
   a {
     color: #e4e9ee;
     text-align: left;
@@ -35,7 +36,7 @@
 }
 @media (min-width: $screen-md-min) {
   .sidebar {
-    display: block;
+    margin-left: 0;
   }
 }
 @media (min-width: $screen-lg-min) {

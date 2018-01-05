@@ -15,6 +15,7 @@ import Registration from '../components/Registration.vue';
 import Sidebar from '../components/Sidebar.vue';
 import NeedHelp from "../components/NeedHelp.vue";
 import Notify from '../components/Notify.vue';
+import MobileHeader from "../components/MobileHeader.vue";
 
 Vue.component('Dashboard', Dashboard);
 Vue.component('Footer', Footer);
@@ -31,3 +32,4 @@ Vue.component('Registration', Registration);
 Vue.component("Sidebar", Sidebar);
 Vue.component("NeedHelp", NeedHelp);
 Vue.component("Notify", Notify);
+Vue.component("MobileHeader", MobileHeader);

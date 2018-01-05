@@ -21,6 +21,9 @@
 .topbar {
   background-color: $blue-bg-color!important;
   border: 0;
+  &.mobile-nav {
+    background-color: #051A30!important;
+  }
 }
 @media (max-width: $screen-xs-max) {
 }
@@ -67,18 +70,6 @@
 
 .navbar-nav .dim.nav-item .nav-link {
   color: hsla(0,0%,100%,.5)!important;
-}
-
-.green-back {
-  background: $green;
-}
-
-.yellow-back {
-  background: #f3af5e;
-}
-
-.grey-back {
-  background: #9fa0a1;
 }
 
 .round-icon {

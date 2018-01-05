@@ -216,3 +216,11 @@
 </script>
 <template src="./templates/kyc.html"></template>
 <style src="./styles/kyc.scss" lang="scss" scoped></style>
+<style lang="scss">
+@import '~assets/styles/main.scss';
+
+.custom-file-control:before {
+  background: $green;
+  color: #fff;
+}
+</style>
