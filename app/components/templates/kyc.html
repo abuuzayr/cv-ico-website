@@ -179,6 +179,42 @@
                     class="fa fa-user input-group-addon"
                     slot="left"
                   />
+                  <b-form-select
+                    v-model="idType"
+                    v-bind:options="idTypes"
+                  >
+                </b-form-select>
+                </b-input-group>
+              </b-form-group>
+            </div>
+            <div class="col-12">
+              <b-form-group
+                v-bind:feedback="feedbackName(checkValidLName)"
+                v-bind:state="checkValidLName"
+              >
+                <b-input-group>
+                  <i
+                    class="fa fa-user input-group-addon"
+                    slot="left"
+                  />
+                  <b-form-input
+                    v-model="idNumber"
+                    v-bind:state="checkValidLName"
+                    placeholder="ID Number"
+                    ref="idNumber"
+                    type="text"
+                  >
+                  </b-form-input>
+                </b-input-group>
+              </b-form-group>
+            </div>
+            <div class="col-12">
+              <b-form-group>
+                <b-input-group>
+                  <i
+                    class="fa fa-user input-group-addon"
+                    slot="left"
+                  />
                   <b-form-file
                     choose-label="Identification"
                     v-model="identification"

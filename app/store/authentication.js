@@ -81,10 +81,18 @@ export const actions = {
     commit('SET_USER', null);
     commit('SET_ACCESSTOKEN', null);
   },
-  async register({ commit }, { email, password, recaptcha }) { // eslint-disable-line no-unused-vars
+  async register({
+    commit, // eslint-disable-line no-unused-vars
+  }, {
+    email,
+    password,
+    referralCode,
+    recaptcha,
+  }) {
     await this.$axios.$post('users', {
       email,
       password,
+      referralCode,
       recaptcha,
     });
   },

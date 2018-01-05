@@ -17,7 +17,7 @@
     data() {
       return {
         component: 'dashboard',
-      }
+      };
     },
     computed: {
       ...mapState([
@@ -27,7 +27,7 @@
     methods: {
       navigate(event) {
         vm.component = event;
-      }
+      },
     },
   };
 </script>

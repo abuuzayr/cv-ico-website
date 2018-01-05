@@ -7,7 +7,7 @@
 <template>
   <div class="registration-page">
     <b-container class="component-container">
-      <Registration v-bind:referral-code="$route.query.r" />
+      <Registration v-bind:referral="$route.query.r" />
       <NeedHelp />
     </b-container>
   </div>

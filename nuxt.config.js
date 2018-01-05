@@ -14,9 +14,6 @@ module.exports = {
     baseURL: 'http://localhost:1337',
     credentials: false,
     debug: true,
-    redirectError: {
-      401: '/login',
-    },
   },
   /*
   ** Build configuration
@@ -43,7 +40,8 @@ module.exports = {
       postcsscssnext(),
     ],
     vendor: [
-      'vue-notifications',
+      'vuelidate',
+      'vue-notification',
       'vue-prism',
     ],
   },
@@ -86,7 +84,6 @@ module.exports = {
   ],
   plugins: [
     { src: '@/plugins/vue-components-ssr.js', ssr: true },
-    { src: '@/plugins/vue-plugins-ssr.js', ssr: true },
     { src: '@/plugins/vue-plugins.js', ssr: false },
     { src: '@/plugins/filters.js', ssr: true },
     { src: '@/plugins/local-storage.js', ssr: false },
