@@ -1,7 +1,7 @@
 <div class="dashboard">
   <div class="container-fluid">
     <b-row>
-      <b-col class="text-left notice">
+      <b-col class="notice">
         <h6 class="grey uppercase">
           Notices & announcements
         </h6>
@@ -109,7 +109,7 @@
               </b-col>
             </b-row>
           </b-col>
-          <b-col xl="6" cols="12" class="lg-top-3rem">
+          <b-col xl="6" cols="12" class="lg-top-3rem d-none d-xl-block">
             <h2>
                Join Us
             </h2>
@@ -121,50 +121,32 @@
           </b-col>
         </b-row>
       </b-container>
-      <b-container class="stretch mt-5">
+      <b-container class="stretch mt-5 d-none d-sm-block">
         <b-row class="text-center goals no-padding">
           <b-col></b-col>
           <b-col></b-col>
-          <b-col class="vert-line d-none d-md-block">
+          <b-col class="vert-line">
             STRETCH GOAL 1
             <p>
               100,000 ETH
             </p>
           </b-col>
-          <b-col class="vert-line d-block d-md-none">
-            GOAL 1
-            <p>
-              100K ETH
-            </p>
-          </b-col>
           <b-col></b-col>
           <b-col></b-col>
-          <b-col class="vert-line d-none d-md-block">
+          <b-col class="vert-line">
             STRETCH GOAL 2
             <p>
               250,000 ETH
             </p>
           </b-col>
-          <b-col class="vert-line d-block d-md-none">
-            GOAL 2
-            <p>
-              250K ETH
-            </p>
-          </b-col>
           <b-col></b-col>
           <b-col></b-col>
           <b-col></b-col>
           <b-col></b-col>
-          <b-col class="d-none d-md-block">
+          <b-col class="">
             STRETCH GOAL 3
             <p>
               500,000 ETH
-            </p>
-          </b-col>
-          <b-col class="d-block d-md-none">
-            GOAL 3
-            <p>
-              500K ETH
             </p>
           </b-col>
         </b-row>
@@ -176,7 +158,60 @@
           </b-col>
         </b-row>
       </b-container>
-      <b-container class="phases text-center mt-5">
+      <div class="stretch mt-5 d-block d-sm-none">
+        <b-row class="goals mobile">
+          <b-col v-if="collected > 0 && collected < 100000">
+          </b-col>
+          <b-col v-if="collected < 250000">
+            STRETCH GOAL 1
+            <p>
+              100,000 ETH
+            </p>
+          </b-col>
+          <b-col v-if="collected > 100000">
+            STRETCH GOAL 2
+            <p>
+              250,000 ETH
+            </p>
+          </b-col>
+          <b-col v-if="collected > 250000">
+            STRETCH GOAL 3
+            <p>
+              500,000 ETH
+            </p>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            <b-progress height="2rem" :max="target" show-value class="mt-2">
+              <b-progress-bar :value="collected" class="progressbar">{{ collected | numFormat }}</b-progress-bar>
+            </b-progress>
+          </b-col>
+        </b-row>
+        <b-row class="goals mobile mt-3">
+          <b-col v-if="collected > 0 && collected < 100000">
+            <p>
+              Phase 1
+            </p>
+          </b-col>
+          <b-col v-if="collected < 250000">
+            <p>
+              Phase 2
+            </p>
+          </b-col>
+          <b-col v-if="collected > 100000">
+            <p>
+              Phase 3
+            </p>
+          </b-col>
+          <b-col v-if="collected > 250000">
+            <p>
+              Phase 4
+            </p>
+          </b-col>
+        </b-row>
+      </div>
+      <b-container class="phases text-center mt-3">
         <b-row>
           <b-col cols="12" sm="6" xl="3" class="lg-top-3rem">
             <h6>Phase 1</h6>

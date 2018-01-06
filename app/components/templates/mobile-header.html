@@ -1,8 +1,11 @@
 <b-navbar class="topbar d-flex d-lg-none mobile-nav" v-bind:toggleable="true" toggle-breakpoint="lg" type="dark" sticky="true">
-  <b-navbar-brand href="/">
+  <b-navbar-brand href="/" style="width: 25px;">
     <img src="~@/assets/images/mobile-cv-logo.png" alt="" class="">
   </b-navbar-brand>
-  <img src="../../assets/images/mobile-menu-icon.png" v-on:click="isOpen = !isOpen" v-click-outside="toggleSidebar">
+  <b-nav-text class="white">
+    {{ activeItem | capitalize }}
+  </b-nav-text>
+  <img src="~@/assets/images/mobile-menu-icon.png" v-on:click="isOpen = !isOpen" v-click-outside="toggleSidebar">
   <div class="sidebar" id="nav-sidebar" :class="{ closed: !isOpen, open: isOpen }">
     <b-navbar-nav class="ml-auto">
       <b-button class="close-btn-wrapper align-self-end" v-on:click="isOpen = !isOpen" variant="link" size="lg">

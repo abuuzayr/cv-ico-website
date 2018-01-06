@@ -2,7 +2,6 @@
   <div class="login-page">
     <b-container class="component-container">
       <Login />
-      <NeedHelp />
     </b-container>
   </div>
 </template>

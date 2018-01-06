@@ -59,8 +59,8 @@ h6 {
 }
 
 .countdown {
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 15px;
+  padding-right: 15px;
   .col-3 {
     padding: 7px;
   }
@@ -229,6 +229,17 @@ h6 {
   margin-top: 3rem;
 }
 
+.goals.mobile {
+  .col + .col {
+    text-align: right;
+  }
+}
+
+div[class^='col-'] {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 @media (max-width: $screen-xs-max) {
 }
 @media (min-width: $screen-xs-min) {
@@ -252,6 +263,20 @@ h6 {
   .card-footer {
     margin: 0 -20px -20px;
   }
+  .countdown {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .notice {
+    padding: 30px 40px;
+    text-align: left;
+  }
+
+  div[class^='col-'] {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
 
 }
 @media (min-width: $screen-md-min) {

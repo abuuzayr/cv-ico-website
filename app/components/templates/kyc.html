@@ -125,12 +125,7 @@
       <b-row class="mt-4">
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <i class="fa fa-check success-back round-icon" v-if="true" aria-hidden="true" id="idSuccess"></i>
-            <i class="fa fa-check pending-back round-icon" v-if="false" aria-hidden="true" id="idPending"></i>
-            <i class="fa fa-check failure-back round-icon" v-if="false" aria-hidden="true" id="idFailure"></i>
-            <b-tooltip placement="left" target="idSuccess" title="Verified"></b-tooltip>
-            <b-tooltip placement="left" target="idPending" title="Pending"></b-tooltip>
-            <b-tooltip placement="left" target="idFailure" title="Not Uploaded"></b-tooltip>
+            <StatusIcon status="success"/>
             Scan / Photo of ID / Passport
           </p>
         </b-col>
@@ -146,12 +141,7 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <i class="fa fa-exclamation failure-back round-icon" v-if="true" aria-hidden="true" id="selfieFailure"></i>
-            <i class="fa fa-exclamation pending-back round-icon" v-if="false" aria-hidden="true" id="selfiePending"></i>
-            <i class="fa fa-exclamation success-back round-icon" v-if="false" aria-hidden="true" id="selfieSuccess"></i>
-            <b-tooltip placement="left" target="selfieSuccess" title="Verified"></b-tooltip>
-            <b-tooltip placement="left" target="selfiePending" title="Pending"></b-tooltip>
-            <b-tooltip placement="left" target="selfieFailure" title="Not Uploaded"></b-tooltip>
+            <StatusIcon status="pending"/>
             Selfie Holding ID / Passport
           </p>
         </b-col>
@@ -167,12 +157,7 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <i class="fa fa-ellipsis-h failure-back round-icon" v-if="false" aria-hidden="true" id="residenceFailure"></i>
-            <i class="fa fa-ellipsis-h pending-back round-icon" v-if="true" aria-hidden="true" id="residencePending"></i>
-            <i class="fa fa-ellipsis-h success-back round-icon" v-if="false" aria-hidden="true" id="residenceSuccess"></i>
-            <b-tooltip placement="left" target="residenceSuccess" title="Verified"></b-tooltip>
-            <b-tooltip placement="left" target="residencePending" title="Pending"></b-tooltip>
-            <b-tooltip placement="left" target="residenceFailure" title="Not Uploaded"></b-tooltip>
+            <StatusIcon status="failure"/>
             Proof of Residence
           </p>
         </b-col>
@@ -197,15 +182,10 @@
       <b-row class="mt-4">
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <i class="fa fa-ellipsis-h failure-back round-icon" v-if="false" aria-hidden="true" id="tsaFailure"></i>
-            <i class="fa fa-ellipsis-h pending-back round-icon" v-if="true" aria-hidden="true" id="tsaPending"></i>
-            <i class="fa fa-ellipsis-h success-back round-icon" v-if="false" aria-hidden="true" id="tsaSuccess"></i>
-            <b-tooltip placement="left" target="tsaSuccess" title="Verified"></b-tooltip>
-            <b-tooltip placement="left" target="tsaPending" title="Pending"></b-tooltip>
-            <b-tooltip placement="left" target="tsaFailure" title="Not Uploaded"></b-tooltip>
+            <StatusIcon status="success"/>
             Token Sale Agreement
             <b-link class="pl-2 d-inline d-md-none align-self-end" href="">
-              <img src="../../assets/images/mobile-download-icon.png" alt="">
+              <img src="~@/assets/images/mobile-download-icon.png" alt="">
             </b-link>
           </p>
         </b-col>
@@ -221,15 +201,10 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <i class="fa fa-ellipsis-h failure-back round-icon" v-if="false" aria-hidden="true" id="pinFailure"></i>
-            <i class="fa fa-ellipsis-h pending-back round-icon" v-if="true" aria-hidden="true" id="pinPending"></i>
-            <i class="fa fa-ellipsis-h success-back round-icon" v-if="false" aria-hidden="true" id="pinSuccess"></i>
-            <b-tooltip placement="left" target="pinSuccess" title="Verified"></b-tooltip>
-            <b-tooltip placement="left" target="pinPending" title="Pending"></b-tooltip>
-            <b-tooltip placement="left" target="pinFailure" title="Not Uploaded"></b-tooltip>
+            <StatusIcon status="success"/>
             Product Information Notice
             <b-link class="pl-2 d-inline d-md-none align-self-end" href="">
-              <img src="../../assets/images/mobile-download-icon.png" alt="">
+              <img src="~@/assets/images/mobile-download-icon.png" alt="">
             </b-link>
           </p>
         </b-col>
@@ -245,15 +220,10 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <i class="fa fa-ellipsis-h failure-back round-icon" v-if="false" aria-hidden="true" id="cinFailure"></i>
-            <i class="fa fa-ellipsis-h pending-back round-icon" v-if="true" aria-hidden="true" id="cinPending"></i>
-            <i class="fa fa-ellipsis-h success-back round-icon" v-if="false" aria-hidden="true" id="cinSuccess"></i>
-            <b-tooltip placement="left" target="cinSuccess" title="Verified"></b-tooltip>
-            <b-tooltip placement="left" target="cinPending" title="Pending"></b-tooltip>
-            <b-tooltip placement="left" target="cinFailure" title="Not Uploaded"></b-tooltip>
+            <StatusIcon status="success"/>
             Consumer Information Notice
             <b-link class="pl-2 d-inline d-md-none align-self-end" href="">
-              <img src="../../assets/images/mobile-download-icon.png" alt="">
+              <img src="~@/assets/images/mobile-download-icon.png" alt="">
             </b-link>
           </p>
         </b-col>
@@ -269,15 +239,10 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <i class="fa fa-ellipsis-h failure-back round-icon" v-if="false" aria-hidden="true" id="ppFailure"></i>
-            <i class="fa fa-ellipsis-h pending-back round-icon" v-if="true" aria-hidden="true" id="ppPending"></i>
-            <i class="fa fa-ellipsis-h success-back round-icon" v-if="false" aria-hidden="true" id="ppSuccess"></i>
-            <b-tooltip placement="left" target="ppSuccess" title="Verified"></b-tooltip>
-            <b-tooltip placement="left" target="ppPending" title="Pending"></b-tooltip>
-            <b-tooltip placement="left" target="ppFailure" title="Not Uploaded"></b-tooltip>
+            <StatusIcon status="success"/>
             Privacy Policy
             <b-link class="pl-2 d-inline d-md-none align-self-end" href="">
-              <img src="../../assets/images/mobile-download-icon.png" alt="">
+              <img src="~@/assets/images/mobile-download-icon.png" alt="">
             </b-link>
           </p>
         </b-col>

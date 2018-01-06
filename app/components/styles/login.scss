@@ -26,24 +26,12 @@ h6 {
   font-family: $font-condensed;
 }
 
-@media (max-width: $screen-xs-max) {
-
-}
-@media (min-width: $screen-sm-min) {
-
-}
-@media (min-width: $screen-md-min) {
-
-}
-@media (min-width: $screen-lg-min) {
-
-}
-
 .login {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
+  min-height: 100vh;
 }
 
 .card {
@@ -128,4 +116,17 @@ img.icon-in-input {
   top: 13px;
   z-index: 999;
   width: 20px;
+}
+
+@media (max-width: $screen-xs-max) {
+
+}
+@media (min-width: $screen-sm-min) {
+
+}
+@media (min-width: $screen-md-min) {
+
+}
+@media (min-width: $screen-lg-min) {
+
 }

@@ -13,12 +13,7 @@
   @import '~assets/styles/main.scss';
 
   .forgot-page {
-    height: 100%;
-    background: url('~@/assets/images/full-size-bg.png') no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+    @include page-mixin();
   }
 
   @media (max-width: $screen-xs-max) {

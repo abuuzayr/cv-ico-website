@@ -86,6 +86,7 @@ $font-normal: 'Roboto', serif;
 
 @mixin page-mixin() {
   height: 100%;
+  min-height: 100vh;
   background: url('~@/assets/images/full-size-bg.png') no-repeat center fixed;
   background-size: cover;
   padding-top: 1rem;
@@ -195,7 +196,7 @@ $font-normal: 'Roboto', serif;
 }
 
 .card {
-  margin: 20px;
+  margin: 15px;
   padding: 0px;
   border: 1px solid #fff;
   border-radius: 6px;

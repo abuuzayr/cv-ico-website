@@ -53,7 +53,6 @@
 <style lang="scss">
   @import '~assets/styles/main.scss';
 
-  html,
   body,
   #__nuxt,
   #app {
