@@ -60,19 +60,15 @@ export const actions = {
   },
   async login({ commit }, { email, password, recaptcha }) {
     try {
-      const { accessToken } = await this.$axios.$post('authentication', {
+      const res = await this.$axios.$post('authentication', {
         strategy: 'local',
         email,
         password,
         recaptcha,
       });
 
-      await setPersistence(this, commit, accessToken);
+      await setPersistence(this, commit, res.accessToken);
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        throw new Error('Bad credentials');
-      }
-
       throw error;
     }
   },
@@ -80,20 +76,5 @@ export const actions = {
     await this.$axios.$delete('authentication');
     commit('SET_USER', null);
     commit('SET_ACCESSTOKEN', null);
-  },
-  async register({
-    commit, // eslint-disable-line no-unused-vars
-  }, {
-    email,
-    password,
-    referralCode,
-    recaptcha,
-  }) {
-    await this.$axios.$post('users', {
-      email,
-      password,
-      referralCode,
-      recaptcha,
-    });
   },
 };

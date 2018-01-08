@@ -1,118 +1,85 @@
 <div class="kyc">
-  <b-card no-body>
-    <b-tabs class="nav-justified">
-      <b-tab title="KYC">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-12">
-              <h6>Enter details</h6>
-            </div>
-            <div class="col-12">
+  <div class="profile">
+    <b-card class="text-left">
+      <h5>
+        Profile Details
+      </h5>
+      <b-row class="mt-4">
+        <b-col cols="12" sm="6">
+          <b-row class="">
+            <b-col>
+              First Name
               <b-form-group
                 v-bind:feedback="feedbackName(checkValidFName)"
                 v-bind:state="checkValidFName"
               >
                 <b-input-group>
-                  <i
-                    class="fa fa-user input-group-addon"
-                    slot="left"
-                  />
                   <b-form-input
                     v-model="firstName"
                     v-bind:state="checkValidFName"
-                    placeholder="First Name"
                     ref="firstName"
                     type="text"
                   >
                   </b-form-input>
                 </b-input-group>
               </b-form-group>
-            </div>
-            <div class="col-12">
-              <b-form-group
-                v-bind:feedback="feedbackName(checkValidMName)"
-                v-bind:state="checkValidMName"
-              >
-                <b-input-group>
-                  <i
-                    class="fa fa-user input-group-addon"
-                    slot="left"
-                  />
-                  <b-form-input
-                    v-model="middleName"
-                    v-bind:state="checkValidMName"
-                    placeholder="Middle Name"
-                    ref="middleName"
-                    type="text"
-                  >
-                  </b-form-input>
-                </b-input-group>
-              </b-form-group>
-            </div>
-            <div class="col-12">
+            </b-col>
+            <b-col cols="12" sm="6">
+              Last Name
               <b-form-group
                 v-bind:feedback="feedbackName(checkValidLName)"
                 v-bind:state="checkValidLName"
               >
                 <b-input-group>
-                  <i
-                    class="fa fa-user input-group-addon"
-                    slot="left"
-                  />
                   <b-form-input
-                    v-model="lastName"
+                    v-model="address"
                     v-bind:state="checkValidLName"
-                    placeholder="Last Name"
-                    ref="lastName"
+                    ref="address"
                     type="text"
                   >
                   </b-form-input>
                 </b-input-group>
               </b-form-group>
-            </div>
-            <div class="col-12">
+            </b-col>
+          </b-row>
+          <b-row class="mb-3">
+            <b-col>
+              Email Address
+              <b-form-input type="email" disabled v-model="email"></b-form-input>
+            </b-col>
+          </b-row>
+          <b-row class="mb-3">
+            <b-col>
+              Password
+              <b-form-input type="password" disabled></b-form-input>
+            </b-col>
+          </b-row>
+        </b-col>
+        <b-col>
+          <b-row>
+            <b-col>
+              Date of Birth
               <b-form-group
                 v-bind:feedback="feedbackBirthday(checkValidBirthday)"
                 v-bind:state="checkValidBirthday"
               >
                 <b-input-group>
-                  <i
-                    class="fa fa-user input-group-addon"
-                    slot="left"
-                  />
                   <b-form-input
                     v-model="birthday"
                     v-bind:state="checkValidBirthday"
-                    placeholder="Birthday"
                     ref="birthday"
                     type="date"
                   >
                   </b-form-input>
                 </b-input-group>
               </b-form-group>
-            </div>
-            <div class="col-12">
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              Country
               <b-form-group>
                 <b-input-group>
-                  <i
-                    class="fa fa-user input-group-addon"
-                    slot="left"
-                  />
-                  <b-form-select
-                    v-model="birthCountry"
-                    v-bind:options="countries"
-                  >
-                </b-form-select>
-                </b-input-group>
-              </b-form-group>
-            </div>
-            <div class="col-12">
-              <b-form-group>
-                <b-input-group>
-                  <i
-                    class="fa fa-user input-group-addon"
-                    slot="left"
-                  />
                   <b-form-select
                     v-model="nationality"
                     v-bind:options="nationalities"
@@ -120,185 +87,235 @@
                 </b-form-select>
                 </b-input-group>
               </b-form-group>
-            </div>
-            <div class="col-12">
-              <b-form-group>
-                <b-input-group>
-                  <i
-                    class="fa fa-user input-group-addon"
-                    slot="left"
-                  />
-                  <b-form-select
-                    v-model="residenceCountry"
-                    v-bind:options="countries"
-                  >
-                </b-form-select>
-                </b-input-group>
-              </b-form-group>
-            </div>
-            <div class="col-12">
-              <b-form-group>
-                <b-input-group>
-                  <i
-                    class="fa fa-user input-group-addon"
-                    slot="left"
-                  />
-                  <b-form-select
-                    v-model="gender"
-                    v-bind:options="genders"
-                  >
-                </b-form-select>
-                </b-input-group>
-              </b-form-group>
-            </div>
-            <div class="col-12">
-              <b-form-group
-                v-bind:feedback="feedbackName(checkValidLName)"
-                v-bind:state="checkValidLName"
-              >
-                <b-input-group>
-                  <i
-                    class="fa fa-user input-group-addon"
-                    slot="left"
-                  />
-                  <b-form-input
-                    v-model="address"
-                    v-bind:state="checkValidLName"
-                    placeholder="Address"
-                    ref="address"
-                    type="text"
-                  >
-                  </b-form-input>
-                </b-input-group>
-              </b-form-group>
-            </div>
-            <div class="col-12">
-              <b-form-group>
-                <b-input-group>
-                  <i
-                    class="fa fa-user input-group-addon"
-                    slot="left"
-                  />
-                  <b-form-select
-                    v-model="idType"
-                    v-bind:options="idTypes"
-                  >
-                </b-form-select>
-                </b-input-group>
-              </b-form-group>
-            </div>
-            <div class="col-12">
-              <b-form-group
-                v-bind:feedback="feedbackName(checkValidLName)"
-                v-bind:state="checkValidLName"
-              >
-                <b-input-group>
-                  <i
-                    class="fa fa-user input-group-addon"
-                    slot="left"
-                  />
-                  <b-form-input
-                    v-model="idNumber"
-                    v-bind:state="checkValidLName"
-                    placeholder="ID Number"
-                    ref="idNumber"
-                    type="text"
-                  >
-                  </b-form-input>
-                </b-input-group>
-              </b-form-group>
-            </div>
-            <div class="col-12">
-              <b-form-group>
-                <b-input-group>
-                  <i
-                    class="fa fa-user input-group-addon"
-                    slot="left"
-                  />
-                  <b-form-file
-                    choose-label="Identification"
-                    v-model="identification"
-                  >
-                  </b-form-file>
-                </b-input-group>
-              </b-form-group>
-            </div>
-            <div class="col-12">
-              <b-form-group>
-                <b-input-group>
-                  <i
-                    class="fa fa-user input-group-addon"
-                    slot="left"
-                  />
-                  <b-form-file
-                    choose-label="Selfie"
-                    v-model="selfie"
-                  >
-                  </b-form-file>
-                </b-input-group>
-              </b-form-group>
-            </div>
-            <div class="col-12">
-              <b-form-group>
-                <b-input-group>
-                  <i
-                    class="fa fa-user input-group-addon"
-                    slot="left"
-                  />
-                  <b-form-file
-                    choose-label="Proof of Residence"
-                    v-model="residence"
-                  >
-                  </b-form-file>
-                </b-input-group>
-              </b-form-group>
-            </div>
-            <div class="col-12">
-              <b-form-group>
-                <b-input-group>
-                  <i
-                    class="fa fa-user input-group-addon"
-                    slot="left"
-                  />
-                  <b-form-file
-                    choose-label="Signed Form"
-                    v-model="signedform"
-                  >
-                  </b-form-file>
-                </b-input-group>
-              </b-form-group>
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <b-button
-              size="lg"
-              variant="primary"
-              type="button"
-              v-bind:disabled="checkKYCStates()"
-              v-on:click="submit({
-                                 firstName,
-                                 middleName,
-                                 lastName,
-                                 birthday,
-                                 birthCountry,
-                                 nationality,
-                                 residenceCountry,
-                                 gender,
-                                 address,
-                                 identification,
-                                 selfie,
-                                 residence,
-                                 signedform
-                                })"
-            >
-              Submit
-            </b-button>
-          </div>
-          <div class="row justify-content-center">
-            <h6>Need help? <a href="#">support@reidao.io</a></h6>
-          </div>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <b-button variant="success">Save Details</b-button>
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
+    </b-card>
+  </div>
+
+  <div class="verify">
+    <b-card class="text-left">
+      <h5>
+        Account Details
+        <i class="sub-text d-block d-md-inline">
+          All documents need to be uploaded before submission
+        </i>
+      </h5>
+      <div class="notice text-left notify">
+        <h6 class="failure">
+          KYC Check Failed
+        </h6>
+        <div class="remarks">
+          <small>
+            <strong class="grey">
+              Remarks:
+            </strong>
+            <span class="failure">
+              Selfie blocks part of the passport, please reupload
+            </span>
+          </small>
         </div>
-      </b-tab>
-    </b-tabs>
-  </b-card>
+      </div>
+      <b-row class="mt-4">
+        <b-col cols="12" sm="6" xl="4" class="d-flex">
+          <p class="align-self-center">
+            <StatusIcon status="success"/>
+            Scan / Photo of ID / Passport
+          </p>
+        </b-col>
+        <b-col class="d-flex">
+          <b-form-group class="align-self-center">
+            <b-input-group>
+              <b-form-file choose-label="Upload" v-model="identification">
+              </b-form-file>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="12" sm="6" xl="4" class="d-flex">
+          <p class="align-self-center">
+            <StatusIcon status="pending"/>
+            Selfie Holding ID / Passport
+          </p>
+        </b-col>
+        <b-col class="d-flex">
+          <b-form-group class="align-self-center">
+            <b-input-group>
+              <b-form-file choose-label="Upload" v-model="selfie">
+              </b-form-file>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="12" sm="6" xl="4" class="d-flex">
+          <p class="align-self-center">
+            <StatusIcon status="failure"/>
+            Proof of Residence
+          </p>
+        </b-col>
+        <b-col class="d-flex">
+          <b-form-group class="align-self-center">
+            <b-input-group>
+              <b-form-file choose-label="Upload" v-model="residence">
+              </b-form-file>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+      </b-row>
+
+      <!-- Notices & Agreements -->
+
+      <h5 class="mt-5">
+        Notices & Agreements
+        <i class="sub-text d-block d-md-inline">
+          Please download, read and sign these forms
+        </i>
+      </h5>
+      <b-row class="mt-4">
+        <b-col cols="12" sm="6" xl="4" class="d-flex">
+          <p class="align-self-center">
+            <StatusIcon status="success"/>
+            Token Sale Agreement
+            <b-link class="pl-2 d-inline d-md-none align-self-end" href="">
+              <img src="~@/assets/images/mobile-download-icon.png" alt="">
+            </b-link>
+          </p>
+        </b-col>
+        <b-col class="d-flex">
+          <b-form-group class="align-self-center">
+            <b-input-group>
+              <b-form-file choose-label="Upload" v-model="signedform">
+              </b-form-file>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="12" sm="6" xl="4" class="d-flex">
+          <p class="align-self-center">
+            <StatusIcon status="success"/>
+            Product Information Notice
+            <b-link class="pl-2 d-inline d-md-none align-self-end" href="">
+              <img src="~@/assets/images/mobile-download-icon.png" alt="">
+            </b-link>
+          </p>
+        </b-col>
+        <b-col class="d-flex">
+          <b-form-group class="align-self-center">
+            <b-input-group>
+              <b-form-file choose-label="Upload" v-model="signedform">
+              </b-form-file>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="12" sm="6" xl="4" class="d-flex">
+          <p class="align-self-center">
+            <StatusIcon status="success"/>
+            Consumer Information Notice
+            <b-link class="pl-2 d-inline d-md-none align-self-end" href="">
+              <img src="~@/assets/images/mobile-download-icon.png" alt="">
+            </b-link>
+          </p>
+        </b-col>
+        <b-col class="d-flex">
+          <b-form-group class="align-self-center">
+            <b-input-group>
+              <b-form-file choose-label="Upload" v-model="signedform">
+              </b-form-file>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="12" sm="6" xl="4" class="d-flex">
+          <p class="align-self-center">
+            <StatusIcon status="success"/>
+            Privacy Policy
+            <b-link class="pl-2 d-inline d-md-none align-self-end" href="">
+              <img src="~@/assets/images/mobile-download-icon.png" alt="">
+            </b-link>
+          </p>
+        </b-col>
+        <b-col class="d-flex">
+          <b-form-group class="align-self-center">
+            <b-input-group>
+              <b-form-file choose-label="Upload" v-model="signedform">
+              </b-form-file>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+      </b-row>
+
+      <!-- ETH Address -->
+
+      <h5 class="mt-5">
+        Your ETH Address
+      </h5>
+      <p class="mb-3 word-break-all">
+        0x06D0e3c00087f6ca5571D4718AB4FB053Ed8c1EF
+      </p>
+
+      <b-button
+        class="mt-5"
+        variant="success"
+        v-bind:disabled="checkKYCStates()"
+        v-on:click="submit({
+                            firstName,
+                            middleName,
+                            lastName,
+                            birthday,
+                            birthCountry,
+                            nationality,
+                            residenceCountry,
+                            gender,
+                            address,
+                            identification,
+                            selfie,
+                            residence,
+                            signedform
+                          })"
+      >
+        Submit for KYC Verification
+      </b-button>
+    </b-card>
+  </div>
 </div>
+
+<!-- <b-form-group v-bind:feedback="feedbackName(checkValidLName)" v-bind:state="checkValidLName">
+  <b-input-group>
+    <i class="fa fa-user input-group-addon" slot="left" />
+    <b-form-input v-model="lastName" v-bind:state="checkValidLName" placeholder="Last Name" ref="lastName" type="text">
+    </b-form-input>
+  </b-input-group>
+</b-form-group>
+<b-form-group>
+  <b-input-group>
+    <i class="fa fa-user input-group-addon" slot="left" />
+    <b-form-select v-model="birthCountry" v-bind:options="countries">
+    </b-form-select>
+  </b-input-group>
+</b-form-group>
+<b-form-group>
+  <b-input-group>
+    <i class="fa fa-user input-group-addon" slot="left" />
+    <b-form-select v-model="residenceCountry" v-bind:options="countries">
+    </b-form-select>
+  </b-input-group>
+</b-form-group>
+<b-form-group>
+  <b-input-group>
+    <i class="fa fa-user input-group-addon" slot="left" />
+    <b-form-select v-model="gender" v-bind:options="genders">
+    </b-form-select>
+  </b-input-group>
+</b-form-group> -->

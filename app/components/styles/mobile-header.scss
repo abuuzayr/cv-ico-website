@@ -1,0 +1,144 @@
+@import '~assets/styles/main.scss';
+
+// #nav-collapse {
+//   border-color: transparent;
+//   border: 0;
+// }
+// .label {
+//   font-family: $font-normal;
+// }
+// .custom-modal-header {
+//   background-color: $dark-green;
+//   border-top-left-radius: 0.5vw;
+//   border-top-right-radius: 0.5vw;
+//   color: $white;
+//   font-family: $font-condensed;
+//   font-weight: bold;
+//   letter-spacing: 0.5px;
+//   padding: 0;
+//   width: 100%;
+// }
+.nav-item {
+  width: 100%;
+}
+.topbar {
+  background-color: $blue-bg !important;
+  border: 0;
+  &.mobile-nav {
+    background-color: #051A30!important;
+  }
+}
+@media (max-width: $screen-xs-max) {
+}
+@media (min-width: $screen-sm-min) {
+}
+@media (min-width: $screen-md-min) {
+}
+@media (min-width: $screen-lg-min) {
+}
+
+.label {
+  font-weight: 900;
+}
+
+// .navbar-logo {
+//   padding: 10px;
+//   width: 140px;
+// }
+
+.logout a {
+  color: #99b3cf;
+}
+
+// .label.nav-item,
+// .label.navbar-text {
+//     margin-left: 20px;
+//     margin-right: 20px;
+// }
+
+// .nav-two-layer {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: start;
+//   span {
+//     display: block;
+//     color: #fff;
+//   }
+//   .nav-sub-text {
+//     margin-top: -5px;
+//     font-size: 0.8em;
+//     font-weight: 400;
+//   }
+// }
+
+.navbar-nav .dim.nav-item .nav-link {
+  color: hsla(0,0%,100%,.5)!important;
+}
+
+.round-icon {
+  color: white;
+  border-radius: 100%;
+  padding: 4px 6px;
+  font-size: 15px;
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 300px;
+  height: 100vh;
+  overflow-y: scroll;
+  z-index: 0;
+  background-color: $blue-bg;
+  color: white;
+  z-index: 9999;
+  transition: margin-right 0.5s ease-in-out;
+  &.closed {
+    margin-right: -300px;
+  }
+  &.open {
+    margin-right: 0;
+  }
+  a {
+    color: #e4e9ee;
+    text-align: left;
+    // font-weight: normal;
+    display: flex;
+    align-items: center;
+  }
+  .nav-link {
+    &.active {
+      border-left: 5px solid #77cdcc;
+      background: #1c4877;
+      .img-wrapper {
+        padding-left: 15px;
+      }
+    }
+    .nav-text {
+      padding-left: 10px;
+    }
+  }
+  .img-wrapper,
+  .logout  {
+    // width: 50px;
+    padding: 0 15px 0 20px;
+  }
+  .close-btn-wrapper {
+    color: #fff;
+    cursor: pointer;
+    .close-btn {
+      font-size: 30px;
+      -webkit-text-stroke: 5px $blue-bg;
+    }
+  }
+  .border-top {
+    border-top: 1px solid #2f72c0;
+  }
+}

@@ -1,7 +1,36 @@
 <div class="sidebar">
   <b-nav vertical>
-    <b-nav-item v-on:click="navigate('dashboard')">Dashboard</b-nav-item>
-    <b-nav-item v-on:click="navigate('profile')">Profile</b-nav-item>
-    <b-nav-item v-on:click="navigate('kyc')">KYC</b-nav-item>
+    <b-nav-item :active="isActive('dashboard')" v-on:click="navigate('dashboard')">
+      <span class="img-wrapper text-center">
+        <img src="~@/assets/images/full-size-dashboard-icon.png" alt="">
+      </span>
+      <span class="nav-text">
+        Dashboard
+      </span>
+    </b-nav-item>
+    <b-nav-item :active="isActive('profile')" v-on:click="navigate('profile')">
+      <span class="img-wrapper text-center">
+        <img src="~@/assets/images/full-size-my-profile-icon.png" alt="">
+      </span>
+      <span class="nav-text">
+        My Profile
+      </span>
+    </b-nav-item>
+    <b-nav-item :active="isActive('help')" v-on:click="navigate('help')">
+      <span class="img-wrapper text-center">
+        <img src="~@/assets/images/full-size-user-help-icon.png" alt="">
+      </span>
+      <span class="nav-text">
+        Help
+      </span>
+    </b-nav-item>
+    <b-nav-item :active="isActive('faq')" v-on:click="navigate('faq')">
+      <span class="img-wrapper text-center">
+        <img src="~@/assets/images/full-size-faq-icon.png" alt="">
+      </span>
+      <span class="nav-text">
+        FAQ
+      </span>
+    </b-nav-item>
   </b-nav>
 </div>

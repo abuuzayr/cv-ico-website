@@ -1,0 +1,62 @@
+<b-navbar class="topbar d-flex d-lg-none mobile-nav" v-bind:toggleable="true" toggle-breakpoint="lg" type="dark" :sticky.boolean="true">
+  <b-navbar-brand href="/" style="width: 25px;">
+    <img src="~@/assets/images/mobile-cv-logo.png" alt="" class="">
+  </b-navbar-brand>
+  <b-nav-text class="white">
+    {{ activeItem | capitalize }}
+  </b-nav-text>
+  <img src="~@/assets/images/mobile-menu-icon.png" v-on:click="isOpen = !isOpen" v-click-outside="toggleSidebar">
+  <div class="sidebar" id="nav-sidebar" :class="{ closed: !isOpen, open: isOpen }">
+    <b-navbar-nav class="ml-auto">
+      <b-button class="close-btn-wrapper align-self-end" v-on:click="isOpen = !isOpen" variant="link" size="lg">
+        <i class="fa fa-times close-btn"></i>
+      </b-button>
+      <b-nav-item :active="isActive('dashboard')" v-on:click="navigate('dashboard')">
+        <span class="img-wrapper text-center">
+          <img src="~@/assets/images/full-size-dashboard-icon.png" alt="">
+        </span>
+        <span class="nav-text">
+          Dashboard
+        </span>
+      </b-nav-item>
+      <b-nav-item :active="isActive('profile')" v-on:click="navigate('profile')">
+        <span class="img-wrapper text-center">
+          <img src="~@/assets/images/full-size-my-profile-icon.png" alt="">
+        </span>
+        <span class="nav-text">
+          My Profile
+        </span>
+      </b-nav-item>
+      <b-nav-item :active="isActive('help')" v-on:click="navigate('help')">
+        <span class="img-wrapper text-center">
+          <img src="~@/assets/images/full-size-user-help-icon.png" alt="">
+        </span>
+        <span class="nav-text">
+          Help
+        </span>
+      </b-nav-item>
+      <b-nav-item :active="isActive('faq')" v-on:click="navigate('faq')">
+        <span class="img-wrapper text-center">
+          <img src="~@/assets/images/full-size-faq-icon.png" alt="">
+        </span>
+        <span class="nav-text">
+          FAQ
+        </span>
+      </b-nav-item>
+      <b-nav-item class="border-top pt-3 pb-3 mt-3">
+        <span class="img-wrapper text-center">
+          <!-- Enter authentication status -->
+          <i class="fa fa-check success-back round-icon" aria-hidden="true" v-if="isVerified"></i>
+          <i class="fa fa-ellipsis-h pending-back round-icon" aria-hidden="true" v-if="false"></i>
+          <i class="fa fa-ellipsis-h grey-back round-icon" aria-hidden="true" v-if="!isVerified"></i>
+        </span>
+        <span class="nav-text label">
+           Christine Lim
+        </span>
+      </b-nav-item>
+      <b-nav-item class="dim label logout border-top nav-link pt-3" v-on:click="signOut">
+        Logout
+      </b-nav-item>
+    </b-navbar-nav>
+  </div>
+</b-navbar>

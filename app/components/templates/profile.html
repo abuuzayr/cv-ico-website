@@ -1,54 +1,59 @@
 <div class="profile">
-  <b-card no-body>
-    <b-tabs class="nav-justified">
-      <b-tab title="Profile">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-12">
-              <h6>Profile Details</h6>
-            </div>
-            <div class="col-12">
-              <i
-                class="fa fa-user input-group-addon"
-                slot="left"
-              />
-              <span>
-                <b>First Name: </b>{{ firstName }}
-              </span>
-            </div>
-            <div class="col-12">
-              <i
-                class="fa fa-user input-group-addon"
-                slot="left"
-              />
-              <span>
-                <b>Middle Name: </b>{{ middleName }}
-              </span>
-            </div>
-            <div class="col-12">
-              <i
-                class="fa fa-user input-group-addon"
-                slot="left"
-              />
-              <span>
-                <b>Last Name: </b>{{ lastName }}
-              </span>
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <b-button
-              size="lg"
-              variant="primary"
-              type="button"
-            >
-              Update
-            </b-button>
-          </div>
-          <div class="row justify-content-center">
-            <h6>Need help? <a href="#">support@reidao.io</a></h6>
-          </div>
-        </div>
-      </b-tab>
-    </b-tabs>
+  <b-card class="text-left">
+    <h5>
+      Profile Details
+    </h5>
+    <b-container>
+      <b-row class="mt-4">
+        <b-col cols="6">
+          <b-row class="mb-3">
+            <b-col>
+              First Name
+              <b-form-input v-model="firstName" type="text"></b-form-input>
+            </b-col>
+            <b-col>
+              Middle Name
+              <b-form-input v-model="middleName" type="text"></b-form-input>
+            </b-col>
+            <b-col>
+              Last Name
+              <b-form-input v-model="lastName" type="text"></b-form-input>
+            </b-col>
+          </b-row>
+          <b-row class="mb-3">
+            <b-col>
+              Email Address
+              <b-form-input type="email"></b-form-input>
+            </b-col>
+          </b-row>
+          <b-row class="mb-3">
+            <b-col>
+              Password
+              <b-form-input type="password"></b-form-input>
+            </b-col>
+          </b-row>
+        </b-col>
+        <b-col cols="6">
+          <b-row class="mb-3">
+            <b-col>
+              Date of Birth
+              <b-form-input v-model="birthday" type="date"></b-form-input>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              Country
+              <b-form-select :options="countries">
+              </b-form-select>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <b-button variant="success">Save Details</b-button>
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
+    </b-container>
   </b-card>
 </div>

@@ -4,8 +4,7 @@
   import {
     email,
     minLength,
-    required,
-    sameAs
+    sameAs,
   } from 'vuelidate/lib/validators';
   import {
     feedbackEmail,
@@ -131,21 +130,36 @@
         vm.recaptcha = event;
       },
       submit(email, password, referralCode, recaptcha) {
-        vm.register({ email, password, referralCode, recaptcha })
+        vm.$axios.post('users', {
+          email,
+          password,
+          referralCode,
+          recaptcha,
+        })
           .then(() => {
             vm.$notify({
               group: 'announce-info',
               title: 'Registation Successful',
               text: 'You have successfully registered. Check your email for \
                      further instructions.',
-              type: 'success',
             });
             setTimeout(() => {
               vm.$router.push('registration/success');
             }, 5000);
           })
           .catch((err) => {
+            vm.$refs.recaptcha.reset();
+            vm.password = '';
+            vm.confirmPassword = '';
+
             switch (err.response.status) {
+              case 400:
+                vm.$notify({
+                  group: 'announce-error',
+                  title: 'Empty Referral Code',
+                  text: 'A referral code is needed for early registration.',
+                });
+                break;
               case 406:
                 vm.$notify({
                   group: 'announce-error',
@@ -169,8 +183,7 @@
                   group: 'announce-error',
                   title: 'Invalid Referral Code',
                   text: 'The referral code entered could not be found or is \
-                         incorrect. Kindly enter the correct referral code or \
-                         leave blank.',
+                         incorrect. Kindly enter the correct referral code.',
                 });
                 break;
               default:

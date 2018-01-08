@@ -33,19 +33,41 @@
 </script>
 <template>
   <div class="dashboard-page">
-    <b-container>
-      <Header />
+    <Header />
+    <MobileHeader v-on:event-navigate="navigate" />
+    <div class="page">
       <Sidebar id="Sidebar" v-on:event-navigate="navigate" />
-      <Profile v-if="component == 'profile'" />
-      <KYC v-if="component === 'kyc'" />
-    </b-container>
+      <div class="side-page">
+        <Dashboard v-if="component == 'dashboard'" v-on:event-navigate="navigate" />
+        <!-- <Profile v-if="component == 'profile'" /> -->
+        <KYC v-if="component === 'profile'" />
+      </div>
+    </div>
   </div>
 </template>
 <style lang="scss" scoped>
   @import '~assets/styles/main.scss';
 
+  .page {
+    display: flex;
+    align-items: start;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+
   #Sidebar {
-    float: left;
+    flex: 0 0 250px;
+  }
+
+  .side-page {
+    flex: 1 1 auto;
+    background: #f3f7fa;
+    min-height: calc(100vh);
+    height: 100%;
+  }
+
+  .dashboard-page {
+    background: $blue-bg;
   }
 
   @media (max-width: $screen-xs-max) {
