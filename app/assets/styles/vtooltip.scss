@@ -1,7 +1,7 @@
 $red: #E54D42;
 
 .tooltip {
-  display: block !important;
+  display: none !important;
   z-index: 10000;
 
   .tooltip-inner {
@@ -142,4 +142,10 @@ $red: #E54D42;
 
 .v-popover.normal-input > span {
   width: 100%;
+}
+
+@media (min-width: 768px) {
+  .tooltip {
+    display: block !important;
+  }
 }

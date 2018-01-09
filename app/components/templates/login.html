@@ -28,6 +28,7 @@
             </v-popover>
           </b-input-group>
           <img src="~@/assets/images/full-size-alert-icon.png" v-if="checkValidEmail == 'invalid'" class="icon-in-input">
+          <b-form-feedback><img src="~@/assets/images/full-size-alert-icon-white.png"> Please enter a valid email address</b-form-feedback>
         </b-form-group>
         <b-form-group v-bind:state="checkValidPassword">
           <b-input-group>
@@ -47,6 +48,7 @@
             </v-popover>
           </b-input-group>
           <img src="~@/assets/images/full-size-alert-icon.png" v-if="checkValidPassword == 'invalid'" class="icon-in-input">
+          <b-form-feedback><img src="~@/assets/images/full-size-alert-icon-white.png"> Password must contain at least eight characters: both lower and uppercase letters, at least one number, and at least onespecial character</b-form-feedback>
         </b-form-group>
       </div>
     </div>

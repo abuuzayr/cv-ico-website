@@ -215,13 +215,12 @@ $font-normal: 'Roboto', serif;
   border: 1px solid transparent;
 }
 
-.b-form-group.form-group.is-invalid .invalid-feedback {
-  display: none !important;
-}
-
 @media (min-width: $screen-sm-min) {
   .card {
     margin: 40px;
     padding: 20px;
+  }
+  .b-form-group.form-group.is-invalid .invalid-feedback {
+    display: none !important;
   }
 }

@@ -40,6 +40,7 @@
             </v-popover>
           </b-input-group>
           <img src="~@/assets/images/full-size-alert-icon.png" v-if="checkValidEmail == 'invalid'" class="icon-in-input">
+          <b-form-feedback><img src="~@/assets/images/full-size-alert-icon-white.png"> Please enter a valid email address</b-form-feedback>
         </b-form-group>
       </div>
     </div>
@@ -73,6 +74,7 @@
             </v-popover>
           </b-input-group>
           <img src="~@/assets/images/full-size-alert-icon.png" v-if="checkValidPassword == 'invalid' || checkPasswordMatch == 'invalid'" class="icon-in-input">
+          <b-form-feedback><img src="~@/assets/images/full-size-alert-icon-white.png"> Password must contain at least eight characters: both lower and uppercase letters, at least one number, and at least one special character</b-form-feedback>
         </b-form-group>
       </div>
       <div class="col-12">
@@ -104,6 +106,7 @@
             </v-popover>
           </b-input-group>
           <img src="~@/assets/images/full-size-alert-icon.png" v-if="checkPasswordMatch == 'invalid'" class="icon-in-input">
+          <b-form-feedback><img src="~@/assets/images/full-size-alert-icon-white.png"> The passwords you entered do not match</b-form-feedback>
         </b-form-group>
       </div>
       <div class="col-12">
@@ -144,6 +147,7 @@
               </template>
             </v-popover>
           </b-input-group>
+          <b-form-feedback><img src="~@/assets/images/full-size-alert-icon-white.png">Please accept the Terms of Service</b-form-feedback>
         </b-form-group>
         <b-modal id="tos" centered hide-footer>
           <div slot="modal-title">
