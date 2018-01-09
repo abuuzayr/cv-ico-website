@@ -164,7 +164,7 @@ $font-normal: 'Roboto', serif;
 }
 
 .pending {
-  color: #f3af5e;
+  color: $orange;
 }
 
 .success-back {
@@ -173,12 +173,12 @@ $font-normal: 'Roboto', serif;
 }
 
 .pending-back {
-  background: #f3af5e;
-  -webkit-text-stroke: 1px #f3af5e;
+  background: $orange;
+  -webkit-text-stroke: 1px $orange;
 }
 
 .grey-back {
-  background: #9fa0a1;
+  background: $light-grey;
 }
 
 .failure-back {
