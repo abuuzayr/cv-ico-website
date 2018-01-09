@@ -4,16 +4,20 @@
 //== Colors
 
 $anchor:                    #42B983;
-$blue:                      #56AFEA;
-$blue-bg-color:             #437cc0;
+$light-blue:                #56AFEA;
+$blue:                      #2589F3;
+$blue-bg:                   #437cc0;
 $green:                     #59B54B;
 $light-green:               #B1DB50;
 $dark-green:                #7DBA3B;
 $light-grey:                #B2B3B4;
 $grey:                      #7E8189;
 $orange:                    #F0AD4E;
-$red:                       #DE5F66;
+$light-red:                 #DE5F66;
+$red:                       #E54D42;
 $white:                     #F5F5F5;
+$notify-bg:                 #EAF4FE;
+$notify-border:             #D4E8FD;
 $box-shadow:                inset 0 1px 1px rgba(0, 0, 0, 0.075),
                             0 0 8px rgba(86, 175, 234, 0.6);
 $button-shadow:             0 10px 7.5px 0 rgba(0, 0, 0, 0.1),
@@ -139,7 +143,6 @@ $font-normal: 'Roboto', serif;
 }
 
 //== Globals
-//==
 .component-container {
   max-width: 25rem;
 }

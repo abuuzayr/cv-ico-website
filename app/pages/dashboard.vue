@@ -17,7 +17,7 @@
     data() {
       return {
         component: 'dashboard',
-      }
+      };
     },
     computed: {
       ...mapState([
@@ -27,7 +27,7 @@
     methods: {
       navigate(event) {
         vm.component = event;
-      }
+      },
     },
   };
 </script>
@@ -67,7 +67,7 @@
   }
 
   .dashboard-page {
-    background: $blue-bg-color;
+    background: $blue-bg;
   }
 
   @media (max-width: $screen-xs-max) {

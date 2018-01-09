@@ -9,21 +9,11 @@
           <b-row class="mb-3">
             <b-col>
               First Name
-              <b-form-group
-                v-bind:feedback="feedbackName(checkValidFName)"
-                v-bind:state="checkValidFName"
-              >
-                <b-input-group>
-                  <b-form-input
-                    v-model="firstName"
-                    v-bind:state="checkValidFName"
-                    placeholder="First Name"
-                    ref="firstName"
-                    type="text"
-                  >
-                  </b-form-input>
-                </b-input-group>
-              </b-form-group>
+              <b-form-input v-model="firstName" type="text"></b-form-input>
+            </b-col>
+            <b-col>
+              Middle Name
+              <b-form-input v-model="middleName" type="text"></b-form-input>
             </b-col>
             <b-col>
               Last Name

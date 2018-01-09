@@ -1,4 +1,6 @@
 <script>
+  import { mapState } from 'vuex';
+
   // Declare global scoped vars
   let vm;
 
@@ -28,12 +30,22 @@
         signedform: null,
       };
     },
-    notifications: {
-      errorLogin: {
-        title: 'Login Failed',
-        message: 'Failed to authenticate',
-        type: 'error',
-      },
+    async mounted() {
+      const res = await vm.$axios.get(`users/${vm.authentication.user}`);
+      vm.firstName = res.data.kyc.first_name;
+      vm.middleName = res.data.kyc.middle_name;
+      vm.lastName = res.data.kyc.last_name;
+      vm.birthday = res.data.kyc.birthday;
+      vm.birthCountry = res.data.kyc.country_of_birth;
+      vm.nationality = res.data.kyc.nationality;
+      vm.residenceCountry = res.data.kyc.country_of_residence;
+      vm.gender = res.data.kyc.gender;
+      vm.address = res.data.kyc.address;
+    },
+    computed: {
+      ...mapState([
+        'authentication',
+      ]),
     },
   };
 </script>

@@ -30,6 +30,8 @@
         birthday: false,
         nationality: false,
         address: false,
+        idType: false,
+        idNumber: false,
         identification: false,
         selfie: false,
         residence: false,
@@ -50,6 +52,9 @@
         gender: null,
         genders: null,
         address: null,
+        idType: null,
+        idTypes: null,
+        idNumber: null,
         identification: null,
         selfie: null,
         residence: null,
@@ -65,6 +70,11 @@
       vm.nationalities = await vm.$axios.get('nationalities.txt');
       vm.nationalities = vm.nationalities.data.split('\n');
       vm.nationalities.unshift({ text: 'Nationality', value: null });
+
+      vm.idTypes = [
+        { text: 'Identification Type', value: null },
+        'PASSPORT', 'DRIVING LICENSE'
+      ];
 
       vm.genders = [
         { text: 'Gender', value: null },
@@ -174,6 +184,8 @@
           'kyc.gender': args['gender'],
           'kyc.birthday': `${args['birthday']} UTC`,
           'kyc.address': args['address'],
+          'kyc.id_type': args['idType'],
+          'kyc.id_number': args['idNumber'],
           'kyc.refIdentificationBlob.id': resIdentification.data.id,
           'kyc.refIdentificationBlob.checksum': resIdentification.data.checksum,
           'kyc.refSelfieBlob.id': resSelfie.data.id,
@@ -184,25 +196,25 @@
           'kyc.refSignedFormBlob.checksum': resSignedForm.data.checksum,
         });
 
-        await vm.$axios.post('kyc', {
-          domain_name: 'REIDAO UAT',
-        	rfrID: vm.authentication.user,
-        	first_name: args['firstName'],
-        	middle_name: args['middleName'],
-        	last_name: args['lastName'],
-        	country_of_birth: args['birthCountry'],
-        	nationality: args['nationality'],
-        	country_of_residence: args['residenceCountry'],
-        	gender: args['gender'],
-        	date_of_birth: moment(args['birthday']).format('DD/MM/YYYY'),
-        	ssic_code: 'UNKNOWN',
-        	ssoc_code: 'UNKNOWN',
-        	onboarding_mode: 'NON FACE-TO-FACE',
-        	payment_mode: 'VIRTUAL CURRENCY',
-        	product_service_complexity: 'SIMPLE',
-        	emails: [vm.authentication.email],
-        	addresses: args['address'],
-        });
+        // await vm.$axios.post('kyc', {
+        //   domain_name: 'REIDAO UAT',
+        // 	rfrID: vm.authentication.user,
+        // 	first_name: args['firstName'],
+        // 	middle_name: args['middleName'],
+        // 	last_name: args['lastName'],
+        // 	country_of_birth: args['birthCountry'],
+        // 	nationality: args['nationality'],
+        // 	country_of_residence: args['residenceCountry'],
+        // 	gender: args['gender'],
+        // 	date_of_birth: moment(args['birthday']).format('DD/MM/YYYY'),
+        // 	ssic_code: 'UNKNOWN',
+        // 	ssoc_code: 'UNKNOWN',
+        // 	onboarding_mode: 'NON FACE-TO-FACE',
+        // 	payment_mode: 'VIRTUAL CURRENCY',
+        // 	product_service_complexity: 'SIMPLE',
+        // 	emails: [vm.authentication.email],
+        // 	addresses: args['address'],
+        // });
       },
     },
     notifications: {

@@ -1,9 +1,7 @@
 <script>
   import { mapActions } from 'vuex';
-  import {
-    feedbackEmail,
-    isValidEmail,
-  } from '~/helpers/authentication';
+  import { email } from 'vuelidate/lib/validators';
+  import { feedbackEmail } from '~/helpers/authentication';
 
   // Declare global scoped vars
   let vm;
@@ -36,7 +34,7 @@
           return null;
         }
 
-        if (isValidEmail(vm.email)) {
+        if (vm.$v.email.email) {
           states.email = true;
           return 'valid';
         }
@@ -63,13 +61,59 @@
         vm.recaptcha = event;
       },
       submit(email, recaptcha) {
+        vm.$axios.post('authManagement', {
+          action: 'sendResetPwd',
+          	value: {
+          		email,
+          	},
+          recaptcha,
+        })
+          .then(() => {
+              vm.$notify({
+                group: 'announce-info',
+                title: 'Initiated Reset Password',
+                text: 'Check your email for password reset instructions.',
+              });
+              setTimeout(() => {
+                vm.$router.push('/login');
+              }, 5000);
+            })
+            .catch((error) => {
+              vm.$refs.recaptcha.reset();
+
+              switch (error.response.status) {
+                case 400:
+                  vm.$notify({
+                    group: 'announce-error',
+                    title: 'Unverified Email Address or User Not Found',
+                    text: 'The email address entered is not found or verified \
+                           in our system. If the email is unverified, a \
+                           verification email has been sent. Please verify the \
+                           email before attempting password recovery.',
+                  });
+                  break;
+                case 406:
+                  vm.$notify({
+                    group: 'announce-error',
+                    title: 'Invalid reCAPTCHA Token',
+                    text: 'An error was encountered with reCAPTCHA. Please try again.',
+                  });
+                  break;
+                default:
+                  vm.$notify({
+                    group: 'announce-error',
+                    title: 'Unexpected Error Encountered',
+                    text: 'The application has encountered an unexpected error. \
+                           Please contact support.',
+                  });
+                  break;
+              }
+            });
       },
     },
-    notifications: {
-      successReset: {
-        title: 'Message Sent',
-        message: 'Please check your email for the password reset instructions',
-        type: 'success',
+    validations: {
+      email: {
+        email,
       },
     },
   };

@@ -1,12 +1,16 @@
 <script>
   import { mapActions } from 'vuex';
+  import marked from 'marked';
+  import {
+    email,
+    minLength,
+    sameAs,
+  } from 'vuelidate/lib/validators';
   import {
     feedbackEmail,
     feedbackPassword,
     feedbackConfirmPassword,
-    feedbackReferralCode,
-    isValidEmail,
-    isValidPassword
+    isValidPassword,
   } from '~/helpers/authentication';
 
   // Declare global scoped vars
@@ -24,9 +28,8 @@
         email: false,
         password: false,
         confirmPassword: false,
-        referralCode: false,
         recaptcha: false,
-        agreeTerms: false
+        tos: false,
       }
     },
     data() {
@@ -34,11 +37,16 @@
         email: '',
         password: '',
         confirmPassword: '',
+        markdown: '',
+        referralCode: this.referral,
         recaptcha: '',
         recaptchaKey: process.env.RECAPTCHA,
-        agreeTerms: 'not_accepted',
-        touched: false
+        tos: '',
       };
+    },
+    async mounted() {
+      const res = await vm.$axios.get('tos.md');
+      vm.markdown = marked(res.data, { sanitize: true });
     },
     computed: {
       checkValidEmail() {
@@ -48,7 +56,7 @@
           return null;
         }
 
-        if (isValidEmail(vm.email)) {
+        if (vm.$v.email.email) {
           states.email = true;
           return 'valid';
         }
@@ -69,18 +77,10 @@
 
         return 'invalid';
       },
-      checkValidReferralCode() {
-        if (states.referralCode && vm.referralCode !== '') {
-          console.log('test');
-          return 'valid';
-        }
-
-        return 'invalid';
-      },
       checkValidRecaptcha() {
         states.recaptcha = false;
 
-        if (vm.recaptcha !== '') {
+        if (vm.recaptcha) {
           states.recaptcha = true;
           return 'valid';
         }
@@ -90,22 +90,26 @@
       checkPasswordMatch() {
         states.confirmPassword = false;
 
-        if (vm.confirmPassword === '') {
+        if (vm.confirmPassword.length === 0) {
           return null;
         }
 
-        if (vm.password === vm.confirmPassword) {
+        if (vm.$v.confirmPassword.sameAsPassword) {
           states.confirmPassword = true;
           return 'valid';
         }
 
         return 'invalid';
       },
-      checkTermsAgreed() {
-        states.agreeTerms = false;
+      checkTickedTOS() {
+        states.tos = false;
 
-        if (vm.agreeTerms === 'accepted') {
-          states.agreeTerms = true;
+        if (vm.tos.length === 0) {
+          return null;
+        }
+
+        if (vm.tos) {
+          states.tos = true;
           return 'valid';
         }
 
@@ -119,34 +123,90 @@
       feedbackEmail,
       feedbackPassword,
       feedbackConfirmPassword,
-      feedbackReferralCode,
       checkRegistrationStates() {
-        return !(states.email && states.password && states.confirmPassword && states.recaptcha && states.agreeTerms);
-      },
-      checkReferralCode(code) {
-        console.log(vm.referralCode);
-        states.referralCode = true;
+        return !(states.email && states.password && states.confirmPassword && states.recaptcha && states.tos);
       },
       setRecaptcha(event) {
         vm.recaptcha = event;
       },
-      submit(email, password, recaptcha) {
-        vm.register({ email, password, recaptcha }).then(() => {
-          vm.$router.push('registration/success');
-        });
-      },
-      onCheck(checked) {
-        if (checked) this.touched = true;
+      submit(email, password, referralCode, recaptcha) {
+        vm.$axios.post('users', {
+          email,
+          password,
+          referralCode,
+          recaptcha,
+        })
+          .then(() => {
+            vm.$notify({
+              group: 'announce-info',
+              title: 'Registation Successful',
+              text: 'You have successfully registered. Check your email for \
+                     further instructions.',
+            });
+            setTimeout(() => {
+              vm.$router.push('registration/success');
+            }, 5000);
+          })
+          .catch((err) => {
+            vm.$refs.recaptcha.reset();
+            vm.password = '';
+            vm.confirmPassword = '';
+
+            switch (err.response.status) {
+              case 400:
+                vm.$notify({
+                  group: 'announce-error',
+                  title: 'Empty Referral Code',
+                  text: 'A referral code is needed for early registration.',
+                });
+                break;
+              case 406:
+                vm.$notify({
+                  group: 'announce-error',
+                  title: 'Invalid reCAPTCHA Token',
+                  text: 'An error was encountered with reCAPTCHA. Please try again.',
+                });
+                break;
+              case 409:
+                vm.$notify({
+                  group: 'announce-error',
+                  title: 'Account Already Exists',
+                  text: 'The email entered already exists. Please login using \
+                         existing registered email.',
+                });
+                setTimeout(() => {
+                  vm.$router.push('login');
+                }, 5000);
+                break;
+              case 422:
+                vm.$notify({
+                  group: 'announce-error',
+                  title: 'Invalid Referral Code',
+                  text: 'The referral code entered could not be found or is \
+                         incorrect. Kindly enter the correct referral code.',
+                });
+                break;
+              default:
+                vm.$notify({
+                  group: 'announce-error',
+                  title: 'Unexpected Error Encountered',
+                  text: 'The application has encountered an unexpected error. \
+                         Please contact support.',
+                });
+                break;
+            }
+          });
       },
     },
-    notifications: {
-      successRegistration: {
-        title: 'Registration Successful',
-        message: 'Please check your email',
-        type: 'success',
+    props: ['referral'],
+    validations: {
+      email: {
+        email,
+      },
+      confirmPassword: {
+        sameAsPassword: sameAs('password'),
       },
     },
-    props: ['referralCode'],
   };
 </script>
 <template src="./templates/registration.html"></template>

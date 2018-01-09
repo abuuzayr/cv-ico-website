@@ -13,20 +13,6 @@ function feedbackConfirmPassword(input) {
   return input === 'invalid' ? 'Password does not match!' : '';
 }
 
-function feedbackReferralCode(input) {
-  return input === 'invalid' ? 'Referral code is invalid!' : '';
-}
-
-function isValidEmail(email) {
-  const re = /\S+@\S+\.\S+/;
-
-  if (re.test(email)) {
-    return true;
-  }
-
-  return false;
-}
-
 function isValidPassword(password) {
   const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/;
 
@@ -42,7 +28,5 @@ export {
   feedbackEmail,
   feedbackPassword,
   feedbackConfirmPassword,
-  feedbackReferralCode,
-  isValidEmail,
   isValidPassword,
 };

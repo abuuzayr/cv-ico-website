@@ -1,3 +1,16 @@
+<script>
+  // Declare scoped vars
+  let vm;
+
+  export default {
+    name: 'Crowdvilla',
+    created() {
+      // Instantiate view model
+      vm = this;
+    },
+    middleware: 'authenticated',
+  };
+</script>
 <template>
   <div class="crowdvilla">
     <div class="component-container container">
@@ -26,18 +39,6 @@
     </div>
   </div>
 </template>
-<script>
-  // Declare scoped vars
-  let vm;
-
-  export default {
-    name: 'Crowdvilla',
-    created() {
-      // Instantiate view model
-      vm = this;
-    },
-  };
-</script>
 <style lang="scss" scoped>
   @import '~assets/styles/main.scss';
 

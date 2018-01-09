@@ -1,10 +1,14 @@
 <script>
   import { mapActions } from 'vuex';
   import {
+    email,
+    minLength,
+    sameAs,
+  } from 'vuelidate/lib/validators';
+  import {
     feedbackEmail,
     feedbackPassword,
     feedbackConfirmPassword,
-    isValidEmail,
     isValidPassword,
   } from '~/helpers/authentication';
 
@@ -41,7 +45,7 @@
           return null;
         }
 
-        if (isValidEmail(vm.email)) {
+        if (vm.$v.email.email) {
           states.email = true;
           return 'valid';
         }
@@ -65,7 +69,7 @@
       checkValidRecaptcha() {
         states.recaptcha = false;
 
-        if (vm.recaptcha !== '') {
+        if (vm.recaptcha) {
           states.recaptcha = true;
           return 'valid';
         }
@@ -81,23 +85,53 @@
       feedbackPassword,
       feedbackConfirmPassword,
       checkLoginStates() {
-        return !(states.email && states.password);
-        // return !(states.email && states.password && states.recaptcha);
+        return !(states.email && states.password && states.recaptcha);
       },
       setRecaptcha(event) {
         vm.recaptcha = event;
       },
       submit(email, password, recaptcha) {
-        vm.login({ email, password, recaptcha }).then(() => {
-          vm.$router.push('dashboard');
-        });
+        vm.login({ email, password, recaptcha })
+          .then(() => {
+            vm.$router.push('dashboard');
+          })
+          .catch((error) => {
+            vm.$refs.recaptcha.reset();
+            vm.password = '';
+
+            switch (error.response.status) {
+              case 401:
+                vm.$notify({
+                  group: 'announce-error',
+                  title: 'Invalid Login',
+                  text: 'The email or password entered is invalid.',
+                });
+                break;
+              case 406:
+                vm.$notify({
+                  group: 'announce-error',
+                  title: 'Invalid reCAPTCHA Token',
+                  text: 'An error was encountered with reCAPTCHA. Please try again.',
+                });
+                break;
+              default:
+                vm.$notify({
+                  group: 'announce-error',
+                  title: 'Unexpected Error Encountered',
+                  text: 'The application has encountered an unexpected error. \
+                         Please contact support.',
+                });
+                break;
+            }
+          });
       },
     },
-    notifications: {
-      errorLogin: {
-        title: 'Login Failed',
-        message: 'Failed to authenticate',
-        type: 'error',
+    validations: {
+      email: {
+        email,
+      },
+      confirmPassword: {
+        sameAsPassword: sameAs('password'),
       },
     },
   };

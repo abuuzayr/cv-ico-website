@@ -18,19 +18,44 @@
       clickMode="push"
     >
     </Particles> -->
+    <no-ssr>
+      <notifications
+        group="announce-info"
+        position="top center"
+        classes="announce-info"
+        width="70%"
+        v-bind:duration="5000"
+        v-bind:max="3"
+      />
+    </no-ssr>
+    <no-ssr>
+      <notifications
+        group="announce-error"
+        position="top center"
+        classes="announce-error"
+        width="70%"
+        v-bind:duration="5000"
+        v-bind:max="3"
+      />
+    </no-ssr>
+    <no-ssr>
+      <notifications
+        group="notify"
+        position="bottom right"
+      />
+    </no-ssr>
     <transition
       appear
       mode="out-in"
       enter-active-class="animated fadeIn"
     >
-      <nuxt/>
+      <nuxt />
     </transition>
   </div>
 </template>
 
 <script>
   import { mapState } from 'vuex';
-  import MiniToastr from 'mini-toastr';
 
   export default {
     name: 'app',
@@ -38,9 +63,6 @@
       return {
         title: this.appTitle,
       };
-    },
-    mounted() {
-      MiniToastr.init();
     },
     computed: {
       ...mapState([
@@ -59,7 +81,7 @@
     height: 100%;
   }
   body {
-    background: $blue-bg-color !important;
+    background: $blue-bg !important;
   }
   #app {
     font-family: 'Roboto', serif;
@@ -74,5 +96,41 @@
     left: 0;
     width: 100%;
     height: 100%;
+  }
+
+  .notification.announce-info {
+    margin: 10px;
+    margin-bottom: 0;
+    border-radius: 3px;
+    font-size: 1rem;
+    padding: 10px 20px;
+    color: $grey;
+    background: $notify-bg;
+    border: 1px solid $notify-border;
+
+    .notification-title {
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 1.2rem;
+      color: $blue;
+    }
+  }
+
+  .notification.announce-error {
+    margin: 10px;
+    margin-bottom: 0;
+    border-radius: 3px;
+    font-size: 1rem;
+    padding: 10px 20px;
+    color: $white;
+    background: $red;
+    border: 1px solid $notify-border;
+
+    .notification-title {
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 1.2rem;
+      color: $white;
+    }
   }
 </style>

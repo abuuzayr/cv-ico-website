@@ -6,27 +6,16 @@
 <template>
   <div class="forgotpassword-page">
     <b-container class="component-container">
-      <Header />
-      <Sidebar id="Sidebar" />
-      <KYC />
+      <ForgotPassword />
     </b-container>
   </div>
 </template>
 <style lang="scss" scoped>
   @import '~assets/styles/main.scss';
 
-  #Sidebar {
-    float: left;
-  }
-
   .forgotpassword-page {
     @include page-mixin();
   }
-
-  .component-container {
-    max-width: 25rem;
-  }
-
 
   @media (max-width: $screen-xs-max) {
   }
