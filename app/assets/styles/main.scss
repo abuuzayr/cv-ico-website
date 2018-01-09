@@ -1,5 +1,6 @@
 //== Libraries
 @import '~bourbon/app/assets/stylesheets/bourbon';
+@import './vtooltip';
 
 //== Colors
 
@@ -208,6 +209,14 @@ $font-normal: 'Roboto', serif;
 
 .navbar-dark .navbar-toggler-icon {
   background-image: url('~@/assets/images/mobile-menu-icon.png');
+}
+
+.input-group {
+  border: 1px solid transparent;
+}
+
+.b-form-group.form-group.is-invalid .invalid-feedback {
+  display: none !important;
 }
 
 @media (min-width: $screen-sm-min) {
