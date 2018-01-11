@@ -1,13 +1,14 @@
 //== Libraries
 @import '~bourbon/app/assets/stylesheets/bourbon';
+@import './vtooltip';
 
 //== Colors
 
 $anchor:                    #42B983;
 $light-blue:                #56AFEA;
 $blue:                      #2589F3;
-$blue-bg:                   #0967A8;
-$green:                     #9CD85A;
+$blue-bg:                   #437cc0;
+$green:                     #59B54B;
 $light-green:               #B1DB50;
 $dark-green:                #7DBA3B;
 $light-grey:                #B2B3B4;
@@ -164,7 +165,7 @@ $font-normal: 'Roboto', serif;
 }
 
 .pending {
-  color: #f3af5e;
+  color: $orange;
 }
 
 .success-back {
@@ -173,12 +174,12 @@ $font-normal: 'Roboto', serif;
 }
 
 .pending-back {
-  background: #f3af5e;
-  -webkit-text-stroke: 1px #f3af5e;
+  background: $orange;
+  -webkit-text-stroke: 1px $orange;
 }
 
 .grey-back {
-  background: #9fa0a1;
+  background: $light-grey;
 }
 
 .failure-back {
@@ -210,9 +211,16 @@ $font-normal: 'Roboto', serif;
   background-image: url('~@/assets/images/mobile-menu-icon.png');
 }
 
+.input-group {
+  border: 1px solid transparent;
+}
+
 @media (min-width: $screen-sm-min) {
   .card {
     margin: 40px;
     padding: 20px;
+  }
+  .b-form-group.form-group.is-invalid .invalid-feedback {
+    display: none !important;
   }
 }

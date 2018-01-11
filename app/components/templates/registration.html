@@ -20,13 +20,24 @@
             <b-input-group-addon>
               <img src="~@/assets/images/full-size-login-email-icon-dark.png" style="max-width:20px;">
             </b-input-group-addon>
-            <b-form-input
-              v-model="email"
-              v-bind:required="true"
-              v-bind:state="checkValidEmail"
-              placeholder="Email"
-            >
-            </b-form-input>
+            <v-popover
+              trigger="manual"
+              :open="checkValidEmail == 'invalid'"
+              :placement="'right'"
+              :auto-hide="false"
+              popoverClass="warning"
+              class="normal-input">
+              <b-form-input
+                v-model="email"
+                v-bind:required="true"
+                v-bind:state="checkValidEmail"
+                placeholder="Email"
+              >
+              </b-form-input>
+              <template slot="popover">
+                Please enter a valid email address
+              </template>
+            </v-popover>
           </b-input-group>
           <img src="~@/assets/images/full-size-alert-icon.png" v-if="checkValidEmail == 'invalid'" class="icon-in-input">
           <b-form-feedback><img src="~@/assets/images/full-size-alert-icon-white.png"> Please enter a valid email address</b-form-feedback>
@@ -42,14 +53,25 @@
             <b-input-group-addon>
               <img src="~@/assets/images/full-size-login-password-icon-dark.png" style="max-width:20px;">
             </b-input-group-addon>
-            <b-form-input
-              v-model="password"
-              v-bind:required="true"
-              v-bind:state="checkValidPassword"
-              placeholder="Password"
-              type="password"
-            >
-            </b-form-input>
+            <v-popover
+              trigger="manual"
+              :open="checkValidPassword == 'invalid'"
+              :placement="'right'"
+              :auto-hide="false"
+              popoverClass="warning"
+              class="normal-input">
+              <b-form-input
+                v-model="password"
+                v-bind:required="true"
+                v-bind:state="checkValidPassword"
+                placeholder="Password"
+                type="password"
+              >
+              </b-form-input>
+              <template slot="popover">
+                Password must contain at least eight characters: both lower and uppercase letters, at least one number, and at least one special character
+              </template>
+            </v-popover>
           </b-input-group>
           <img src="~@/assets/images/full-size-alert-icon.png" v-if="checkValidPassword == 'invalid' || checkPasswordMatch == 'invalid'" class="icon-in-input">
           <b-form-feedback><img src="~@/assets/images/full-size-alert-icon-white.png"> Password must contain at least eight characters: both lower and uppercase letters, at least one number, and at least one special character</b-form-feedback>
@@ -63,14 +85,25 @@
             <b-input-group-addon>
               <img src="~@/assets/images/full-size-login-password-icon-dark.png" style="max-width:20px;">
             </b-input-group-addon>
-            <b-form-input
-              v-model="confirmPassword"
-              v-bind:required="true"
-              v-bind:state="checkPasswordMatch"
-              placeholder="Confirm Password"
-              type="password"
-            >
-            </b-form-input>
+            <v-popover
+              trigger="manual"
+              :open="checkPasswordMatch == 'invalid'"
+              :placement="'right'"
+              :auto-hide="false"
+              popoverClass="warning"
+              class="normal-input">
+              <b-form-input
+                v-model="confirmPassword"
+                v-bind:required="true"
+                v-bind:state="checkPasswordMatch"
+                placeholder="Confirm Password"
+                type="password"
+              >
+              </b-form-input>
+              <template slot="popover">
+                The passwords you entered do not match
+              </template>
+            </v-popover>
           </b-input-group>
           <img src="~@/assets/images/full-size-alert-icon.png" v-if="checkPasswordMatch == 'invalid'" class="icon-in-input">
           <b-form-feedback><img src="~@/assets/images/full-size-alert-icon-white.png"> The passwords you entered do not match</b-form-feedback>
@@ -96,12 +129,23 @@
       <div class="col-12">
         <b-form-group v-bind:state="checkTickedTOS" class="checkbox">
           <b-input-group>
-            <b-form-checkbox
-              v-model="tos"
-              v-bind:required="true"
-            >
-              I agree to the <span class="link" v-b-modal.tos>terms of service</span>
-            </b-form-checkbox>
+            <v-popover
+              trigger="manual"
+              :open="!tos"
+              :placement="'right'"
+              :auto-hide="false"
+              popoverClass="warning"
+              offset="16">
+              <b-form-checkbox
+                v-model="tos"
+                v-bind:required="true"
+              >
+                I agree to the <span class="link" v-b-modal.tos>terms of service</span>
+              </b-form-checkbox>
+              <template slot="popover">
+                Please accept the Terms of Service
+              </template>
+            </v-popover>
           </b-input-group>
           <b-form-feedback><img src="~@/assets/images/full-size-alert-icon-white.png">Please accept the Terms of Service</b-form-feedback>
         </b-form-group>

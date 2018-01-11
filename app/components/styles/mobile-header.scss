@@ -1,23 +1,5 @@
 @import '~assets/styles/main.scss';
 
-// #nav-collapse {
-//   border-color: transparent;
-//   border: 0;
-// }
-// .label {
-//   font-family: $font-normal;
-// }
-// .custom-modal-header {
-//   background-color: $dark-green;
-//   border-top-left-radius: 0.5vw;
-//   border-top-right-radius: 0.5vw;
-//   color: $white;
-//   font-family: $font-condensed;
-//   font-weight: bold;
-//   letter-spacing: 0.5px;
-//   padding: 0;
-//   width: 100%;
-// }
 .nav-item {
   width: 100%;
 }
@@ -41,35 +23,9 @@
   font-weight: 900;
 }
 
-// .navbar-logo {
-//   padding: 10px;
-//   width: 140px;
-// }
-
 .logout a {
   color: #99b3cf;
 }
-
-// .label.nav-item,
-// .label.navbar-text {
-//     margin-left: 20px;
-//     margin-right: 20px;
-// }
-
-// .nav-two-layer {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: start;
-//   span {
-//     display: block;
-//     color: #fff;
-//   }
-//   .nav-sub-text {
-//     margin-top: -5px;
-//     font-size: 0.8em;
-//     font-weight: 400;
-//   }
-// }
 
 .navbar-nav .dim.nav-item .nav-link {
   color: hsla(0,0%,100%,.5)!important;
