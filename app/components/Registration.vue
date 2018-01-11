@@ -144,7 +144,7 @@
                      further instructions.',
             });
             setTimeout(() => {
-              vm.$router.push('registration/success');
+              vm.$router.push('success');
             }, 5000);
           })
           .catch((err) => {

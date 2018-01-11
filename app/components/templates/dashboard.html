@@ -13,15 +13,12 @@
     <b-row>
       <b-col class="notice text-left notify">
         <h6 class="failure">
-          KYC Check Failed
+          KYC verification not completed
         </h6>
         <div class="remarks">
           <small>
-            <strong class="grey">
-              Remarks:
-            </strong>
             <span class="failure">
-              Selfie blocks part of the passport, please reupload
+              Please submit your KYC details for verification
             </span>
           </small>
         </div>
@@ -295,7 +292,7 @@
       </b-container>
     </b-card>
 
-    <b-card v-if="!verified" class="text-center wallet">
+    <b-card v-if="!isVerified" class="text-center wallet">
       <b-row class="no-margin">
         <b-col>
           <b-link v-on:click="navigate('profile')" class="link">
@@ -305,7 +302,7 @@
       </b-row>
     </b-card>
 
-    <b-row v-if="verified" class="text-center wallet no-margin">
+    <b-row v-if="isVerified" class="text-center wallet no-margin">
       <b-col cols="12" md="6">
         <b-card footer-tag="footer">
           <h5>
@@ -328,15 +325,28 @@
             You have contributed
           </h5>
           <h1>
-            {{ eth | numFormat }}
+            {{ 1 | numFormat }}
             <sup>
               ETH
             </sup>
           </h1>
           <div slot="footer">
-            <b-button>
+            <b-button v-b-modal.contribute>
               Contribute More
             </b-button>
+            <b-modal id="contribute" centered hide-footer>
+              <div slot="modal-title">
+                <img src="~@/assets/images/full-size-cv-coloured-logo.png" />
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <h5 class="contribute-header">Send Ether to this address</h5>
+                  <div class="contribute mb-2">
+                    0xCFD8F28E959AF51A224344371a39127B767e9526
+                  </div>
+                </div>
+              </div>
+            </b-modal>
           </div>
         </b-card>
       </b-col>

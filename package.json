@@ -5,7 +5,7 @@
   "author": "Anton Buenavista",
   "nuxt": {
     "host": "0.0.0.0",
-    "port": "1337"
+    "port": "1338"
   },
   "scripts": {
     "dev": "PORT=1338 nuxt",
@@ -41,7 +41,7 @@
     "vuelidate": "^0.6.1",
     "vuex": "^3.0.1",
     "vuex-persistedstate": "^2.3.2",
-    "web3": "^1.0.0-beta.26",
+    "web3": "^1.0.0-beta.27",
     "winston": "^2.4.0"
   },
   "devDependencies": {
