@@ -14,10 +14,7 @@
   let states;
 
   export default {
-    name: 'KYC',
-    beforeMount() {
-      vm.$axios.setToken(vm.authentication.accessToken, 'Bearer');
-    },
+    name: 'MyProfile',
     created() {
       // Instantiate view model
       vm = this;
@@ -65,19 +62,29 @@
     async mounted() {
       vm.countries = await vm.$axios.get('countries.txt');
       vm.countries = vm.countries.data.split('\n');
-      vm.countries.unshift({ text: 'Country', value: null });
+      vm.countries.unshift({
+        text: 'Country',
+        value: null
+      });
 
       vm.nationalities = await vm.$axios.get('nationalities.txt');
       vm.nationalities = vm.nationalities.data.split('\n');
-      vm.nationalities.unshift({ text: 'Nationality', value: null });
+      vm.nationalities.unshift({
+        text: 'Nationality',
+        value: null
+      });
 
-      vm.idTypes = [
-        { text: 'Identification Type', value: null },
+      vm.idTypes = [{
+          text: 'Identification Type',
+          value: null
+        },
         'PASSPORT', 'DRIVING LICENSE'
       ];
 
-      vm.genders = [
-        { text: 'Gender', value: null },
+      vm.genders = [{
+          text: 'Gender',
+          value: null
+        },
         'MALE', 'FEMALE'
       ];
 
@@ -174,7 +181,7 @@
         const resAddress = await vm.documentUpload(args['residence'], 'residence');
         const resSignedForm = await vm.documentUpload(args['signedform'], 'signedform');
 
-        await vm.$axios.patch(`users/${vm.authentication.user}`, {
+        vm.$axios.patch(`users/${vm.authentication.user}`, {
           'kyc.first_name': args['firstName'],
           'kyc.middle_name': args['middleName'],
           'kyc.last_name': args['lastName'],
@@ -194,7 +201,16 @@
           'kyc.refAddressBlob.checksum': resAddress.data.checksum,
           'kyc.refSignedFormBlob.id': resSignedForm.data.id,
           'kyc.refSignedFormBlob.checksum': resSignedForm.data.checksum,
-        });
+        })
+          .then(() => {
+            console.log('notify');
+            vm.$notify({
+              group: 'notify',
+              title: 'KYC Details Submitted',
+              text: 'Your KYC details have been submitted.',
+              type: 'success',
+            });
+          });
 
         // await vm.$axios.post('kyc', {
         //   domain_name: 'REIDAO UAT',
@@ -217,22 +233,12 @@
         // });
       },
     },
-    notifications: {
-      errorLogin: {
-        title: 'Login Failed',
-        message: 'Failed to authenticate',
-        type: 'error',
-      },
-    },
   };
 </script>
-<template src="./templates/kyc.html"></template>
-<style src="./styles/kyc.scss" lang="scss" scoped></style>
-<style lang="scss">
-@import '~assets/styles/main.scss';
+<template src="./templates/my_profile.html"></template>
+<style src="./styles/my_profile.scss" lang="scss" scoped></style>
+<style lang=css">
+  @import '~assets/styles/main.scss';
 
-.custom-file-control:before {
-  background: $green;
-  color: #fff;
-}
+  .custom-file-control:before { background: $green; color: #fff; }
 </style>

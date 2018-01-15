@@ -2,46 +2,10 @@
   <div class="profile">
     <b-card class="text-left">
       <h5>
-        Profile Details
+        Account Details
       </h5>
       <b-row class="mt-4">
         <b-col cols="12" sm="6">
-          <b-row class="">
-            <b-col>
-              First Name
-              <b-form-group
-                v-bind:feedback="feedbackName(checkValidFName)"
-                v-bind:state="checkValidFName"
-              >
-                <b-input-group>
-                  <b-form-input
-                    v-model="firstName"
-                    v-bind:state="checkValidFName"
-                    ref="firstName"
-                    type="text"
-                  >
-                  </b-form-input>
-                </b-input-group>
-              </b-form-group>
-            </b-col>
-            <b-col cols="12" sm="6">
-              Last Name
-              <b-form-group
-                v-bind:feedback="feedbackName(checkValidLName)"
-                v-bind:state="checkValidLName"
-              >
-                <b-input-group>
-                  <b-form-input
-                    v-model="address"
-                    v-bind:state="checkValidLName"
-                    ref="address"
-                    type="text"
-                  >
-                  </b-form-input>
-                </b-input-group>
-              </b-form-group>
-            </b-col>
-          </b-row>
           <b-row class="mb-3">
             <b-col>
               Email Address
@@ -55,40 +19,6 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col>
-          <b-row>
-            <b-col>
-              Date of Birth
-              <b-form-group
-                v-bind:feedback="feedbackBirthday(checkValidBirthday)"
-                v-bind:state="checkValidBirthday"
-              >
-                <b-input-group>
-                  <b-form-input
-                    v-model="birthday"
-                    v-bind:state="checkValidBirthday"
-                    ref="birthday"
-                    type="date"
-                  >
-                  </b-form-input>
-                </b-input-group>
-              </b-form-group>
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col>
-              Country
-              <b-form-group>
-                <b-input-group>
-                  <b-form-select
-                    v-model="nationality"
-                    v-bind:options="nationalities"
-                  >
-                </b-form-select>
-                </b-input-group>
-              </b-form-group>
-            </b-col>
-          </b-row>
           <b-row>
             <b-col>
               <b-button variant="success">Save Details</b-button>
@@ -98,34 +28,226 @@
       </b-row>
     </b-card>
   </div>
-
   <div class="verify">
     <b-card class="text-left">
       <h5>
-        Account Details
+        KYC Details
         <i class="sub-text d-block d-md-inline">
           All documents need to be uploaded before submission
         </i>
       </h5>
       <div class="notice text-left notify">
         <h6 class="failure">
-          KYC Check Failed
+          KYC verification not completed
         </h6>
         <div class="remarks">
           <small>
-            <strong class="grey">
-              Remarks:
-            </strong>
             <span class="failure">
-              Selfie blocks part of the passport, please reupload
+              Please submit your KYC details for verification
             </span>
           </small>
         </div>
       </div>
+
+      <!-- Details -->
+
+      <h5 class="mt-5">
+        Details
+        <i class="sub-text d-block d-md-inline">
+          Please enter your personal details
+        </i>
+      </h5>
       <b-row class="mt-4">
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="success"/>
+            <StatusIcon status="pending"/>
+            First Name
+          </p>
+        </b-col>
+        <b-col class="d-flex">
+          <b-form-group class="align-self-center">
+            <b-input-group>
+              <b-form-input
+                    v-model="firstName"
+                    ref="firstName"
+                    type="text"
+                  >
+              </b-form-input>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="12" sm="6" xl="4" class="d-flex">
+          <p class="align-self-center">
+            <StatusIcon status="pending"/>
+            Middle Name
+          </p>
+        </b-col>
+        <b-col class="d-flex">
+          <b-form-group class="align-self-center">
+            <b-input-group>
+              <b-form-input
+                    v-model="middleName"
+                    ref="middleName"
+                    type="text"
+                  >
+              </b-form-input>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="12" sm="6" xl="4" class="d-flex">
+          <p class="align-self-center">
+            <StatusIcon status="pending"/>
+            Last Name
+          </p>
+        </b-col>
+        <b-col class="d-flex">
+          <b-form-group class="align-self-center">
+            <b-input-group>
+              <b-form-input
+                    v-model="lastName"
+                    ref="lastName"
+                    type="text"
+                  >
+              </b-form-input>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="12" sm="6" xl="4" class="d-flex">
+          <p class="align-self-center">
+            <StatusIcon status="pending"/>
+            Birthday
+          </p>
+        </b-col>
+        <b-col class="d-flex">
+          <b-form-group class="align-self-center">
+            <b-input-group>
+              <b-form-input
+                    v-model="birthday"
+                    placeholder="Birthday"
+                    ref="birthday"
+                    type="date"
+              >
+              </b-form-input>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="12" sm="6" xl="4" class="d-flex">
+          <p class="align-self-center">
+            <StatusIcon status="pending"/>
+            Country of Birth
+          </p>
+        </b-col>
+        <b-col class="d-flex">
+          <b-form-group class="align-self-center">
+            <b-input-group>
+              <b-form-select
+                v-model="birthCountry"
+                v-bind:options="countries"
+              >
+              </b-form-select>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="12" sm="6" xl="4" class="d-flex">
+          <p class="align-self-center">
+            <StatusIcon status="pending"/>
+            Nationality
+          </p>
+        </b-col>
+        <b-col class="d-flex">
+          <b-form-group class="align-self-center">
+            <b-input-group>
+              <b-form-select
+                v-model="nationality"
+                v-bind:options="nationalities"
+              >
+              </b-form-select>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="12" sm="6" xl="4" class="d-flex">
+          <p class="align-self-center">
+            <StatusIcon status="pending"/>
+            Country of Residence
+          </p>
+        </b-col>
+        <b-col class="d-flex">
+          <b-form-group class="align-self-center">
+            <b-input-group>
+              <b-form-select
+                v-model="residenceCountry"
+                v-bind:options="countries"
+              >
+              </b-form-select>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="12" sm="6" xl="4" class="d-flex">
+          <p class="align-self-center">
+            <StatusIcon status="pending"/>
+            Gender
+          </p>
+        </b-col>
+        <b-col class="d-flex">
+          <b-form-group class="align-self-center">
+            <b-input-group>
+              <b-form-select
+                v-model="gender"
+                v-bind:options="genders"
+              >
+              </b-form-select>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col cols="12" sm="6" xl="4" class="d-flex">
+          <p class="align-self-center">
+            <StatusIcon status="pending"/>
+            Address
+          </p>
+        </b-col>
+        <b-col class="d-flex">
+          <b-form-group class="align-self-center">
+            <b-input-group>
+              <b-form-input
+                v-model="address"
+                placeholder="Address"
+                ref="address"
+                type="text"
+              >
+              </b-form-input>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+      </b-row>
+
+      <!-- Documents -->
+
+      <h5 class="mt-5">
+        Documents
+        <i class="sub-text d-block d-md-inline">
+          Please upload your identifying documentations
+        </i>
+      </h5>
+      <b-row class="mt-4">
+        <b-col cols="12" sm="6" xl="4" class="d-flex">
+          <p class="align-self-center">
+            <StatusIcon status="pending"/>
             Scan / Photo of ID / Passport
           </p>
         </b-col>
@@ -157,7 +279,7 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="failure"/>
+            <StatusIcon status="pending"/>
             Proof of Residence
           </p>
         </b-col>
@@ -182,7 +304,7 @@
       <b-row class="mt-4">
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="success"/>
+            <StatusIcon status="pending"/>
             Token Sale Agreement
             <b-link class="pl-2 d-inline d-md-none align-self-end" href="">
               <img src="~@/assets/images/mobile-download-icon.png" alt="">
@@ -201,7 +323,7 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="success"/>
+            <StatusIcon status="pending"/>
             Product Information Notice
             <b-link class="pl-2 d-inline d-md-none align-self-end" href="">
               <img src="~@/assets/images/mobile-download-icon.png" alt="">
@@ -220,7 +342,7 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="success"/>
+            <StatusIcon status="pending"/>
             Consumer Information Notice
             <b-link class="pl-2 d-inline d-md-none align-self-end" href="">
               <img src="~@/assets/images/mobile-download-icon.png" alt="">
@@ -239,7 +361,7 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="success"/>
+            <StatusIcon status="pending"/>
             Privacy Policy
             <b-link class="pl-2 d-inline d-md-none align-self-end" href="">
               <img src="~@/assets/images/mobile-download-icon.png" alt="">
@@ -262,13 +384,18 @@
         Your ETH Address
       </h5>
       <p class="mb-3 word-break-all">
-        0x06D0e3c00087f6ca5571D4718AB4FB053Ed8c1EF
+        <b-form-input
+          placeholder="0x0"
+          ref="ethAddress"
+          type="text"
+        >
+        </b-form-input>
       </p>
 
+      <!-- v-bind:disabled="checkKYCStates()" -->
       <b-button
         class="mt-5"
         variant="success"
-        v-bind:disabled="checkKYCStates()"
         v-on:click="submit({
                             firstName,
                             middleName,

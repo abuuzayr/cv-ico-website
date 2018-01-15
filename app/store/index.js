@@ -9,15 +9,15 @@ export const mutations = {
 
 };
 
-// export const actions = {
-//   async nuxtServerInit({ dispatch }, { req }) {
-//     if (req.headers.cookie) {
-//       const storage = JSON.parse(cookie.parse(req.headers.cookie).vuex);
-//       const { accessToken } = storage.authentication;
+export const actions = {
+  async nuxtServerInit({ dispatch }, { req }) {
+    if (req.headers.cookie) {
+      const storage = JSON.parse(cookie.parse(req.headers.cookie).vuex);
+      const { accessToken } = storage.authentication;
 
-//       if (accessToken !== null) {
-//         await dispatch('authentication/jwt', { accessToken });
-//       }
-//     }
-//   },
-// };
+      if (accessToken !== null) {
+        await dispatch('authentication/jwt', { accessToken });
+      }
+    }
+  },
+};

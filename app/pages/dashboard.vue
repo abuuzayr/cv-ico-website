@@ -39,8 +39,7 @@
       <Sidebar id="Sidebar" v-on:event-navigate="navigate" />
       <div class="side-page">
         <Dashboard v-if="component == 'dashboard'" v-on:event-navigate="navigate" />
-        <!-- <Profile v-if="component == 'profile'" /> -->
-        <KYC v-if="component === 'profile'" />
+        <MyProfile v-if="component == 'myprofile'" />
       </div>
     </div>
   </div>

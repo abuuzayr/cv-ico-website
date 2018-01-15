@@ -1,4 +1,6 @@
 <script>
+  import { mapGetters } from 'vuex';
+
   import countdown from 'countdown';
   // Declare scoped vars
   let vm;
@@ -6,55 +8,84 @@
 
   export default {
     name: 'Dashboard',
+    beforeDestroy () {
+      clearInterval(this.timer)
+      this.timer = null
+    },
     created() {
       // Instantiate view model
       vm = this;
     },
     data() {
       return {
-        verified: false,
-        crv: 3095,
-        eth: 10.5,
-        collected: 204563,
+        ethAddress: '0xd675F62eEfD415Cd3eE9E48dF8dFe8A81C3d2225',
+        crv: 0,
+        eth: 0,
+        collected: 0,
         target: 500000,
         timer: null,
         count: this.getTimer(),
         transactions: [
-          // { TxHash: 2345255, block: '4325t234', age: 40, from: 'Dickerson', to: 'Macdonald' },
-          // { TxHash: 2345255, block: '4325t234', age: 21, from: 'Larsen', to: 'Shaw' },
-          // { TxHash: 2345255, block: '4325t234', age: 89, from: 'Geneva', to: 'Wilson' },
-          // { TxHash: 2345255, block: '4325t234', age: 38, from: 'Jami', to: 'Carney' },
-          // { TxHash: 2345255, block: '4325t234', age: 40, from: 'Dickerson', to: 'Macdonald' },
-          // { TxHash: 2345255, block: '4325t234', age: 21, from: 'Larsen', to: 'Shaw' },
+          // { txNo: 0, block: 1379584, txHash: '0xfec86de092435e4c502ab26c62e1bb6deb7ce02c65270427d56dd6d35240a0ae', timestamp: 1512754703, contribution: '1 ETH', referralHash: 'ef46135efb976e4cd578b5c01186aebd39616086b58dd3a44364b7a80b1b8b61' },
+          // { txNo: 0, block: 1379584, txHash: '0xfec86de092435e4c502ab26c62e1bb6deb7ce02c65270427d56dd6d35240a0ae', timestamp: 1512754703, contribution: '1 ETH', referralHash: 'ef46135efb976e4cd578b5c01186aebd39616086b58dd3a44364b7a80b1b8b61' },
+          // { txNo: 0, block: 1379584, txHash: '0xfec86de092435e4c502ab26c62e1bb6deb7ce02c65270427d56dd6d35240a0ae', timestamp: 1512754703, contribution: '1 ETH', referralHash: 'ef46135efb976e4cd578b5c01186aebd39616086b58dd3a44364b7a80b1b8b61' },
+          // { txNo: 0, block: 1379584, txHash: '0xfec86de092435e4c502ab26c62e1bb6deb7ce02c65270427d56dd6d35240a0ae', timestamp: 1512754703, contribution: '1 ETH', referralHash: 'ef46135efb976e4cd578b5c01186aebd39616086b58dd3a44364b7a80b1b8b61' },
+          // { txNo: 0, block: 1379584, txHash: '0xfec86de092435e4c502ab26c62e1bb6deb7ce02c65270427d56dd6d35240a0ae', timestamp: 1512754703, contribution: '1 ETH', referralHash: 'ef46135efb976e4cd578b5c01186aebd39616086b58dd3a44364b7a80b1b8b61' },
+          // { txNo: 0, block: 1379584, txHash: '0xfec86de092435e4c502ab26c62e1bb6deb7ce02c65270427d56dd6d35240a0ae', timestamp: 1512754703, contribution: '1 ETH', referralHash: 'ef46135efb976e4cd578b5c01186aebd39616086b58dd3a44364b7a80b1b8b61' },
         ],
         emptyTxn: [
-          { TxHash: 2345255, block: '4325t234', age: 40, from: 'Dickerson', to: 'Macdonald' },
-          { TxHash: 2345255, block: '4325t234', age: 21, from: 'Larsen', to: 'Shaw' },
-          { TxHash: 2345255, block: '4325t234', age: 89, from: 'Geneva', to: 'Wilson' },
-          { TxHash: 2345255, block: '4325t234', age: 38, from: 'Jami', to: 'Carney' },
-          { TxHash: 2345255, block: '4325t234', age: 89, from: 'Geneva', to: 'Wilson' },
-          { TxHash: 2345255, block: '4325t234', age: 38, from: 'Jami', to: 'Carney' }
+          { txNo: 0, block: 0, txHash: '', timestamp: 0, contribution: '', referralHash: '' },
+          { txNo: 0, block: 0, txHash: '', timestamp: 0, contribution: '', referralHash: '' },
+          { txNo: 0, block: 0, txHash: '', timestamp: 0, contribution: '', referralHash: '' },
+          { txNo: 0, block: 0, txHash: '', timestamp: 0, contribution: '', referralHash: '' },
+          { txNo: 0, block: 0, txHash: '', timestamp: 0, contribution: '', referralHash: '' },
+          { txNo: 0, block: 0, txHash: '', timestamp: 0, contribution: '', referralHash: '' },
         ]
       }
     },
-    methods: {
-      getTimer() {
-        return countdown( null, date, countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS );
-      },
-      navigate(component) {
-        this.$emit('event-navigate', component);
-      },
-    },
-    filters: {
-      numFormat: function (value) {
-        if (!value) return ''
-        value = value.toString()
-        value = value.replace(new RegExp("^(\\d{" + (value.length%3? value.length%3:0) + "})(\\d{3})", "g"), "$1 $2").replace(/(\d{3})+?/gi, "$1 ").trim();
-        value = value.replace(/\s/g, ",");
-        return value;
-      }
+    async mounted () {
+      vm.timer = setInterval(() => {
+        vm.count = vm.getTimer();
+      }, 1000);
+
+      const res = await vm.$axios.get('users?$select=eth_address');
+      vm.ethAddress = res.data.data[0].eth_address;
+
+      vm.$eth.ico.methods.totalFund().call((error, result) => {
+        if (error) throw error;
+        vm.collected = parseInt(vm.$eth.utils.fromWei(result));
+      });
+
+      vm.$eth.ico.methods.contributionsPerAddress(vm.ethAddress).call((error, result) => {
+        if (error) throw error;
+        vm.eth = parseInt(result);
+        console.log(vm.eth);
+      });
+
+      // const addressTopic = `0x${'0'.repeat(24)}${vm.ethAddress.substring(2)}`;
+      // const blockNumber = vm.$eth.utils.toHex(1379584);
+      // const topic0 = vm.$eth.utils.sha3('Contribute(uint256,uint256,address,address,uint256,bytes32)');
+      // vm.$axios.$post('https://rinkeby.infura.io/VihYi00x9NbdZ1abMuRz', {
+      //   headers: {
+      //     'Access-Control-Allow-Origin': '*',
+      //   },
+      //   jsonrpc: '2.0',
+      //   method: 'eth_getLogs',
+      //   params: [{
+      //     topics: [topic0, addressTopic],
+      //     fromBlock: blockNumber,
+      //     address: vm.ethAddress,
+      //   }],
+      //   id: 1,
+      // }).then((err, res) => {
+      //   console.log(err);
+      //   console.log(res);
+      // });
     },
     computed: {
+      ...mapGetters({
+        isVerified: 'kyc/isVerified',
+      }),
       days() {
         return this.count.days;
       },
@@ -68,20 +99,12 @@
         return this.count.seconds;
       },
     },
-    mounted () {
-      this.timer = setInterval(() => {
-        this.count = this.getTimer();
-      }, 1000)
-    },
-    beforeDestroy () {
-      clearInterval(this.timer)
-      this.timer = null
-    },
-    notifications: {
-      errorLogin: {
-        title: 'Login Failed',
-        message: 'Failed to authenticate',
-        type: 'error',
+    methods: {
+      getTimer() {
+        return countdown( null, date, countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS );
+      },
+      navigate(component) {
+        this.$emit('event-navigate', component);
       },
     },
   };

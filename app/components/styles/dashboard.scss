@@ -29,6 +29,22 @@ h6 {
   }
 }
 
+.contribute-header {
+  padding: 15px 30px;
+  background: #dedede;
+  text-align: left;
+  font-weight: 700;
+  border-top: 1px solid #c2c2c2;
+  border-bottom: 1px solid #c2c2c2;
+}
+
+.contribute {
+  height: 100px;
+  padding: 10px 20px;
+  text-align: justify;;
+  margin: 0 10px;
+}
+
 .no-padding .col {
   padding: 0!important;
 }

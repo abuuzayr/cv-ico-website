@@ -1536,7 +1536,7 @@ const reiContract = new web3.eth.Contract(reiABI, address);
 /* eslint no-param-reassign: ["error", { "props": false }] */
 export default(ctx, inject) => {
   // Inject web3 to the context as $eth
-  ctx.$eth = web3.eth;
+  ctx.$eth = web3;
   ctx.$eth.ico = icoContract;
   ctx.$eth.token = tokenContract;
   ctx.$eth.rei = reiContract;
