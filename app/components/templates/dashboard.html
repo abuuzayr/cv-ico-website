@@ -155,7 +155,7 @@
       </b-container>
       <div class="stretch mt-5 d-block d-sm-none">
         <b-row class="goals mobile">
-          <b-col v-if="collected > 0 && collected < 100000">
+          <b-col v-if="collected >= 0 && collected < 100000">
           </b-col>
           <b-col v-if="collected < 250000">
             STRETCH GOAL 1
@@ -184,7 +184,7 @@
           </b-col>
         </b-row>
         <b-row class="goals mobile mt-3">
-          <b-col v-if="collected > 0 && collected < 100000">
+          <b-col v-if="collected >= 0 && collected < 100000">
             <p>
               Phase 1
             </p>
