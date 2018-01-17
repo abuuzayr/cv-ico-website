@@ -87,6 +87,17 @@ $zindex-tooltip:           1070 !default;
 $font-condensed: 'Roboto Condensed', serif;
 $font-normal: 'Roboto', serif;
 
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body,
+.btn,
+.form-control {
+  font-size: 0.8rem;
+}
+
 // == Mixins
 
 @mixin page-mixin() {

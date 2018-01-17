@@ -8,7 +8,7 @@
 
 .profile .btn-success,
 .kyc .btn-success {
-  margin-top: 22px;
+  margin-top: 20px;
   padding: 6px 20px;
   font-weight: 500;
   background: $green;
@@ -27,18 +27,15 @@
   border-radius: 100%;
   font-size: 1em;
   margin-right: 5px;
-  width: 25px;
-  height: 25px;
-  line-height: 25px;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
   text-align: center;
 }
 
 @media (max-width: $screen-xs-max) {
 }
 @media (min-width: $screen-sm-min) {
-  .sub-text {
-    font-size: 0.8em;
-  }
   .notify {
     margin: 20px -41px;
     padding: 20px 40px;
