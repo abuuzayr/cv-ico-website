@@ -23,7 +23,7 @@
         group="announce-info"
         position="top center"
         classes="announce-info"
-        width="70%"
+        width="30%"
         v-bind:duration="5000"
         v-bind:max="3"
       />
@@ -33,7 +33,7 @@
         group="announce-error"
         position="top center"
         classes="announce-error"
-        width="70%"
+        width="30%"
         v-bind:duration="5000"
         v-bind:max="3"
       />
@@ -102,16 +102,13 @@
     margin: 10px;
     margin-bottom: 0;
     border-radius: 3px;
-    font-size: 1rem;
     padding: 10px 20px;
     color: $grey;
     background: $notify-bg;
-    border: 1px solid $notify-border;
 
     .notification-title {
       letter-spacing: 1px;
       text-transform: uppercase;
-      font-size: 1.2rem;
       color: $blue;
     }
   }
@@ -120,16 +117,13 @@
     margin: 10px;
     margin-bottom: 0;
     border-radius: 3px;
-    font-size: 1rem;
     padding: 10px 20px;
     color: $white;
     background: $red;
-    border: 1px solid $notify-border;
 
     .notification-title {
       letter-spacing: 1px;
       text-transform: uppercase;
-      font-size: 1.2rem;
       color: $white;
     }
   }
