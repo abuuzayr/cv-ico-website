@@ -1,5 +1,5 @@
 //== Libraries
-@import '~bourbon/app/assets/stylesheets/bourbon';
+@import '~bourbon/core/bourbon';
 @import './vtooltip';
 
 //== Colors
@@ -94,7 +94,8 @@ $font-normal: 'Roboto', serif;
   min-height: 100vh;
   background: url('~@/assets/images/full-size-bg.png') no-repeat center fixed;
   background-size: cover;
-  padding-top: 1rem;
+  // padding-top: 1rem;
+  @include padding(1rem null null null);
 }
 
 //== Bootstrap Overrides

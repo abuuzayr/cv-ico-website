@@ -45,6 +45,7 @@ async function setPersistence(action, commit, accessToken) {
 export const actions = {
   async jwt({ commit, dispatch }, { accessToken }) {
     try {
+      console.log(accessToken);
       const res = await this.$axios.$post('authentication', {
         strategy: 'jwt',
         accessToken,
@@ -53,9 +54,7 @@ export const actions = {
       await setPersistence(this, commit, res.accessToken);
       await dispatch('kyc/verify', {}, { root: true });
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        dispatch('logout');
-      }
+      dispatch('logout');
     }
   },
   async login({ commit }, { email, password, recaptcha }) {
@@ -73,8 +72,15 @@ export const actions = {
     }
   },
   async logout({ commit }) {
-    await this.$axios.$delete('authentication');
-    commit('SET_USER', null);
-    commit('SET_ACCESSTOKEN', null);
+    try {
+      // commit('SET_ACCESSTOKEN', null);
+      // commit('SET_EMAIL', null);
+      // commit('SET_USER', null);
+      console.log('1');
+      await this.$axios.$delete('authentication');
+      console.log('2');
+    } catch (error) {
+      console.log('removeing');
+    }
   },
 };

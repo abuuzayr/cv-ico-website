@@ -1,3 +1,4 @@
+const bourbon = require('bourbon');
 const postcsscssnext = require('postcss-cssnext');
 const path = require('path');
 const formatter = require('eslint-friendly-formatter');
@@ -13,7 +14,7 @@ module.exports = {
   axios: {
     baseURL: 'http://localhost:1337',
     credentials: false,
-    debug: true,
+    debug: false,
   },
   /*
   ** Build configuration
@@ -23,7 +24,9 @@ module.exports = {
     ** Run ESLINT on save
     */
     extend(config, ctx) {
-      if (ctx.dev && ctx.isClient) {
+      global.Element = null;
+
+      if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -34,12 +37,23 @@ module.exports = {
             formatter,
           },
         });
+
+        const vueLoader = config.module.rules.find(rule => rule.loader === 'vue-loader');
+        vueLoader.options.loaders.scss.push({
+          loader: 'sass-loader',
+          options: {
+            includePaths: bourbon.includePaths,
+            sourceMap: true,
+          },
+        });
       }
     },
     postcss: [
       postcsscssnext(),
     ],
     vendor: [
+      'bourbon',
+      'v-tooltip',
       'vuelidate',
       'vue-notification',
       'vue-prism',
@@ -84,6 +98,7 @@ module.exports = {
   ],
   plugins: [
     { src: '@/plugins/vue-components-ssr.js', ssr: true },
+    { src: '@/plugins/vue-plugins-ssr.js', ssr: false },
     { src: '@/plugins/vue-plugins.js', ssr: false },
     { src: '@/plugins/filters.js', ssr: true },
     { src: '@/plugins/local-storage.js', ssr: false },
