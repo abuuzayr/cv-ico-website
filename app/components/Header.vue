@@ -22,7 +22,7 @@
     computed: {
       ...mapGetters({
         isAuthenticated: 'authentication/isAuthenticated',
-        isVerified: 'kyc/isVerified',
+        isKYCVerified: 'kyc/isKYCVerified',
       }),
       ...mapState([
         'authentication',

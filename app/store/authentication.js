@@ -3,6 +3,7 @@ import decode from 'jwt-decode';
 export const state = () => ({
   accessToken: null,
   email: null,
+  emailVerified: null,
   user: null,
 });
 
@@ -19,6 +20,9 @@ export const mutations = {
   SET_EMAIL(_state, email) {
     _state.email = email || null;
   },
+  SET_EMAILVERIFIED(_state, verified) {
+    _state.emailVerified = verified || null;
+  },
   SET_USER(_state, user) {
     _state.user = user || null;
   },
@@ -27,6 +31,9 @@ export const mutations = {
 export const getters = {
   isAuthenticated(_state) {
     return !!_state.user;
+  },
+  isEmailVerified(_state) {
+    return !!_state.emailVerified;
   },
 };
 
@@ -52,6 +59,7 @@ export const actions = {
       });
 
       await setPersistence(this, commit, res.accessToken);
+      await dispatch('verify');
       await dispatch('kyc/verify', {}, { root: true });
     } catch (error) {
       dispatch('logout');
@@ -73,14 +81,26 @@ export const actions = {
   },
   async logout({ commit }) {
     try {
-      // commit('SET_ACCESSTOKEN', null);
-      // commit('SET_EMAIL', null);
-      // commit('SET_USER', null);
-      console.log('1');
+      commit('SET_ACCESSTOKEN', null);
+      commit('SET_EMAIL', null);
+      commit('SET_EMAILVERIFIED', null);
+      commit('SET_USER', null);
       await this.$axios.$delete('authentication');
-      console.log('2');
     } catch (error) {
-      console.log('removeing');
+      console.log(error);
+    }
+  },
+  async verify({ commit }) {
+    try {
+      const res = await this.$axios.$get('users?$select=isVerified');
+
+      if (res.data.length > 0) {
+        commit('SET_EMAILVERIFIED', res.data[0].isVerified);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        throw new Error('Bad credentials');
+      }
     }
   },
 };

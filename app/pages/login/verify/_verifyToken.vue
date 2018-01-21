@@ -10,21 +10,60 @@
     },
     mounted() {
       vm.$axios.$post('authManagement', {
-      	action: 'verifySignupLong',
-      	value: vm.$route.params.verifyToken,
+        action: 'verifySignupLong',
+        value: vm.$route.params.verifyToken,
+      })
+      .then(() => {
+        vm.$notify({
+          group: 'announce-info',
+          title: 'Verification Successful',
+          text: 'You have successfully verified your email. Please login \
+                 to continue',
+        });
+      })
+      .catch((err) => {
+        switch (err.response.status) {
+          case 400:
+            vm.$notify({
+              group: 'announce-error',
+              title: 'Verification Token Invalid',
+              text: 'The verification token used when verifying your email \
+                     was incorrect. Resend another verification email.',
+            });
+            break;
+          default:
+            vm.$notify({
+              group: 'announce-error',
+              title: 'Unexpected Error Encountered',
+              text: 'The application has encountered an unexpected error. \
+                     Please contact support.',
+            });
+            break;
+        }
       });
     },
   };
 </script>
 <template>
-  <div class="verify">
-    <b-card no-body>
-      <b-tabs class="nav-justified">
-        <b-tab title="Your email is now verified">
-          <div class="container-fluid">
-          </div>
-        </b-tab>
-      </b-tabs>
-    </b-card>
+  <div class="verifyToken">
+    <b-container class="component-container">
+      <Login />
+    </b-container>
   </div>
 </template>
+<style lang="scss" scoped>
+  @import '~assets/styles/main.scss';
+
+  .verifyToken {
+    @include page-mixin();
+  }
+
+  @media (max-width: $screen-xs-max) {
+  }
+  @media (min-width: $screen-sm-min) {
+  }
+  @media (min-width: $screen-md-min) {
+  }
+  @media (min-width: $screen-lg-min) {
+  }
+</style>

@@ -1,5 +1,13 @@
 @import '~assets/styles/main.scss';
 
+img.icon-in-input {
+  position: absolute;
+  right: 20px;
+  top: 7px;
+  z-index: 999;
+  width: 20px;
+}
+
 .sub-text {
   font-weight: 400;
   font-size: 0.6em;
@@ -12,6 +20,15 @@
   padding: 6px 20px;
   font-weight: 500;
   background: $green;
+}
+
+.profile .btn-warning,
+.kyc .btn-warning {
+  margin-top: 20px;
+  padding: 6px 20px;
+  font-weight: 500;
+  color: $white;
+  background: $orange;
 }
 
 .notify {

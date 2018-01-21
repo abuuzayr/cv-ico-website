@@ -1,6 +1,14 @@
 <script>
-  import { mapState } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
   import { getBase64DataURI } from 'dauria';
+  import {
+    sameAs,
+  } from 'vuelidate/lib/validators';
+  import {
+    feedbackPassword,
+    feedbackConfirmPassword,
+    isValidPassword,
+  } from '~/helpers/authentication';
   import {
     feedbackBirthday,
     feedbackName,
@@ -33,6 +41,9 @@
         selfie: false,
         residence: false,
         signedform: false,
+        oldPassword: false,
+        password: false,
+        confirmPassword: false,
       };
     },
     data() {
@@ -57,6 +68,9 @@
         residence: null,
         signedform: null,
         email: null,
+        oldPassword: '',
+        password: '',
+        confirmPassword: '',
       };
     },
     async mounted() {
@@ -91,6 +105,9 @@
       vm.email = vm.authentication.email;
     },
     computed: {
+      ...mapGetters({
+        isEmailVerified: 'authentication/isEmailVerified',
+      }),
       ...mapState([
         'authentication',
       ]),
@@ -150,10 +167,77 @@
 
         return 'invalid';
       },
+      checkOldPassword() {
+        states.oldPassword = false;
+
+        if (vm.oldPassword.length === 0) {
+          return null;
+        }
+
+        if (isValidPassword(vm.oldPassword)) {
+          states.oldPassword = true;
+          return 'valid';
+        }
+
+        return 'invalid';
+      },
+      checkValidPassword() {
+        states.password = false;
+
+        if (vm.password.length === 0) {
+          return null;
+        }
+
+        if (isValidPassword(vm.password)) {
+          states.password = true;
+          return 'valid';
+        }
+
+        return 'invalid';
+      },
+      checkPasswordMatch() {
+        states.confirmPassword = false;
+
+        if (vm.confirmPassword.length === 0) {
+          return null;
+        }
+
+        if (vm.$v.confirmPassword.sameAsPassword) {
+          states.confirmPassword = true;
+          return 'valid';
+        }
+
+        return 'invalid';
+      },
     },
     methods: {
       feedbackBirthday,
       feedbackName,
+      feedbackPassword,
+      feedbackConfirmPassword,
+      changePassword(oldPassword, password) {
+        vm.$axios.post('authManagement', {
+          action: 'passwordChange',
+        	value: {
+            user: {
+              email: vm.email,
+            },
+            oldPassword,
+            password,
+        	},
+        })
+          .then(() => {
+            vm.$notify({
+              group: 'notify',
+              title: 'Password Successfully Change',
+              text: 'Your password was successfully changed.',
+              type: 'success',
+            });
+          });
+      },
+      checkPasswordStates() {
+        return !(states.oldPassword && states.password && states.confirmPassword);
+      },
       checkKYCStates() {
         return !(states.firstName && states.lastName && states.birthday);
       },
@@ -203,7 +287,6 @@
           'kyc.refSignedFormBlob.checksum': resSignedForm.data.checksum,
         })
           .then(() => {
-            console.log('notify');
             vm.$notify({
               group: 'notify',
               title: 'KYC Details Submitted',
@@ -232,12 +315,33 @@
         // 	addresses: args['address'],
         // });
       },
+      verifyEmail() {
+        vm.$axios.post('authManagement', {
+          action: 'resendVerifySignup',
+        	value: {
+        		email: vm.email,
+        	},
+        })
+          .then(() => {
+            vm.$notify({
+              group: 'notify',
+              title: 'Verification Email Sent',
+              text: 'A verification email was sent to your email address.',
+              type: 'success',
+            });
+          });
+      },
+    },
+    validations: {
+      confirmPassword: {
+        sameAsPassword: sameAs('password'),
+      },
     },
   };
 </script>
 <template src="./templates/my_profile.html"></template>
 <style src="./styles/my_profile.scss" lang="scss" scoped></style>
-<style lang=css">
+<style lang="scss">
   @import '~assets/styles/main.scss';
 
   .custom-file-control:before { background: $green; color: #fff; }

@@ -7,10 +7,10 @@
         <span>
           {{ displayUser }}
         </span>
-        <span class="nav-sub-text" v-if="isVerified">
+        <span class="nav-sub-text" v-if="isKYCVerified">
           <i class="fa fa-check pending-back round-icon" aria-hidden="true"></i> KYC Verified
         </span>
-        <span class="nav-sub-text" v-if="!isVerified">
+        <span class="nav-sub-text" v-if="!isKYCVerified">
           <i class="fa fa-ellipsis-h grey-back round-icon" aria-hidden="true"></i> Unverified
         </span>
       </b-nav-text>

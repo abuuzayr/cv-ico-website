@@ -145,7 +145,7 @@
             });
             setTimeout(() => {
               vm.$router.push('registration/success');
-            }, 5000);
+            }, 2000);
           })
           .catch((err) => {
             vm.$refs.recaptcha.reset();

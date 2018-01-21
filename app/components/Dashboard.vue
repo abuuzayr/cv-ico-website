@@ -84,7 +84,7 @@
     },
     computed: {
       ...mapGetters({
-        isVerified: 'kyc/isVerified',
+        isEmailVerified: 'authentication/isEmailVerified',
       }),
       days() {
         return this.count.days;

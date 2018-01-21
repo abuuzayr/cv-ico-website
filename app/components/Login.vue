@@ -93,7 +93,7 @@
       submit(email, password, recaptcha) {
         vm.login({ email, password, recaptcha })
           .then(() => {
-            vm.$router.replace('dashboard');
+            vm.$router.push('/dashboard');
           })
           .catch((error) => {
             vm.$refs.recaptcha.reset();

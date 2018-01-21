@@ -1,10 +1,3 @@
-<template>
-  <div class="login-page">
-    <b-container class="component-container">
-      <Login />
-    </b-container>
-  </div>
-</template>
 <script>
   // Declare scoped vars
   let vm;
@@ -18,6 +11,13 @@
     middleware: 'authenticated',
   };
 </script>
+<template>
+  <div class="login-page">
+    <b-container class="component-container">
+      <Login />
+    </b-container>
+  </div>
+</template>
 <style lang="scss" scoped>
   @import '~assets/styles/main.scss';
 

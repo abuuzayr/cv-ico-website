@@ -1,3 +1,4 @@
+/* eslint no-param-reassign: ["error", { "props": false }] */
 import Vue from 'vue';
 
 function numFormat(value) {
@@ -6,11 +7,14 @@ function numFormat(value) {
   } else if (!value) {
     return '';
   }
-  value = value.toString();
-  value = value.replace(new RegExp('^(\\d{' + (value.length%3? value.length%3:0) + '})(\\d{3})', 'g'), '$1 $2').replace(/(\d{3})+?/gi, '$1 ').trim();
-  value = value.replace(/\s/g, ',');
 
-  return value;
+  const result = value
+    .toString()
+    .replace(new RegExp(`^(\\d{${(value.toString().length % 3 ? value.toString().length % 3 : 0)}})(\\d{3})`, 'g'), '$1 $2').replace(/(\d{3})+?/gi, '$1 ')
+    .trim()
+    .replace(/\s/g, ',');
+
+  return result;
 }
 
 function twoDigits(value) {

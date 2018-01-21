@@ -14,14 +14,148 @@
           </b-row>
           <b-row class="mb-3">
             <b-col>
-              Password
-              <b-form-input type="password" disabled></b-form-input>
+              Old Password
+              <b-form-group
+                v-bind:state="checkOldPassword"
+                style="width:100%;"
+              >
+                <b-input-group>
+                  <v-popover
+                    trigger="manual"
+                    v-bind:open="checkOldPassword == 'invalid'"
+                    v-bind:placement="'right'"
+                    v-bind:auto-hide="false"
+                    popoverClass="warning"
+                    class="normal-input"
+                    style="width:100%;">
+                    <b-form-input
+                      v-model="oldPassword"
+                      v-bind:required="true"
+                      v-bind:state="checkOldPassword"
+                      placeholder="Old Password"
+                      type="password"
+                      style="
+                        width:100%;
+                        min-height: 30px;
+                        border-top-left-radius:0;
+                        border-bottom-left-radius:0;
+                        border-top-right-radius:4px;
+                        border-bottom-right-radius:4px;
+                      "
+                    >
+                    </b-form-input>
+                    <template slot="popover">
+                      Password must contain at least eight characters: both lower and uppercase letters, at least one number, and at least one special character
+                    </template>
+                  </v-popover>
+                </b-input-group>
+                <img src="~@/assets/images/full-size-alert-icon.png" v-if="checkValidPassword == 'invalid' || checkPasswordMatch == 'invalid'" class="icon-in-input">
+                <b-form-feedback><img src="~@/assets/images/full-size-alert-icon-white.png"> Password must contain at least eight characters: both lower and uppercase letters, at least one number, and at least one special character</b-form-feedback>
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <b-row class="mb-3">
+            <b-col>
+              New Password
+              <b-form-group
+                v-bind:state="checkValidPassword"
+                style="width:100%;"
+              >
+                <b-input-group>
+                  <v-popover
+                    trigger="manual"
+                    v-bind:open="checkValidPassword == 'invalid'"
+                    v-bind:placement="'right'"
+                    v-bind:auto-hide="false"
+                    popoverClass="warning"
+                    class="normal-input"
+                    style="width:100%;">
+                    <b-form-input
+                      v-model="password"
+                      v-bind:required="true"
+                      v-bind:state="checkValidPassword"
+                      placeholder="New Password"
+                      type="password"
+                      style="
+                        width:100%;
+                        min-height: 30px;
+                        border-top-left-radius:0;
+                        border-bottom-left-radius:0;
+                        border-top-right-radius:4px;
+                        border-bottom-right-radius:4px;
+                      "
+                    >
+                    </b-form-input>
+                    <template slot="popover">
+                      Password must contain at least eight characters: both lower and uppercase letters, at least one number, and at least one special character
+                    </template>
+                  </v-popover>
+                </b-input-group>
+                <img src="~@/assets/images/full-size-alert-icon.png" v-if="checkValidPassword == 'invalid' || checkPasswordMatch == 'invalid'" class="icon-in-input">
+                <b-form-feedback><img src="~@/assets/images/full-size-alert-icon-white.png"> Password must contain at least eight characters: both lower and uppercase letters, at least one number, and at least one special character</b-form-feedback>
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <b-row class="mb-3">
+            <b-col>
+              Confirm Password
+              <b-form-group
+                v-bind:state="checkPasswordMatch"
+                style="width:100%;"
+              >
+                <b-input-group>
+                  <v-popover
+                    trigger="manual"
+                    v-bind:open="checkPasswordMatch == 'invalid'"
+                    v-bind:placement="'right'"
+                    v-bind:auto-hide="false"
+                    popoverClass="warning"
+                    class="normal-input"
+                    style="width:100%;">
+                    <b-form-input
+                      v-model="confirmPassword"
+                      v-bind:required="true"
+                      v-bind:state="checkPasswordMatch"
+                      placeholder="Confirm Password"
+                      type="password"
+                      style="
+                        width:100%;
+                        min-height: 30px;
+                        border-top-left-radius:0;
+                        border-bottom-left-radius:0;
+                        border-top-right-radius:4px;
+                        border-bottom-right-radius:4px;
+                      "
+                    >
+                    </b-form-input>
+                    <template slot="popover">
+                      The passwords you entered do not match
+                    </template>
+                  </v-popover>
+                </b-input-group>
+                <img src="~@/assets/images/full-size-alert-icon.png" v-if="checkPasswordMatch == 'invalid'" class="icon-in-input">
+                <b-form-feedback><img src="~@/assets/images/full-size-alert-icon-white.png"> The passwords you entered do not match</b-form-feedback>
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <b-row class="mb-3">
+            <b-col>
+              <b-button
+                size="lg"
+                type="button"
+                variant="success"
+                v-bind:disabled="checkPasswordStates()"
+                v-on:click="changePassword(oldPassword, password)"
+              >
+                Update Details
+              </b-button>
             </b-col>
           </b-row>
         </b-col>
+        <b-col v-if="!isEmailVerified" v-on:click="verifyEmail()">
           <b-row>
             <b-col>
-              <b-button variant="success">Save Details</b-button>
+              <b-button variant="warning">Verify Email</b-button>
             </b-col>
           </b-row>
         </b-col>
@@ -252,7 +386,7 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file choose-label="Upload" v-model="identification">
+              <b-form-file accept="image/*" choose-label="Upload" v-model="identification">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -268,7 +402,7 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file choose-label="Upload" v-model="selfie">
+              <b-form-file accept="image/*" choose-label="Upload" v-model="selfie">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -284,7 +418,7 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file choose-label="Upload" v-model="residence">
+              <b-form-file accept="image/*" choose-label="Upload" v-model="residence">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -312,7 +446,7 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file choose-label="Upload" v-model="signedform">
+              <b-form-file accept="image/*" choose-label="Upload" v-model="signedform">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -331,7 +465,7 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file choose-label="Upload" v-model="signedform">
+              <b-form-file accept="image/*" choose-label="Upload" v-model="signedform">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -350,7 +484,7 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file choose-label="Upload" v-model="signedform">
+              <b-form-file accept="image/*" choose-label="Upload" v-model="signedform">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -369,7 +503,7 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file choose-label="Upload" v-model="signedform">
+              <b-form-file accept="image/*" choose-label="Upload" v-model="signedform">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -415,32 +549,3 @@
     </b-card>
   </div>
 </div>
-
-<!-- <b-form-group v-bind:feedback="feedbackName(checkValidLName)" v-bind:state="checkValidLName">
-  <b-input-group>
-    <i class="fa fa-user input-group-addon" slot="left" />
-    <b-form-input v-model="lastName" v-bind:state="checkValidLName" placeholder="Last Name" ref="lastName" type="text">
-    </b-form-input>
-  </b-input-group>
-</b-form-group>
-<b-form-group>
-  <b-input-group>
-    <i class="fa fa-user input-group-addon" slot="left" />
-    <b-form-select v-model="birthCountry" v-bind:options="countries">
-    </b-form-select>
-  </b-input-group>
-</b-form-group>
-<b-form-group>
-  <b-input-group>
-    <i class="fa fa-user input-group-addon" slot="left" />
-    <b-form-select v-model="residenceCountry" v-bind:options="countries">
-    </b-form-select>
-  </b-input-group>
-</b-form-group>
-<b-form-group>
-  <b-input-group>
-    <i class="fa fa-user input-group-addon" slot="left" />
-    <b-form-select v-model="gender" v-bind:options="genders">
-    </b-form-select>
-  </b-input-group>
-</b-form-group> -->
