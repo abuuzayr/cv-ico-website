@@ -28,3 +28,9 @@
   @media (min-width: $screen-lg-min) {
   }
 </style>
+<style>
+  .modal-dialog-centered {
+    align-items: flex-start;
+  }
+</style>
+

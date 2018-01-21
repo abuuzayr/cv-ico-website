@@ -123,7 +123,8 @@ img.icon-in-input {
   font-weight: bold;
 }
 
-.v-popover span input {
+.v-popover span input,
+.form-control {
   font-size: 1rem;
 }
 
@@ -140,4 +141,8 @@ img.icon-in-input {
     margin-left: auto;
     line-height: 1.2;
   }
+}
+
+.input-group {
+  flex-wrap: nowrap;
 }

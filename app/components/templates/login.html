@@ -10,7 +10,7 @@
         <h5 class="mb-3">Crowdvilla Token Sale</h5>
       </div>
       <div class="col-12">
-        <b-form-group v-bind:state="checkValidEmail">
+        <b-form-group v-bind:state="checkValidEmail" style="width:100%;">
           <b-input-group>
             <b-input-group-addon>
               <img src="~@/assets/images/full-size-login-email-icon-dark.png" style="max-width:20px;">
@@ -22,6 +22,7 @@
               v-on:auto-hide="false"
               popoverClass="warning"
               class="normal-input"
+              style="width:100%;"
             >
               <b-form-input
                 v-model="email"
@@ -29,6 +30,14 @@
                 placeholder="Email Address"
                 ref="email"
                 type="text"
+                style="
+                  width:100%;
+                  min-height: 50px;
+                  border-top-left-radius:0;
+                  border-bottom-left-radius:0;
+                  border-top-right-radius:4px;
+                  border-bottom-right-radius:4px;
+                "
               >
               </b-form-input>
               <template slot="popover">
@@ -39,7 +48,7 @@
           <img src="~@/assets/images/full-size-alert-icon.png" v-if="checkValidEmail == 'invalid'" class="icon-in-input">
           <b-form-feedback><img src="~@/assets/images/full-size-alert-icon-white.png"> Please enter a valid email address</b-form-feedback>
         </b-form-group>
-        <b-form-group v-bind:state="checkValidPassword">
+        <b-form-group v-bind:state="checkValidPassword" style="width:100%;">
           <b-input-group>
             <b-input-group-addon>
               <img src="~@/assets/images/full-size-login-password-icon-dark.png" style="max-width:20px;">
@@ -51,6 +60,7 @@
               v-on:auto-hide="false"
               popoverClass="warning"
               class="normal-input"
+              style="width:100%;"
             >
               <b-form-input
                 v-model="password"
@@ -58,6 +68,14 @@
                 placeholder="Password"
                 ref="password"
                 type="password"
+                style="
+                  width:100%;
+                  min-height: 50px;
+                  border-top-left-radius:0;
+                  border-bottom-left-radius:0;
+                  border-top-right-radius:4px;
+                  border-bottom-right-radius:4px;
+                "
               >
               </b-form-input>
               <template slot="popover">
