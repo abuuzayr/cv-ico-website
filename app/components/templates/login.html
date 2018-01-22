@@ -17,9 +17,9 @@
             </b-input-group-addon>
             <v-popover
               trigger="manual"
-              v-on:open="checkValidEmail === 'invalid'"
-              v-on:placement="'right'"
-              v-on:auto-hide="false"
+              v-bind:open="checkValidEmail === 'invalid'"
+              v-bind:placement="'right'"
+              v-bind:auto-hide="false"
               popoverClass="warning"
               class="normal-input"
               style="width:100%;"
@@ -55,9 +55,9 @@
             </b-input-group-addon>
             <v-popover
               trigger="manual"
-              v-on:open="checkValidPassword == 'invalid'"
-              v-on:placement="'right'"
-              v-on:auto-hide="false"
+              v-bind:open="checkValidPassword == 'invalid'"
+              v-bind:placement="'right'"
+              v-bind:auto-hide="false"
               popoverClass="warning"
               class="normal-input"
               style="width:100%;"
