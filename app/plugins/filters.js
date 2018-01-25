@@ -25,5 +25,10 @@ function twoDigits(value) {
   return value.toString();
 }
 
+function capitalize(value) {
+  return value.slice(0,1).toUpperCase() + value.slice(1,value.length);
+}
+
 Vue.filter('numFormat', numFormat);
 Vue.filter('twoDigits', twoDigits);
+Vue.filter('capitalize', capitalize);

@@ -15,10 +15,13 @@
   <div class="crowdvilla">
     <div class="component-container container">
       <div class="crowdvilla-index">
-        <div class="container-fluid">
+        <Login />
+        <!-- <div class="container-fluid">
           <div class="row mb-5">
             <div class="col-12">
-              <img src="~@/assets/images/full-size-login-logo.png" alt="login" width="100%">
+              <a href="/">
+                <img src="~@/assets/images/full-size-login-logo.png" alt="login" width="100%">
+              </a>
             </div>
           </div>
           <div class="row justify-content-center mt-3 mb-3">
@@ -34,7 +37,7 @@
             </div>
           </div>
           <NeedHelp />
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

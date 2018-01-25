@@ -40,7 +40,10 @@
         identification: false,
         selfie: false,
         residence: false,
-        signedform: false,
+        signedform_tsa: false,
+        signedform_pin: false,
+        signedform_cin: false,
+        signedform_pp: false,
         oldPassword: false,
         password: false,
         confirmPassword: false,
@@ -66,7 +69,10 @@
         identification: null,
         selfie: null,
         residence: null,
-        signedform: null,
+        signedform_tsa: null,
+        signedform_pin: null,
+        signedform_cin: null,
+        signedform_pp: null,
         email: null,
         oldPassword: '',
         password: '',
@@ -107,6 +113,7 @@
     computed: {
       ...mapGetters({
         isEmailVerified: 'authentication/isEmailVerified',
+        isKYCVerified: 'kyc/isKYCVerified',
       }),
       ...mapState([
         'authentication',
@@ -209,6 +216,28 @@
 
         return 'invalid';
       },
+      canSubmit() {
+        return [
+          vm.firstName,
+          vm.middleName,
+          vm.lastName,
+          vm.birthday,
+          vm.birthCountry,
+          vm.nationality,
+          vm.residenceCountry,
+          vm.gender,
+          vm.address,
+          vm.identification,
+          vm.selfie,
+          vm.residence,
+          vm.signedform_tsa,
+          vm.signedform_pin,
+          vm.signedform_cin,
+          vm.signedform_pp,
+        ].some(function(e) {
+          return !e;
+        });
+      }
     },
     methods: {
       feedbackBirthday,
@@ -242,14 +271,19 @@
         return !(states.firstName && states.lastName && states.birthday);
       },
       async documentUpload(file, type) {
-        const buffer = new Buffer(await vm.fileToBuffer(file));
-        const uri = getBase64DataURI(buffer, file.type);
-        const res = await vm.$axios.post('documents', {
-          uri: uri,
-          id: `${vm.authentication.user}_${type}.${file.type.split('/')[1]}`,
-        });
+        try {
+          const buffer = new Buffer(await vm.fileToBuffer(file));
+          const uri = getBase64DataURI(buffer, file.type);
+          const res = await vm.$axios.post('documents', {
+            uri: uri,
+            id: `${vm.authentication.user}_${type}.${file.type.split('/')[1]}`,
+          });
 
-        return res;
+          return res;
+
+        } catch (e) {
+          console.log (e);
+        }
       },
       fileToBuffer(file) {
         return new Promise((resolve, reject) => {
@@ -260,12 +294,16 @@
         });
       },
       async submit(args) {
-        const resIdentification = await vm.documentUpload(args['identification'], 'identification');
-        const resSelfie = await vm.documentUpload(args['selfie'], 'selfie');
-        const resAddress = await vm.documentUpload(args['residence'], 'residence');
-        const resSignedForm = await vm.documentUpload(args['signedform'], 'signedform');
+        try {
+          const resIdentification = await vm.documentUpload(args['identification'], 'identification');
+          const resSelfie = await vm.documentUpload(args['selfie'], 'selfie');
+          const resAddress = await vm.documentUpload(args['residence'], 'residence');
+          const resSignedForm_tsa = await vm.documentUpload(args['signedform_tsa'], 'signedform_tsa');
+          const resSignedForm_pin = await vm.documentUpload(args['signedform_pin'], 'signedform_pin');
+          const resSignedForm_cin = await vm.documentUpload(args['signedform_cin'], 'signedform_cin');
+          const resSignedForm_pp = await vm.documentUpload(args['signedform_pp'], 'signedform_pp');
 
-        vm.$axios.patch(`users/${vm.authentication.user}`, {
+          vm.$axios.patch(`users/${vm.authentication.user}`, {
           'kyc.first_name': args['firstName'],
           'kyc.middle_name': args['middleName'],
           'kyc.last_name': args['lastName'],
@@ -283,8 +321,14 @@
           'kyc.refSelfieBlob.checksum': resSelfie.data.checksum,
           'kyc.refAddressBlob.id': resAddress.data.id,
           'kyc.refAddressBlob.checksum': resAddress.data.checksum,
-          'kyc.refSignedFormBlob.id': resSignedForm.data.id,
-          'kyc.refSignedFormBlob.checksum': resSignedForm.data.checksum,
+          'kyc.refSignedFormTSABlob.id': resSignedForm_tsa.data.id,
+          'kyc.refSignedFormTSABlob.checksum': resSignedForm_tsa.data.checksum,
+          'kyc.refSignedFormPINBlob.id': resSignedForm_pin.data.id,
+          'kyc.refSignedFormPINBlob.checksum': resSignedForm_pin.data.checksum,
+          'kyc.refSignedFormCINBlob.id': resSignedForm_cin.data.id,
+          'kyc.refSignedFormCINBlob.checksum': resSignedForm_cin.data.checksum,
+          'kyc.refSignedFormPPBlob.id': resSignedForm_pp.data.id,
+          'kyc.refSignedFormPPBlob.checksum': resSignedForm_pp.data.checksum,
         })
           .then(() => {
             vm.$notify({
@@ -294,6 +338,14 @@
               type: 'success',
             });
           });
+        } catch (e) {
+          vm.$notify({
+            group: 'notify',
+            title: 'Submission Error',
+            text: 'There was an error processing your submission. Please try again later.',
+            type: 'warning',
+          });
+        }
 
         // await vm.$axios.post('kyc', {
         //   domain_name: 'REIDAO UAT',

@@ -42,6 +42,7 @@
       <notifications
         group="notify"
         position="bottom right"
+        v-bind:duration="5000"
       />
     </no-ssr>
     <transition
@@ -126,5 +127,11 @@
       text-transform: uppercase;
       color: $white;
     }
+  }
+
+  .notification.warning {
+    background: $red;
+    color: $white;
+    border-color: #b22222;
   }
 </style>

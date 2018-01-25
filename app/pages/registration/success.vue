@@ -8,7 +8,7 @@
   <div class="registration-success">
     <Notify
       title="Create an account"
-      subtitle="Thank you for registering"
+      subtitle=""
       msg="Please check your email for the verification link"
     />
   </div>

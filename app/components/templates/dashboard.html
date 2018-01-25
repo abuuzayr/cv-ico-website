@@ -148,7 +148,7 @@
         <b-row>
           <b-col>
             <b-progress height="2rem" :max="target" show-value class="mt-2">
-              <b-progress-bar :value="collected" class="progressbar">{{ collected | numFormat }}</b-progress-bar>
+              <b-progress-bar :value="collected" class="progressbar" :class="{'pr-2': collected > 10000 }">{{ collected | numFormat }}</b-progress-bar>
             </b-progress>
           </b-col>
         </b-row>

@@ -155,7 +155,7 @@
         <b-col v-if="!isEmailVerified" v-on:click="verifyEmail()">
           <b-row>
             <b-col>
-              <b-button variant="warning">Verify Email</b-button>
+              <b-button variant="warning">Resend Email Verification</b-button>
             </b-col>
           </b-row>
         </b-col>
@@ -170,7 +170,7 @@
           All documents need to be uploaded before submission
         </i>
       </h5>
-      <div class="notice text-left notify">
+      <div class="notice text-left notify" v-if="!isKYCVerified">
         <h6 class="failure">
           KYC verification not completed
         </h6>
@@ -192,7 +192,7 @@
       <b-row class="mt-4">
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="pending"/>
+            <StatusIcon :status= "isKYCVerified ? 'success' : 'pending'"/>
             First Name
           </p>
         </b-col>
@@ -212,7 +212,7 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="pending"/>
+            <StatusIcon :status= "isKYCVerified ? 'success' : 'pending'"/>
             Middle Name
           </p>
         </b-col>
@@ -232,7 +232,7 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="pending"/>
+            <StatusIcon :status= "isKYCVerified ? 'success' : 'pending'"/>
             Last Name
           </p>
         </b-col>
@@ -252,7 +252,7 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="pending"/>
+            <StatusIcon :status= "isKYCVerified ? 'success' : 'pending'"/>
             Birthday
           </p>
         </b-col>
@@ -273,7 +273,7 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="pending"/>
+            <StatusIcon :status= "isKYCVerified ? 'success' : 'pending'"/>
             Country of Birth
           </p>
         </b-col>
@@ -292,7 +292,7 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="pending"/>
+            <StatusIcon :status= "isKYCVerified ? 'success' : 'pending'"/>
             Nationality
           </p>
         </b-col>
@@ -311,7 +311,7 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="pending"/>
+            <StatusIcon :status= "isKYCVerified ? 'success' : 'pending'"/>
             Country of Residence
           </p>
         </b-col>
@@ -330,7 +330,7 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="pending"/>
+            <StatusIcon :status= "isKYCVerified ? 'success' : 'pending'"/>
             Gender
           </p>
         </b-col>
@@ -349,7 +349,7 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="pending"/>
+            <StatusIcon :status= "isKYCVerified ? 'success' : 'pending'"/>
             Address
           </p>
         </b-col>
@@ -379,7 +379,7 @@
       <b-row class="mt-4">
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="pending"/>
+            <StatusIcon :status= "isKYCVerified ? 'success' : 'pending'"/>
             Scan / Photo of ID / Passport
           </p>
         </b-col>
@@ -395,7 +395,7 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="pending"/>
+            <StatusIcon :status= "isKYCVerified ? 'success' : 'pending'"/>
             Selfie Holding ID / Passport
           </p>
         </b-col>
@@ -411,7 +411,7 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="pending"/>
+            <StatusIcon :status= "isKYCVerified ? 'success' : 'pending'"/>
             Proof of Residence
           </p>
         </b-col>
@@ -436,7 +436,7 @@
       <b-row class="mt-4">
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="pending"/>
+            <StatusIcon :status= "isKYCVerified ? 'success' : 'pending'"/>
             Token Sale Agreement
             <b-link class="pl-2 align-self-end" href="">
               <img src="~@/assets/images/mobile-download-icon.png" alt="">
@@ -446,7 +446,7 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file accept="image/*" choose-label="Upload" v-model="signedform">
+              <b-form-file accept="image/*" choose-label="Upload" v-model="signedform_tsa">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -455,7 +455,7 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="pending"/>
+            <StatusIcon :status= "isKYCVerified ? 'success' : 'pending'"/>
             Product Information Notice
             <b-link class="pl-2 align-self-end" href="">
               <img src="~@/assets/images/mobile-download-icon.png" alt="">
@@ -465,7 +465,7 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file accept="image/*" choose-label="Upload" v-model="signedform">
+              <b-form-file accept="image/*" choose-label="Upload" v-model="signedform_pin">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -474,7 +474,7 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="pending"/>
+            <StatusIcon :status= "isKYCVerified ? 'success' : 'pending'"/>
             Consumer Information Notice
             <b-link class="pl-2 align-self-end" href="">
               <img src="~@/assets/images/mobile-download-icon.png" alt="">
@@ -484,7 +484,7 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file accept="image/*" choose-label="Upload" v-model="signedform">
+              <b-form-file accept="image/*" choose-label="Upload" v-model="signedform_cin">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -493,7 +493,7 @@
       <b-row>
         <b-col cols="12" sm="6" xl="4" class="d-flex">
           <p class="align-self-center">
-            <StatusIcon status="pending"/>
+            <StatusIcon :status= "isKYCVerified ? 'success' : 'pending'"/>
             Privacy Policy
             <b-link class="pl-2 align-self-end" href="">
               <img src="~@/assets/images/mobile-download-icon.png" alt="">
@@ -503,7 +503,7 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file accept="image/*" choose-label="Upload" v-model="signedform">
+              <b-form-file accept="image/*" choose-label="Upload" v-model="signedform_pp">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -541,8 +541,12 @@
                             identification,
                             selfie,
                             residence,
-                            signedform
+                            signedform_tsa,
+                            signedform_pin,
+                            signedform_cin,
+                            signedform_pp,
                           })"
+        v-bind:disabled="canSubmit"
       >
         Submit for KYC Verification
       </b-button>
