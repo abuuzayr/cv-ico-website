@@ -44,6 +44,7 @@
         signedform_pin: false,
         signedform_cin: false,
         signedform_pp: false,
+        ethAddress: false,
         oldPassword: false,
         password: false,
         confirmPassword: false,
@@ -73,10 +74,12 @@
         signedform_pin: null,
         signedform_cin: null,
         signedform_pp: null,
+        ethAddress: '',
         email: null,
         oldPassword: '',
         password: '',
         confirmPassword: '',
+        kycSubmitted: false
       };
     },
     async mounted() {
@@ -109,6 +112,11 @@
       ];
 
       vm.email = vm.authentication.email;
+
+      let first_name_res = await vm.$axios.get('users?$select=kyc.first_name');
+      let { first_name } = first_name_res.data.data[0].kyc;
+      vm.kycSubmitted = first_name && first_name.length > 0 && !vm.isKYCVerified;
+
     },
     computed: {
       ...mapGetters({
@@ -234,10 +242,11 @@
           vm.signedform_pin,
           vm.signedform_cin,
           vm.signedform_pp,
+          vm.ethAddress.length === 42,
         ].some(function(e) {
           return !e;
         });
-      }
+      },
     },
     methods: {
       feedbackBirthday,
@@ -315,6 +324,7 @@
           'kyc.address': args['address'],
           'kyc.id_type': args['idType'],
           'kyc.id_number': args['idNumber'],
+          'kyc.eth_address': args['ethAddress'],
           'kyc.refIdentificationBlob.id': resIdentification.data.id,
           'kyc.refIdentificationBlob.checksum': resIdentification.data.checksum,
           'kyc.refSelfieBlob.id': resSelfie.data.id,

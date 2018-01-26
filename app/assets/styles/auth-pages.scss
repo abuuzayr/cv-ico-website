@@ -146,3 +146,14 @@ img.icon-in-input {
 .input-group {
   flex-wrap: nowrap;
 }
+
+.v-popover {
+  width: 100%;
+  span {
+    input {
+      width: 100%;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+}

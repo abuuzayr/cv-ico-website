@@ -37,10 +37,6 @@
                       style="
                         width:100%;
                         min-height: 30px;
-                        border-top-left-radius:0;
-                        border-bottom-left-radius:0;
-                        border-top-right-radius:4px;
-                        border-bottom-right-radius:4px;
                       "
                     >
                     </b-form-input>
@@ -79,10 +75,6 @@
                       style="
                         width:100%;
                         min-height: 30px;
-                        border-top-left-radius:0;
-                        border-bottom-left-radius:0;
-                        border-top-right-radius:4px;
-                        border-bottom-right-radius:4px;
                       "
                     >
                     </b-form-input>
@@ -121,10 +113,6 @@
                       style="
                         width:100%;
                         min-height: 30px;
-                        border-top-left-radius:0;
-                        border-bottom-left-radius:0;
-                        border-top-right-radius:4px;
-                        border-bottom-right-radius:4px;
                       "
                     >
                     </b-form-input>
@@ -517,6 +505,7 @@
       </h5>
       <p class="mb-3 word-break-all">
         <b-form-input
+          v-model.trim="ethAddress"
           placeholder="0x0"
           ref="ethAddress"
           type="text"
