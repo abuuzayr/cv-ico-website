@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Recaptcha from 'vue-recaptcha';
+import LoadingIndicator from 'vue-spinner/src/MoonLoader.vue';
 
 import Dashboard from '../components/Dashboard.vue';
 import Footer from '../components/Footer.vue';
@@ -21,6 +22,7 @@ Vue.component('Dashboard', Dashboard);
 Vue.component('Footer', Footer);
 Vue.component('ForgotPassword', ForgotPassword);
 Vue.component('Header', Header);
+Vue.component('LoadingIndicator', LoadingIndicator);
 Vue.component('Login', Login);
 Vue.component('Logo', Logo);
 Vue.component('MailChimp', MailChimp);

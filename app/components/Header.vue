@@ -11,24 +11,22 @@
     },
     data() {
       return {
-        user: null,
+        name: null,
       };
     },
-    async mounted() {
-      const res = await vm.$axios.get('users?$select=kyc.first_name&$select=kyc.last_name');
-      const { first_name, last_name } = res.data.data[0].kyc;
-      vm.user = (first_name && last_name) ? `${first_name} ${last_name}` : null;
+    mounted() {
+      vm.name = (vm.data.kyc.first_name && vm.data.kyc.last_name) ? `${vm.data.kyc.first_name} ${vm.data.kyc.last_name}` : null;
     },
     computed: {
       ...mapGetters({
-        isAuthenticated: 'authentication/isAuthenticated',
-        isKYCVerified: 'kyc/isKYCVerified',
+        isAuthenticated: 'user/isAuthenticated',
+        isKYCVerified: 'user/isKYCVerified',
       }),
       ...mapState([
-        'authentication',
+        'user',
       ]),
       displayUser() {
-        return (vm.user !== null) ? vm.user : vm.authentication.email;
+        return (vm.name !== null) ? vm.name : vm.data.email;
       },
     },
     methods: {
@@ -37,10 +35,11 @@
       }),
       signOut() {
         vm.logout().then(() => {
-          vm.$router.push('login');
+          vm.$router.push('/');
         });
       }
     },
+    props: ['data'],
   };
 </script>
 <template src="./templates/header.html"></template>

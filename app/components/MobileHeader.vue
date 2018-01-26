@@ -17,8 +17,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isAuthenticated: 'authentication/isAuthenticated',
-      isKYCVerified: 'kyc/isKYCVerified',
+      isAuthenticated: 'user/isAuthenticated',
+      isKYCVerified: 'user/isKYCVerified',
     }),
     ...mapState([
       'authentication',

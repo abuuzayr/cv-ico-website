@@ -99,7 +99,7 @@
                      your new password.',
             });
             setTimeout(() => {
-              vm.$router.push('/login');
+              vm.$router.push('/');
             }, 5000);
           })
           .catch((err) => {
