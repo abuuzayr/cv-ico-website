@@ -158,7 +158,7 @@
           All documents need to be uploaded before submission
         </i>
       </h5>
-      <div class="notice text-left notify" v-if="!isKYCVerified">
+      <div class="notice text-left notify" v-if="!isKYCVerified && !kycSubmitted">
         <h6 class="failure">
           KYC verification not completed
         </h6>
@@ -167,6 +167,16 @@
             Please submit your KYC details for verification
           </span>
         </div>
+      </div>
+      <div class="notice text-left notify" v-if="kycSubmitted && !isKYCVerified">
+        <h6 class="pending">
+          Account pending KYC approval
+        </h6>
+        <!-- <div class="remarks">
+          <span class="failure">
+            Please submit your KYC details for verification
+          </span>
+        </div> -->
       </div>
 
       <!-- Details -->
@@ -189,6 +199,7 @@
             <b-input-group>
               <b-form-input
                     v-model="firstName"
+                    :disabled="kycSubmitted && !editing"
                     ref="firstName"
                     type="text"
                   >
@@ -209,6 +220,7 @@
             <b-input-group>
               <b-form-input
                     v-model="middleName"
+                    :disabled="kycSubmitted && !editing"
                     ref="middleName"
                     type="text"
                   >
@@ -229,6 +241,7 @@
             <b-input-group>
               <b-form-input
                     v-model="lastName"
+                    :disabled="kycSubmitted && !editing"
                     ref="lastName"
                     type="text"
                   >
@@ -249,6 +262,7 @@
             <b-input-group>
               <b-form-input
                     v-model="birthday"
+                    :disabled="kycSubmitted && !editing"
                     placeholder="Birthday"
                     ref="birthday"
                     type="date"
@@ -270,6 +284,7 @@
             <b-input-group>
               <b-form-select
                 v-model="birthCountry"
+                :disabled="kycSubmitted && !editing"
                 v-bind:options="countries"
               >
               </b-form-select>
@@ -289,6 +304,7 @@
             <b-input-group>
               <b-form-select
                 v-model="nationality"
+                :disabled="kycSubmitted && !editing"
                 v-bind:options="nationalities"
               >
               </b-form-select>
@@ -308,6 +324,7 @@
             <b-input-group>
               <b-form-select
                 v-model="residenceCountry"
+                :disabled="kycSubmitted && !editing"
                 v-bind:options="countries"
               >
               </b-form-select>
@@ -327,6 +344,7 @@
             <b-input-group>
               <b-form-select
                 v-model="gender"
+                :disabled="kycSubmitted && !editing"
                 v-bind:options="genders"
               >
               </b-form-select>
@@ -346,6 +364,7 @@
             <b-input-group>
               <b-form-input
                 v-model="address"
+                :disabled="kycSubmitted && !editing"
                 placeholder="Address"
                 ref="address"
                 type="text"
@@ -374,7 +393,11 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file accept="image/*" choose-label="Upload" v-model="identification">
+              <b-form-file
+                accept="image/*"
+                choose-label="Upload"
+                v-model="identification"
+                :disabled="kycSubmitted && !editing">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -390,7 +413,11 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file accept="image/*" choose-label="Upload" v-model="selfie">
+              <b-form-file
+                accept="image/*"
+                choose-label="Upload"
+                v-model="selfie"
+                :disabled="kycSubmitted && !editing">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -406,7 +433,11 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file accept="image/*" choose-label="Upload" v-model="residence">
+              <b-form-file
+                accept="image/*"
+                choose-label="Upload"
+                v-model="residence"
+                :disabled="kycSubmitted && !editing">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -434,7 +465,11 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file accept="image/*" choose-label="Upload" v-model="signedform_tsa">
+              <b-form-file
+                accept="image/*"
+                choose-label="Upload"
+                v-model="signedform_tsa"
+                :disabled="kycSubmitted && !editing">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -453,7 +488,11 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file accept="image/*" choose-label="Upload" v-model="signedform_pin">
+              <b-form-file
+                accept="image/*"
+                choose-label="Upload"
+                v-model="signedform_pin"
+                :disabled="kycSubmitted && !editing">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -472,7 +511,11 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file accept="image/*" choose-label="Upload" v-model="signedform_cin">
+              <b-form-file
+                accept="image/*"
+                choose-label="Upload"
+                v-model="signedform_cin"
+                :disabled="kycSubmitted && !editing">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -491,7 +534,11 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file accept="image/*" choose-label="Upload" v-model="signedform_pp">
+              <b-form-file
+                accept="image/*"
+                choose-label="Upload"
+                v-model="signedform_pp"
+                :disabled="kycSubmitted && !editing">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -509,6 +556,7 @@
           placeholder="0x0"
           ref="ethAddress"
           type="text"
+          :disabled="kycSubmitted && !editing"
         >
         </b-form-input>
       </p>
@@ -536,8 +584,25 @@
                             signedform_pp,
                           })"
         v-bind:disabled="canSubmit"
+        v-if="!kycSubmitted ||  editing"
       >
         Submit for KYC Verification
+      </b-button>
+      <b-button
+        class="mt-5"
+        variant="warning"
+        v-on:click="editing = true"
+        v-if="kycSubmitted && !editing"
+      >
+        Edit KYC Details
+      </b-button>
+      <b-button
+        class="mt-5"
+        variant="link"
+        v-on:click="editing = false"
+        v-if="editing"
+      >
+        Cancel Editing
       </b-button>
     </b-card>
   </div>

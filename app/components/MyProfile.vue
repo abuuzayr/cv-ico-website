@@ -79,7 +79,8 @@
         oldPassword: '',
         password: '',
         confirmPassword: '',
-        kycSubmitted: false
+        kycSubmitted: false,
+        editing: false
       };
     },
     async mounted() {
@@ -113,8 +114,34 @@
 
       vm.email = vm.authentication.email;
 
-      let first_name_res = await vm.$axios.get('users?$select=kyc.first_name');
-      let { first_name } = first_name_res.data.data[0].kyc;
+      let kyc_res = await vm.$axios.get('users?$select=kyc');
+      let {
+        first_name,
+        middle_name,
+        last_name,
+        birthday,
+        country_of_birth,
+        nationality,
+        country_of_residence,
+        gender,
+        address
+        } = kyc_res.data.data[0].kyc;
+
+      vm.firstName = first_name;
+      vm.middleName = middle_name;
+      vm.lastName = last_name;
+      birthday = new Date(birthday);
+      let birthdayFormatted = birthday.getFullYear() + '-';
+      birthdayFormatted += birthday.getMonth() < 9 ? '0' : '';
+      birthdayFormatted += (birthday.getMonth() + 1) + '-';
+      birthdayFormatted += birthday.getDate() < 10 ? '0' : '';
+      birthdayFormatted += birthday.getDate();
+      vm.birthday = birthdayFormatted;
+      vm.birthCountry = country_of_birth;
+      vm.nationality = nationality;
+      vm.residenceCountry = country_of_residence;
+      vm.gender = gender;
+      vm.address = address;
       vm.kycSubmitted = first_name && first_name.length > 0 && !vm.isKYCVerified;
 
     },
