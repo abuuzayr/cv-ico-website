@@ -80,6 +80,7 @@
     methods: {
       ...mapActions({
         login: 'authentication/login',
+        setPersistence: 'user/setPersistence',
       }),
       feedbackEmail,
       feedbackPassword,
@@ -93,6 +94,7 @@
       submit(email, password, recaptcha) {
         vm.login({ email, password, recaptcha })
           .then(() => {
+            vm.setPersistence();
             vm.$router.push('/dashboard');
           })
           .catch((error) => {

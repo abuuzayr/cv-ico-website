@@ -6,7 +6,12 @@
 
   export default {
     name: 'Dashboard-Page',
-    middleware: 'unauthenticated',
+    async asyncData({ $axios, store }) {
+      const { data } = await $axios.get(`users/${store.state.user.userID}`);
+      return {
+        data,
+      };
+    },
     beforeMount() {
       vm.$axios.setToken(vm.authentication.accessToken, 'Bearer');
     },
@@ -29,11 +34,12 @@
         vm.component = event;
       },
     },
+    middleware: 'unauthenticated',
   };
 </script>
 <template>
   <div class="dashboard-page">
-    <Header />
+    <Header v-bind:data="data" />
     <MobileHeader v-on:event-navigate="navigate" />
     <div class="page">
       <Sidebar id="Sidebar" v-on:event-navigate="navigate" />

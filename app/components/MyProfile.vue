@@ -112,7 +112,7 @@
         'MALE', 'FEMALE'
       ];
 
-      vm.email = vm.authentication.email;
+      vm.email = vm.user.email;
 
       let kyc_res = await vm.$axios.get('users?$select=kyc');
       let {
@@ -147,11 +147,11 @@
     },
     computed: {
       ...mapGetters({
-        isEmailVerified: 'authentication/isEmailVerified',
-        isKYCVerified: 'kyc/isKYCVerified',
+        isEmailVerified: 'user/isEmailVerified',
+        isKYCVerified: 'user/isKYCVerified',
       }),
       ...mapState([
-        'authentication',
+        'user',
       ]),
       checkValidFName() {
         states.firstName = false;
@@ -312,7 +312,7 @@
           const uri = getBase64DataURI(buffer, file.type);
           const res = await vm.$axios.post('documents', {
             uri: uri,
-            id: `${vm.authentication.user}_${type}.${file.type.split('/')[1]}`,
+            id: `${vm.user.userID}_${type}.${file.type.split('/')[1]}`,
           });
 
           return res;
@@ -339,7 +339,7 @@
           const resSignedForm_cin = await vm.documentUpload(args['signedform_cin'], 'signedform_cin');
           const resSignedForm_pp = await vm.documentUpload(args['signedform_pp'], 'signedform_pp');
 
-          vm.$axios.patch(`users/${vm.authentication.user}`, {
+          vm.$axios.patch(`users/${vm.user.userID}`, {
           'kyc.first_name': args['firstName'],
           'kyc.middle_name': args['middleName'],
           'kyc.last_name': args['lastName'],

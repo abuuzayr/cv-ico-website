@@ -14,12 +14,13 @@ export const actions = {
     if (req.headers.cookie) {
       const parsedCookie = cookie.parse(req.headers.cookie);
 
-      if (parsedCookie.vuex) {
-        const storage = JSON.parse(parsedCookie.vuex);
+      if (parsedCookie.crowdvilla) {
+        const storage = JSON.parse(parsedCookie.crowdvilla);
         const { accessToken } = storage.authentication;
 
-        if (accessToken !== null) {
+        if (accessToken) {
           await dispatch('authentication/jwt', { accessToken });
+          await dispatch('user/setPersistence');
         }
       }
     }

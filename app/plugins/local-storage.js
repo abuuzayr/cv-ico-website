@@ -7,6 +7,7 @@ export default ({ store, isHMR, isClient }) => {
   if (isClient) {
     window.onNuxtReady(() => {
       createPersistedState({
+        key: 'crowdvilla',
         storage: {
           getItem: (key) => {
             window.localStorage.getItem(key);

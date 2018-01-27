@@ -1,7 +1,7 @@
 <script>
   import { mapGetters } from 'vuex';
-
   import countdown from 'countdown';
+
   // Declare scoped vars
   let vm;
   let date = new Date(2018, 3, 1);
@@ -59,7 +59,6 @@
       vm.$eth.ico.methods.contributionsPerAddress(vm.ethAddress).call((error, result) => {
         if (error) throw error;
         vm.eth = parseInt(result);
-        console.log(vm.eth);
       });
 
       // const addressTopic = `0x${'0'.repeat(24)}${vm.ethAddress.substring(2)}`;
@@ -84,7 +83,7 @@
     },
     computed: {
       ...mapGetters({
-        isEmailVerified: 'authentication/isEmailVerified',
+        isEmailVerified: 'user/isEmailVerified',
       }),
       days() {
         return this.count.days;

@@ -102,6 +102,7 @@
       <b-button size="lg" type="button" v-bind:disabled="checkLoginStates()" v-on:click="submit(email, password, recaptcha)">
         Login
       </b-button>
+      <LoadingIndicator />
     </div>
     <div class="row justify-content-center mt-2">
       <h6 class="sub-text">
@@ -109,6 +110,5 @@
         <a href="/login/forgot_password">Forgot password?</a>
       </h6>
     </div>
-    <NeedHelp />
   </div>
 </div>

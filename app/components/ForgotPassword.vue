@@ -1,5 +1,4 @@
 <script>
-  import { mapActions } from 'vuex';
   import { email } from 'vuelidate/lib/validators';
   import { feedbackEmail } from '~/helpers/authentication';
 
@@ -75,7 +74,7 @@
                 text: 'Check your email for password reset instructions.',
               });
               setTimeout(() => {
-                vm.$router.push('/login');
+                vm.$router.push('/');
               }, 5000);
             })
             .catch((error) => {

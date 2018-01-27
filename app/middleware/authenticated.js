@@ -1,3 +1,3 @@
 export default function ({ store, redirect }) {
-  return (store.getters['authentication/isAuthenticated']) ? redirect('/dashboard') : null;
+  return (store.getters['user/isAuthenticated']) ? redirect('/dashboard') : null;
 }

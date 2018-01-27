@@ -13,33 +13,10 @@
 </script>
 <template>
   <div class="crowdvilla">
-    <div class="component-container container">
-      <div class="crowdvilla-index">
-        <Login />
-        <!-- <div class="container-fluid">
-          <div class="row mb-5">
-            <div class="col-12">
-              <a href="/">
-                <img src="~@/assets/images/full-size-login-logo.png" alt="login" width="100%">
-              </a>
-            </div>
-          </div>
-          <div class="row justify-content-center mt-3 mb-3">
-            <div class="col-12">
-              <b-button size="lg" type="button" variant="success" href="/login" class="login-btn">
-                Login
-              </b-button>
-            </div>
-            <div class="col-12 mt-3 mb-2">
-              <b-button size="lg" type="button" variant="outline-success" href="/registration" class="register-btn">
-                Sign Up
-              </b-button>
-            </div>
-          </div>
-          <NeedHelp />
-        </div> -->
-      </div>
-    </div>
+    <b-container class="component-container">
+      <Login />
+      <NeedHelp />
+    </b-container>
   </div>
 </template>
 <style lang="scss" scoped>

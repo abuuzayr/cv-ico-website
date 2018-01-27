@@ -8,10 +8,10 @@
           {{ displayUser }}
         </span>
         <span class="nav-sub-text" v-if="isKYCVerified">
-          <i class="fa fa-check pending-back round-icon" aria-hidden="true"></i> KYC Verified
+          <i class="fa fa-check pending-back round-icon" aria-hidden="true"></i> Verified
         </span>
         <span class="nav-sub-text" v-if="!isKYCVerified">
-          <i class="fa fa-ellipsis-h grey-back round-icon" aria-hidden="true"></i> Unverified
+          <i class="fa fa-ellipsis-h grey-back round-icon" aria-hidden="true"></i> KYC Incomplete
         </span>
       </b-nav-text>
       <b-nav-item class="dim label logout" v-on:click="signOut">Logout</b-nav-item>

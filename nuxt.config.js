@@ -87,10 +87,7 @@ module.exports = {
       { src: 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit', async: undefined, defer: undefined },
     ],
   },
-  /*
-  ** Customize the progress-bar color
-  */
-  loading: { color: '#3B8070' },
+  loading: false,
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/bootstrap-vue',
