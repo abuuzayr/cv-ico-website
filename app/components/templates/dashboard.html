@@ -10,7 +10,31 @@
         </span>
       </b-col>
     </b-row>
-    <b-row>
+    <b-row v-if="!isEmailVerified">
+      <b-col class="notice text-left notify">
+        <h6 class="failure">
+          Your email address is not verified
+        </h6>
+        <div class="remarks">
+          <span class="failure">
+            Please verify your email address by visiting My Profile in the sidebar
+          </span>
+        </div>
+      </b-col>
+    </b-row>
+    <b-row v-if="isKYCSubmitted && !isKYCVerified">
+      <b-col class="notice text-left notify">
+        <h6 class="failure">
+          KYC verification is pending
+        </h6>
+        <div class="remarks">
+          <span class="failure">
+            Your KYC details is being reviewed by our KYC partner
+          </span>
+        </div>
+      </b-col>
+    </b-row>
+    <b-row v-if="!isKYCSubmitted">
       <b-col class="notice text-left notify">
         <h6 class="failure">
           KYC verification not completed
@@ -33,7 +57,7 @@
           <b-col lg="12" xl="6">
             <b-card class="contribution text-center no-margin white">
               <h1>
-                {{ collected | numFormat }}
+                {{ sale.totalCollected | numFormat }}
               </h1>
               <h6>
                 ETH CONTRIBUTED SO FAR
@@ -148,28 +172,28 @@
         <b-row>
           <b-col>
             <b-progress height="2rem" :max="target" show-value class="mt-2">
-              <b-progress-bar :value="collected" class="progressbar" :class="{'pr-2': collected > 10000 }">{{ collected | numFormat }}</b-progress-bar>
+              <b-progress-bar :value="sale.totalCollected" class="progressbar" :class="{'pr-2': sale.totalCollected > 10000 }">{{ sale.totalCollected | numFormat }}</b-progress-bar>
             </b-progress>
           </b-col>
         </b-row>
       </b-container>
       <div class="stretch mt-5 d-block d-sm-none">
         <b-row class="goals mobile">
-          <b-col v-if="collected >= 0 && collected < 100000">
+          <b-col v-if="sale.totalCollected >= 0 && sale.totalCollected < 100000">
           </b-col>
-          <b-col v-if="collected < 250000">
+          <b-col v-if="sale.totalCollected < 250000">
             STRETCH GOAL 1
             <p>
               100,000 ETH
             </p>
           </b-col>
-          <b-col v-if="collected > 100000">
+          <b-col v-if="sale.totalCollected > 100000">
             STRETCH GOAL 2
             <p>
               250,000 ETH
             </p>
           </b-col>
-          <b-col v-if="collected > 250000">
+          <b-col v-if="sale.totalCollected > 250000">
             STRETCH GOAL 3
             <p>
               500,000 ETH
@@ -179,27 +203,27 @@
         <b-row>
           <b-col>
             <b-progress height="2rem" :max="target" show-value class="mt-2">
-              <b-progress-bar :value="collected" class="progressbar">{{ collected | numFormat }}</b-progress-bar>
+              <b-progress-bar :value="sale.totalCollected" class="progressbar">{{ sale.totalCollected | numFormat }}</b-progress-bar>
             </b-progress>
           </b-col>
         </b-row>
         <b-row class="goals mobile mt-3">
-          <b-col v-if="collected >= 0 && collected < 100000">
+          <b-col v-if="sale.totalCollected >= 0 && sale.totalCollected < 100000">
             <p>
               Phase 1
             </p>
           </b-col>
-          <b-col v-if="collected < 250000">
+          <b-col v-if="sale.totalCollected < 250000">
             <p>
               Phase 2
             </p>
           </b-col>
-          <b-col v-if="collected > 100000">
+          <b-col v-if="sale.totalCollected > 100000">
             <p>
               Phase 3
             </p>
           </b-col>
-          <b-col v-if="collected > 250000">
+          <b-col v-if="sale.totalCollected > 250000">
             <p>
               Phase 4
             </p>
@@ -223,7 +247,7 @@
           </b-col>
           <b-col cols="12" sm="6" xl="3" class="lg-top-3rem">
             <h6>Phase 2</h6>
-            <img src="~@/assets/images/full-size-phase-2-image-locked.png" v-if="collected < 100000"/>
+            <img src="~@/assets/images/full-size-phase-2-image-locked.png" v-if="sale.totalCollected < 100000"/>
             <img src="~@/assets/images/full-size-phase-2-image-unlocked.png" v-else/>
             <div class="phase-box mt-3">
               <img src="~@/assets/images/countries-phase-2.png">
@@ -241,7 +265,7 @@
           </b-col>
           <b-col cols="12" sm="6" xl="3" class="lg-top-3rem">
             <h6>Phase 3</h6>
-            <img src="~@/assets/images/full-size-phase-3-image-locked.png" v-if="collected < 250000"/>
+            <img src="~@/assets/images/full-size-phase-3-image-locked.png" v-if="sale.totalCollected < 250000"/>
             <img src="~@/assets/images/full-size-phase-3-image-unlocked.png" v-else/>
             <div class="phase-box mt-3">
               <img src="~@/assets/images/countries-phase-3.png">
@@ -263,7 +287,7 @@
           </b-col>
           <b-col cols="12" sm="6" xl="3" class="lg-top-3rem">
             <h6>Phase 4</h6>
-            <img src="~@/assets/images/full-size-phase-4-image-locked.png" v-if="collected < 500000"/>
+            <img src="~@/assets/images/full-size-phase-4-image-locked.png" v-if="sale.totalCollected < 500000"/>
             <img src="~@/assets/images/full-size-phase-4-image-unlocked.png" v-else/>
             <div class="phase-box mt-3 world">
               <img src="~@/assets/images/full-size-phase-3-worldwide-icon.png">
@@ -307,7 +331,7 @@
             Your CRV Tokens Balance
           </h5>
           <h1>
-            {{ crv | numFormat }}
+            {{ sale.userTotalCRV | numFormat }}
           </h1>
           <div slot="footer" class="footer-text">
             You are qualified for <br/>
@@ -323,7 +347,7 @@
             You have contributed
           </h5>
           <h1>
-            {{ 1 | numFormat }}
+            {{ sale.userContribution | numFormat }}
             <sup>
               ETH
             </sup>

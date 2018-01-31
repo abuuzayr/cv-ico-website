@@ -40,10 +40,10 @@
         identification: false,
         selfie: false,
         residence: false,
-        signedform_tsa: false,
-        signedform_pin: false,
-        signedform_cin: false,
-        signedform_pp: false,
+        signedformTSA: false,
+        signedformPIN: false,
+        signedformCIN: false,
+        signedformPP: false,
         ethAddress: false,
         oldPassword: false,
         password: false,
@@ -57,23 +57,19 @@
         lastName: null,
         birthday: null,
         birthCountry: null,
-        countries: null,
         nationality: null,
-        nationalities: null,
         residenceCountry: null,
         gender: null,
-        genders: null,
         address: null,
         idType: null,
-        idTypes: null,
         idNumber: null,
         identification: null,
         selfie: null,
         residence: null,
-        signedform_tsa: null,
-        signedform_pin: null,
-        signedform_cin: null,
-        signedform_pp: null,
+        signedformTSA: null,
+        signedformPIN: null,
+        signedformCIN: null,
+        signedformPP: null,
         ethAddress: '',
         email: null,
         oldPassword: '',
@@ -82,45 +78,15 @@
         kycSubmitted: false
       };
     },
-    async mounted() {
-      vm.countries = await vm.$axios.get('countries.txt');
-      vm.countries = vm.countries.data.split('\n');
-      vm.countries.unshift({
-        text: 'Country',
-        value: null
-      });
-
-      vm.nationalities = await vm.$axios.get('nationalities.txt');
-      vm.nationalities = vm.nationalities.data.split('\n');
-      vm.nationalities.unshift({
-        text: 'Nationality',
-        value: null
-      });
-
-      vm.idTypes = [{
-          text: 'Identification Type',
-          value: null
-        },
-        'PASSPORT', 'DRIVING LICENSE'
-      ];
-
-      vm.genders = [{
-          text: 'Gender',
-          value: null
-        },
-        'MALE', 'FEMALE'
-      ];
-
+    mounted() {
       vm.email = vm.user.email;
-
-      let first_name_res = await vm.$axios.get('users?$select=kyc.first_name');
-      let { first_name } = first_name_res.data.data[0].kyc;
-      vm.kycSubmitted = first_name && first_name.length > 0 && !vm.isKYCVerified;
-
+      console.log(vm.user);
+      vm.kycSubmitted = vm.data.kyc.first_name && vm.data.kyc.first_name.length > 0 && !vm.isKYCVerified;
     },
     computed: {
       ...mapGetters({
         isEmailVerified: 'user/isEmailVerified',
+        isKYCSubmitted: 'user/isKYCSubmitted',
         isKYCVerified: 'user/isKYCVerified',
       }),
       ...mapState([
@@ -238,10 +204,10 @@
           vm.identification,
           vm.selfie,
           vm.residence,
-          vm.signedform_tsa,
-          vm.signedform_pin,
-          vm.signedform_cin,
-          vm.signedform_pp,
+          vm.signedformTSA,
+          vm.signedformPIN,
+          vm.signedformCIN,
+          vm.signedformPP,
           vm.ethAddress.length === 42,
         ].some(function(e) {
           return !e;
@@ -307,10 +273,10 @@
           const resIdentification = await vm.documentUpload(args['identification'], 'identification');
           const resSelfie = await vm.documentUpload(args['selfie'], 'selfie');
           const resAddress = await vm.documentUpload(args['residence'], 'residence');
-          const resSignedForm_tsa = await vm.documentUpload(args['signedform_tsa'], 'signedform_tsa');
-          const resSignedForm_pin = await vm.documentUpload(args['signedform_pin'], 'signedform_pin');
-          const resSignedForm_cin = await vm.documentUpload(args['signedform_cin'], 'signedform_cin');
-          const resSignedForm_pp = await vm.documentUpload(args['signedform_pp'], 'signedform_pp');
+          const resSignedFormTSA = await vm.documentUpload(args['signedformTSA'], 'signedformTSA');
+          const resSignedFormPIN = await vm.documentUpload(args['signedformPIN'], 'signedformPIN');
+          const resSignedFormCIN = await vm.documentUpload(args['signedformCIN'], 'signedformCIN');
+          const resSignedFormPP = await vm.documentUpload(args['signedformPP'], 'signedformPP');
 
           vm.$axios.patch(`users/${vm.user.userID}`, {
           'kyc.first_name': args['firstName'],
@@ -331,14 +297,14 @@
           'kyc.refSelfieBlob.checksum': resSelfie.data.checksum,
           'kyc.refAddressBlob.id': resAddress.data.id,
           'kyc.refAddressBlob.checksum': resAddress.data.checksum,
-          'kyc.refSignedFormTSABlob.id': resSignedForm_tsa.data.id,
-          'kyc.refSignedFormTSABlob.checksum': resSignedForm_tsa.data.checksum,
-          'kyc.refSignedFormPINBlob.id': resSignedForm_pin.data.id,
-          'kyc.refSignedFormPINBlob.checksum': resSignedForm_pin.data.checksum,
-          'kyc.refSignedFormCINBlob.id': resSignedForm_cin.data.id,
-          'kyc.refSignedFormCINBlob.checksum': resSignedForm_cin.data.checksum,
-          'kyc.refSignedFormPPBlob.id': resSignedForm_pp.data.id,
-          'kyc.refSignedFormPPBlob.checksum': resSignedForm_pp.data.checksum,
+          'kyc.refSignedFormTSABlob.id': resSignedFormTSA.data.id,
+          'kyc.refSignedFormTSABlob.checksum': resSignedFormTSA.data.checksum,
+          'kyc.refSignedFormPINBlob.id': resSignedFormPIN.data.id,
+          'kyc.refSignedFormPINBlob.checksum': resSignedFormPIN.data.checksum,
+          'kyc.refSignedFormCINBlob.id': resSignedFormCIN.data.id,
+          'kyc.refSignedFormCINBlob.checksum': resSignedFormCIN.data.checksum,
+          'kyc.refSignedFormPPBlob.id': resSignedFormPP.data.id,
+          'kyc.refSignedFormPPBlob.checksum': resSignedFormPP.data.checksum,
         })
           .then(() => {
             vm.$notify({
@@ -394,6 +360,7 @@
           });
       },
     },
+    props: ['data', 'fields'],
     validations: {
       confirmPassword: {
         sameAsPassword: sameAs('password'),

@@ -9,8 +9,8 @@
   export default {
     name: 'Dashboard',
     beforeDestroy () {
-      clearInterval(this.timer)
-      this.timer = null
+      clearInterval(vm.timer)
+      vm.timer = null
     },
     created() {
       // Instantiate view model
@@ -18,10 +18,6 @@
     },
     data() {
       return {
-        ethAddress: '0xd675F62eEfD415Cd3eE9E48dF8dFe8A81C3d2225',
-        crv: 0,
-        eth: 0,
-        collected: 0,
         target: 500000,
         timer: null,
         count: this.getTimer(),
@@ -43,69 +39,39 @@
         ]
       }
     },
-    async mounted () {
+    mounted () {
       vm.timer = setInterval(() => {
         vm.count = vm.getTimer();
       }, 1000);
-
-      const res = await vm.$axios.get('users?$select=eth_address');
-      vm.ethAddress = res.data.data[0].eth_address;
-
-      vm.$eth.ico.methods.totalFund().call((error, result) => {
-        if (error) throw error;
-        vm.collected = parseInt(vm.$eth.utils.fromWei(result));
-      });
-
-      vm.$eth.ico.methods.contributionsPerAddress(vm.ethAddress).call((error, result) => {
-        if (error) throw error;
-        vm.eth = parseInt(result);
-      });
-
-      // const addressTopic = `0x${'0'.repeat(24)}${vm.ethAddress.substring(2)}`;
-      // const blockNumber = vm.$eth.utils.toHex(1379584);
-      // const topic0 = vm.$eth.utils.sha3('Contribute(uint256,uint256,address,address,uint256,bytes32)');
-      // vm.$axios.$post('https://rinkeby.infura.io/VihYi00x9NbdZ1abMuRz', {
-      //   headers: {
-      //     'Access-Control-Allow-Origin': '*',
-      //   },
-      //   jsonrpc: '2.0',
-      //   method: 'eth_getLogs',
-      //   params: [{
-      //     topics: [topic0, addressTopic],
-      //     fromBlock: blockNumber,
-      //     address: vm.ethAddress,
-      //   }],
-      //   id: 1,
-      // }).then((err, res) => {
-      //   console.log(err);
-      //   console.log(res);
-      // });
     },
     computed: {
       ...mapGetters({
         isEmailVerified: 'user/isEmailVerified',
+        isKYCSubmitted: 'user/isKYCSubmitted',
+        isKYCVerified: 'user/isKYCVerified',
       }),
       days() {
-        return this.count.days;
+        return vm.count.days;
       },
       hours() {
-        return this.count.hours;
+        return vm.count.hours;
       },
       min() {
-        return this.count.minutes;
+        return vm.count.minutes;
       },
       sec() {
-        return this.count.seconds;
+        return vm.count.seconds;
       },
     },
     methods: {
       getTimer() {
-        return countdown( null, date, countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS );
+        return countdown(null, date, countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS);
       },
       navigate(component) {
-        this.$emit('event-navigate', component);
+        vm.$emit('event-navigate', component);
       },
     },
+    props: ['sale'],
   };
 </script>
 <template src="./templates/dashboard.html"></template>

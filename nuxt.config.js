@@ -100,7 +100,7 @@ module.exports = {
     { src: '@/plugins/filters.js', ssr: true },
     { src: '@/plugins/local-storage.js', ssr: false },
     { src: '@/plugins/ga.js', ssr: false },
-    { src: '@/plugins/eth.js', ssr: false },
+    { src: '@/plugins/eth.js', ssr: true },
   ],
   srcDir: 'app/',
 };

@@ -30,26 +30,26 @@ export default {
     }),
     signOut() {
       vm.logout().then(() => {
-        vm.$router.push('login');
+        vm.$router.push('/');
       });
     },
     toggleSidebar() {
-      if (this.isOpen) this.isOpen = !this.isOpen;
+      if (vm.isOpen) vm.isOpen = !vm.isOpen;
     },
     navigate(component) {
-      this.$emit('event-navigate', component);
-      this.setActive(component);
+      vm.$emit('event-navigate', component);
+      vm.setActive(component);
     },
     isActive: function (menuItem) {
-      return this.activeItem === menuItem
+      return vm.activeItem === menuItem
     },
     setActive: function (menuItem) {
-      this.activeItem = menuItem // no need for Vue.set()
+      vm.activeItem = menuItem // no need for Vue.set()
     }
   },
   directives: {
     'click-outside': {
-      bind: function(el, binding, vNode) {
+      bind(el, binding, vNode) {
         // Provided expression must evaluate to a function.
         if (typeof binding['value'] !== 'function') {
         	const compName = vNode.context.name
@@ -71,7 +71,7 @@ export default {
         document.addEventListener('click', handler)
 			},
 
-      unbind: function(el, binding) {
+      unbind(el, binding) {
         // Remove Event Listeners
         document.removeEventListener('click', el.__vueClickOutside__)
         el.__vueClickOutside__ = null

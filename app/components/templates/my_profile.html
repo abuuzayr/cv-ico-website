@@ -158,7 +158,17 @@
           All documents need to be uploaded before submission
         </i>
       </h5>
-      <div class="notice text-left notify" v-if="!isKYCVerified">
+      <div class="notice text-left notify" v-if="isKYCSubmitted && !isKYCVerified">
+        <h6 class="failure">
+          KYC verification is pending
+        </h6>
+        <div class="remarks">
+          <span class="failure">
+            Your KYC details is being reviewed by our KYC partner
+          </span>
+        </div>
+      </div>
+      <div class="notice text-left notify" v-if="!isKYCSubmitted">
         <h6 class="failure">
           KYC verification not completed
         </h6>
@@ -270,7 +280,7 @@
             <b-input-group>
               <b-form-select
                 v-model="birthCountry"
-                v-bind:options="countries"
+                v-bind:options="fields.countries"
               >
               </b-form-select>
             </b-input-group>
@@ -289,7 +299,7 @@
             <b-input-group>
               <b-form-select
                 v-model="nationality"
-                v-bind:options="nationalities"
+                v-bind:options="fields.nationalities"
               >
               </b-form-select>
             </b-input-group>
@@ -308,7 +318,7 @@
             <b-input-group>
               <b-form-select
                 v-model="residenceCountry"
-                v-bind:options="countries"
+                v-bind:options="fields.countries"
               >
               </b-form-select>
             </b-input-group>
@@ -327,7 +337,7 @@
             <b-input-group>
               <b-form-select
                 v-model="gender"
-                v-bind:options="genders"
+                v-bind:options="fields.genders"
               >
               </b-form-select>
             </b-input-group>
@@ -434,7 +444,7 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file accept="image/*" choose-label="Upload" v-model="signedform_tsa">
+              <b-form-file accept="image/*" choose-label="Upload" v-model="signedformTSA">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -453,7 +463,7 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file accept="image/*" choose-label="Upload" v-model="signedform_pin">
+              <b-form-file accept="image/*" choose-label="Upload" v-model="signedformPIN">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -472,7 +482,7 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file accept="image/*" choose-label="Upload" v-model="signedform_cin">
+              <b-form-file accept="image/*" choose-label="Upload" v-model="signedformCIN">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -491,7 +501,7 @@
         <b-col class="d-flex">
           <b-form-group class="align-self-center">
             <b-input-group>
-              <b-form-file accept="image/*" choose-label="Upload" v-model="signedform_pp">
+              <b-form-file accept="image/*" choose-label="Upload" v-model="signedformPP">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -530,10 +540,11 @@
                             identification,
                             selfie,
                             residence,
-                            signedform_tsa,
-                            signedform_pin,
-                            signedform_cin,
-                            signedform_pp,
+                            signedformTSA,
+                            signedformPIN,
+                            signedformCIN,
+                            signedformPP,
+                            ethAddress,
                           })"
         v-bind:disabled="canSubmit"
       >
