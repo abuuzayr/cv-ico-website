@@ -317,7 +317,7 @@
     <b-card v-if="!isEmailVerified" class="text-center wallet">
       <b-row class="no-margin">
         <b-col>
-          <b-link v-on:click="navigate('profile')" class="link">
+          <b-link v-on:click="verifyEmail()" class="link">
             Verify your account
           </b-link> to contribute to the ICO and receive CRV tokens.
         </b-col>

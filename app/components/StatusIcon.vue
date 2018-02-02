@@ -2,8 +2,8 @@
 export default {
   name: 'Status-Icon',
   props: [
-    'status'
-  ]
+    'status',
+  ],
 };
 </script>
 <template>

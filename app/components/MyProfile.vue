@@ -15,7 +15,6 @@
     isValidBirthday,
     isValidName,
   } from '~/helpers/kyc';
-  import moment from 'moment';
 
   // Declare global scoped vars
   let vm;
@@ -75,13 +74,14 @@
         oldPassword: '',
         password: '',
         confirmPassword: '',
-        kycSubmitted: false
+        kycSubmitted: false,
       };
     },
     mounted() {
       vm.email = vm.user.email;
-      console.log(vm.user);
-      vm.kycSubmitted = vm.data.kyc.first_name && vm.data.kyc.first_name.length > 0 && !vm.isKYCVerified;
+      vm.kycSubmitted = vm.data.kyc.first_name &&
+                        vm.data.kyc.first_name.length > 0 &&
+                        !vm.isKYCVerified;
     },
     computed: {
       ...mapGetters({
@@ -209,9 +209,7 @@
           vm.signedformCIN,
           vm.signedformPP,
           vm.ethAddress.length === 42,
-        ].some(function(e) {
-          return !e;
-        });
+        ].some(e => !e);
       },
     },
     methods: {
@@ -222,13 +220,13 @@
       changePassword(oldPassword, password) {
         vm.$axios.post('authManagement', {
           action: 'passwordChange',
-        	value: {
+          value: {
             user: {
               email: vm.email,
             },
             oldPassword,
             password,
-        	},
+          },
         })
           .then(() => {
             vm.$notify({
@@ -246,19 +244,22 @@
         return !(states.firstName && states.lastName && states.birthday);
       },
       async documentUpload(file, type) {
+        let res;
+
         try {
-          const buffer = new Buffer(await vm.fileToBuffer(file));
+          const buffer = Buffer.alloc(await vm.fileToBuffer(file));
           const uri = getBase64DataURI(buffer, file.type);
-          const res = await vm.$axios.post('documents', {
-            uri: uri,
+          res = await vm.$axios.post('documents', {
+            uri,
             id: `${vm.user.userID}_${type}.${file.type.split('/')[1]}`,
           });
 
           return res;
-
         } catch (e) {
-          console.log (e);
+          console.log(e);
         }
+
+        return res;
       },
       fileToBuffer(file) {
         return new Promise((resolve, reject) => {
@@ -270,50 +271,50 @@
       },
       async submit(args) {
         try {
-          const resIdentification = await vm.documentUpload(args['identification'], 'identification');
-          const resSelfie = await vm.documentUpload(args['selfie'], 'selfie');
-          const resAddress = await vm.documentUpload(args['residence'], 'residence');
-          const resSignedFormTSA = await vm.documentUpload(args['signedformTSA'], 'signedformTSA');
-          const resSignedFormPIN = await vm.documentUpload(args['signedformPIN'], 'signedformPIN');
-          const resSignedFormCIN = await vm.documentUpload(args['signedformCIN'], 'signedformCIN');
-          const resSignedFormPP = await vm.documentUpload(args['signedformPP'], 'signedformPP');
+          const resIdentification = await vm.documentUpload(args.identification, 'identification');
+          const resSelfie = await vm.documentUpload(args.selfie, 'selfie');
+          const resAddress = await vm.documentUpload(args.residence, 'residence');
+          const resSignedFormTSA = await vm.documentUpload(args.signedformTSA, 'signedformTSA');
+          const resSignedFormPIN = await vm.documentUpload(args.signedformPIN, 'signedformPIN');
+          const resSignedFormCIN = await vm.documentUpload(args.signedformCIN, 'signedformCIN');
+          const resSignedFormPP = await vm.documentUpload(args.signedformPP, 'signedformPP');
 
           vm.$axios.patch(`users/${vm.user.userID}`, {
-          'kyc.first_name': args['firstName'],
-          'kyc.middle_name': args['middleName'],
-          'kyc.last_name': args['lastName'],
-          'kyc.country_of_birth': args['birthCountry'],
-          'kyc.nationality': args['nationality'],
-          'kyc.country_of_residence': args['residenceCountry'],
-          'kyc.gender': args['gender'],
-          'kyc.birthday': `${args['birthday']} UTC`,
-          'kyc.address': args['address'],
-          'kyc.id_type': args['idType'],
-          'kyc.id_number': args['idNumber'],
-          'kyc.eth_address': args['ethAddress'],
-          'kyc.refIdentificationBlob.id': resIdentification.data.id,
-          'kyc.refIdentificationBlob.checksum': resIdentification.data.checksum,
-          'kyc.refSelfieBlob.id': resSelfie.data.id,
-          'kyc.refSelfieBlob.checksum': resSelfie.data.checksum,
-          'kyc.refAddressBlob.id': resAddress.data.id,
-          'kyc.refAddressBlob.checksum': resAddress.data.checksum,
-          'kyc.refSignedFormTSABlob.id': resSignedFormTSA.data.id,
-          'kyc.refSignedFormTSABlob.checksum': resSignedFormTSA.data.checksum,
-          'kyc.refSignedFormPINBlob.id': resSignedFormPIN.data.id,
-          'kyc.refSignedFormPINBlob.checksum': resSignedFormPIN.data.checksum,
-          'kyc.refSignedFormCINBlob.id': resSignedFormCIN.data.id,
-          'kyc.refSignedFormCINBlob.checksum': resSignedFormCIN.data.checksum,
-          'kyc.refSignedFormPPBlob.id': resSignedFormPP.data.id,
-          'kyc.refSignedFormPPBlob.checksum': resSignedFormPP.data.checksum,
-        })
-          .then(() => {
-            vm.$notify({
-              group: 'notify',
-              title: 'KYC Details Submitted',
-              text: 'Your KYC details have been submitted.',
-              type: 'success',
+            'kyc.first_name': args.firstName,
+            'kyc.middle_name': args.middleName,
+            'kyc.last_name': args.lastName,
+            'kyc.country_of_birth': args.birthCountry,
+            'kyc.nationality': args.nationality,
+            'kyc.country_of_residence': args.residenceCountry,
+            'kyc.gender': args.gender,
+            'kyc.birthday': `${args.birthday} UTC`,
+            'kyc.address': args.address,
+            'kyc.id_type': args.idType,
+            'kyc.id_number': args.idNumber,
+            'kyc.eth_address': args.ethAddress,
+            'kyc.refIdentificationBlob.id': resIdentification.data.id,
+            'kyc.refIdentificationBlob.checksum': resIdentification.data.checksum,
+            'kyc.refSelfieBlob.id': resSelfie.data.id,
+            'kyc.refSelfieBlob.checksum': resSelfie.data.checksum,
+            'kyc.refAddressBlob.id': resAddress.data.id,
+            'kyc.refAddressBlob.checksum': resAddress.data.checksum,
+            'kyc.refSignedFormTSABlob.id': resSignedFormTSA.data.id,
+            'kyc.refSignedFormTSABlob.checksum': resSignedFormTSA.data.checksum,
+            'kyc.refSignedFormPINBlob.id': resSignedFormPIN.data.id,
+            'kyc.refSignedFormPINBlob.checksum': resSignedFormPIN.data.checksum,
+            'kyc.refSignedFormCINBlob.id': resSignedFormCIN.data.id,
+            'kyc.refSignedFormCINBlob.checksum': resSignedFormCIN.data.checksum,
+            'kyc.refSignedFormPPBlob.id': resSignedFormPP.data.id,
+            'kyc.refSignedFormPPBlob.checksum': resSignedFormPP.data.checksum,
+          })
+            .then(() => {
+              vm.$notify({
+                group: 'notify',
+                title: 'KYC Details Submitted',
+                text: 'Your KYC details have been submitted.',
+                type: 'success',
+              });
             });
-          });
         } catch (e) {
           vm.$notify({
             group: 'notify',
@@ -322,33 +323,13 @@
             type: 'warning',
           });
         }
-
-        // await vm.$axios.post('kyc', {
-        //   domain_name: 'REIDAO UAT',
-        // 	rfrID: vm.authentication.user,
-        // 	first_name: args['firstName'],
-        // 	middle_name: args['middleName'],
-        // 	last_name: args['lastName'],
-        // 	country_of_birth: args['birthCountry'],
-        // 	nationality: args['nationality'],
-        // 	country_of_residence: args['residenceCountry'],
-        // 	gender: args['gender'],
-        // 	date_of_birth: moment(args['birthday']).format('DD/MM/YYYY'),
-        // 	ssic_code: 'UNKNOWN',
-        // 	ssoc_code: 'UNKNOWN',
-        // 	onboarding_mode: 'NON FACE-TO-FACE',
-        // 	payment_mode: 'VIRTUAL CURRENCY',
-        // 	product_service_complexity: 'SIMPLE',
-        // 	emails: [vm.authentication.email],
-        // 	addresses: args['address'],
-        // });
       },
       verifyEmail() {
         vm.$axios.post('authManagement', {
           action: 'resendVerifySignup',
-        	value: {
-        		email: vm.email,
-        	},
+          value: {
+            email: vm.email,
+          },
         })
           .then(() => {
             vm.$notify({

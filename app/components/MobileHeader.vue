@@ -12,8 +12,8 @@ export default {
   data() {
     return {
       isOpen: false,
-      activeItem: 'dashboard'
-    }
+      activeItem: 'dashboard',
+    };
   },
   computed: {
     ...mapGetters({
@@ -40,45 +40,45 @@ export default {
       vm.$emit('event-navigate', component);
       vm.setActive(component);
     },
-    isActive: function (menuItem) {
-      return vm.activeItem === menuItem
+    isActive(menuItem) {
+      return vm.activeItem === menuItem;
     },
-    setActive: function (menuItem) {
-      vm.activeItem = menuItem // no need for Vue.set()
-    }
+    setActive(menuItem) {
+      vm.activeItem = menuItem;
+    },
   },
   directives: {
     'click-outside': {
       bind(el, binding, vNode) {
         // Provided expression must evaluate to a function.
-        if (typeof binding['value'] !== 'function') {
-        	const compName = vNode.context.name
-          let warn = `[Vue-click-outside:] provided expression '${binding['expression']}' is not a function, but has to be`
-          if (compName) { warn += `Found in component '${compName}'` }
-
-          console.warn(warn)
+        if (typeof binding.value !== 'function') {
+          const compName = vNode.context.name;
+          let warn = `[Vue-click-outside:] provided expression '${binding.expression}' is not a function, but has to be`;
+          if (compName) {
+            warn += `Found in component '${compName}'`;
+          }
+          console.log(warn);
         }
         // Define Handler and cache it on the element
-        const bubble = binding.modifiers.bubble
+        const { bubble } = binding.modifiers;
         const handler = (e) => {
           if (bubble || (!el.contains(e.target) && el !== e.target)) {
-          	binding.value(e)
+            binding.value(e);
           }
-        }
-        el.__vueClickOutside__ = handler
+        };
+        el.__vueClickOutside__ = handler; // eslint-disable-line no-param-reassign,no-underscore-dangle,max-len
 
         // add Event Listeners
-        document.addEventListener('click', handler)
-			},
+        document.addEventListener('click', handler);
+      },
 
-      unbind(el, binding) {
+      unbind(el, binding) { // eslint-disable-line no-unused-vars
         // Remove Event Listeners
-        document.removeEventListener('click', el.__vueClickOutside__)
-        el.__vueClickOutside__ = null
-
-      }
-    }
-  }
+        document.removeEventListener('click', el.__vueClickOutside__); // eslint-disable-line no-param-reassign,no-underscore-dangle,max-len
+        el.__vueClickOutside__ = null; // eslint-disable-line no-param-reassign,no-underscore-dangle
+      },
+    },
+  },
 };
 </script>
 <template src="./templates/mobile-header.html"></template>

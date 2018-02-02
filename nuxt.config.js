@@ -26,7 +26,7 @@ module.exports = {
     extend(config, ctx) {
       global.Element = null;
 
-      if (ctx.isDev && ctx.isClient) {
+      if (ctx.isDev) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
