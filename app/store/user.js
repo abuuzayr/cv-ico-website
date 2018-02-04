@@ -3,6 +3,7 @@ import decode from 'jwt-decode';
 export const state = () => ({
   email: null,
   emailVerified: null,
+  kycSubmitted: null,
   kycVerified: null,
   userID: null,
 });
@@ -18,10 +19,13 @@ export const mutations = {
     _state.email = email || null;
   },
   SET_EMAILVERIFIED(_state, verified) {
-    _state.emailVerified = verified || null;
+    _state.emailVerified = verified;
+  },
+  SET_KYCSUBMITTED(_state, submitted) {
+    _state.kycSubmitted = submitted;
   },
   SET_KYCVERIFIED(_state, verified) {
-    _state.kycVerified = verified || null;
+    _state.kycVerified = verified;
   },
   SET_USERID(_state, userID) {
     _state.userID = userID || null;
@@ -35,6 +39,9 @@ export const getters = {
   isEmailVerified(_state) {
     return !!_state.emailVerified;
   },
+  isKYCSubmitted(_state) {
+    return !!_state.kycSubmitted;
+  },
   isKYCVerified(_state) {
     return !!_state.kycVerified;
   },
@@ -46,18 +53,21 @@ export const actions = {
     const {
       email,
       emailVerified,
+      kycSubmitted,
       kycVerified,
       userId,
     } = decode(authentication.accessToken);
 
     commit('SET_EMAIL', email);
     commit('SET_EMAILVERIFIED', emailVerified);
+    commit('SET_KYCSUBMITTED', kycSubmitted);
     commit('SET_KYCVERIFIED', kycVerified);
     commit('SET_USERID', userId);
   },
   unsetPersistence({ commit }) {
     commit('SET_EMAIL', null);
     commit('SET_EMAILVERIFIED', null);
+    commit('SET_KYCSUBMITTED', null);
     commit('SET_KYCVERIFIED', null);
     commit('SET_USERID', null);
   },

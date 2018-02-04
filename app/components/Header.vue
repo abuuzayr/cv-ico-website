@@ -37,7 +37,7 @@
         vm.logout().then(() => {
           vm.$router.push('/');
         });
-      }
+      },
     },
     props: ['data'],
   };

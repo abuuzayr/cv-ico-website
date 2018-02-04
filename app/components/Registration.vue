@@ -3,7 +3,6 @@
   import marked from 'marked';
   import {
     email,
-    minLength,
     sameAs,
   } from 'vuelidate/lib/validators';
   import {
@@ -30,7 +29,7 @@
         confirmPassword: false,
         recaptcha: false,
         tos: false,
-      }
+      };
     },
     data() {
       return {
@@ -124,24 +123,27 @@
       feedbackPassword,
       feedbackConfirmPassword,
       checkRegistrationStates() {
-        return !(states.email && states.password && states.confirmPassword && states.recaptcha && states.tos);
+        return !(states.email &&
+                 states.password &&
+                 states.confirmPassword &&
+                 states.recaptcha && states.tos);
       },
       setRecaptcha(event) {
         vm.recaptcha = event;
       },
-      submit(email, password, referralCode, recaptcha) {
+      submit(_email, _password, _referralCode, _recaptcha) {
         vm.$axios.post('users', {
-          email,
-          password,
-          referralCode,
-          recaptcha,
+          email: _email,
+          password: _password,
+          referralCode: _referralCode,
+          recaptcha: _recaptcha,
         })
           .then(() => {
             vm.$notify({
               group: 'announce-info',
               title: 'Registation Successful',
-              text: 'You have successfully registered. Check your email for \
-                     further instructions.',
+              text: `You have successfully registered. Check your email for
+                     further instructions.`,
             });
             setTimeout(() => {
               vm.$router.push('registration/success');
@@ -171,8 +173,8 @@
                 vm.$notify({
                   group: 'announce-error',
                   title: 'Account Already Exists',
-                  text: 'The email entered already exists. Please login using \
-                         existing registered email.',
+                  text: `The email entered already exists. Please login using
+                         existing registered email.`,
                 });
                 setTimeout(() => {
                   vm.$router.push('login');
@@ -182,16 +184,16 @@
                 vm.$notify({
                   group: 'announce-error',
                   title: 'Invalid Referral Code',
-                  text: 'The referral code entered could not be found or is \
-                         incorrect. Kindly enter the correct referral code.',
+                  text: `The referral code entered could not be found or is
+                         incorrect. Kindly enter the correct referral code.`,
                 });
                 break;
               default:
                 vm.$notify({
                   group: 'announce-error',
                   title: 'Unexpected Error Encountered',
-                  text: 'The application has encountered an unexpected error. \
-                         Please contact support.',
+                  text: `The application has encountered an unexpected error.
+                         Please contact support.`,
                 });
                 break;
             }

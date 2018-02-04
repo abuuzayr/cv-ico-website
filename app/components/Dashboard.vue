@@ -1,16 +1,16 @@
 <script>
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapState } from 'vuex';
   import countdown from 'countdown';
 
   // Declare scoped vars
   let vm;
-  let date = new Date(2018, 3, 1);
+  const date = new Date(2018, 3, 1);
 
   export default {
     name: 'Dashboard',
-    beforeDestroy () {
-      clearInterval(this.timer)
-      this.timer = null
+    beforeDestroy() {
+      clearInterval(vm.timer);
+      vm.timer = null;
     },
     created() {
       // Instantiate view model
@@ -18,94 +18,70 @@
     },
     data() {
       return {
-        ethAddress: '0xd675F62eEfD415Cd3eE9E48dF8dFe8A81C3d2225',
-        crv: 0,
-        eth: 0,
-        collected: 0,
         target: 500000,
         timer: null,
         count: this.getTimer(),
-        transactions: [
-          // { txNo: 0, block: 1379584, txHash: '0xfec86de092435e4c502ab26c62e1bb6deb7ce02c65270427d56dd6d35240a0ae', timestamp: 1512754703, contribution: '1 ETH', referralHash: 'ef46135efb976e4cd578b5c01186aebd39616086b58dd3a44364b7a80b1b8b61' },
-          // { txNo: 0, block: 1379584, txHash: '0xfec86de092435e4c502ab26c62e1bb6deb7ce02c65270427d56dd6d35240a0ae', timestamp: 1512754703, contribution: '1 ETH', referralHash: 'ef46135efb976e4cd578b5c01186aebd39616086b58dd3a44364b7a80b1b8b61' },
-          // { txNo: 0, block: 1379584, txHash: '0xfec86de092435e4c502ab26c62e1bb6deb7ce02c65270427d56dd6d35240a0ae', timestamp: 1512754703, contribution: '1 ETH', referralHash: 'ef46135efb976e4cd578b5c01186aebd39616086b58dd3a44364b7a80b1b8b61' },
-          // { txNo: 0, block: 1379584, txHash: '0xfec86de092435e4c502ab26c62e1bb6deb7ce02c65270427d56dd6d35240a0ae', timestamp: 1512754703, contribution: '1 ETH', referralHash: 'ef46135efb976e4cd578b5c01186aebd39616086b58dd3a44364b7a80b1b8b61' },
-          // { txNo: 0, block: 1379584, txHash: '0xfec86de092435e4c502ab26c62e1bb6deb7ce02c65270427d56dd6d35240a0ae', timestamp: 1512754703, contribution: '1 ETH', referralHash: 'ef46135efb976e4cd578b5c01186aebd39616086b58dd3a44364b7a80b1b8b61' },
-          // { txNo: 0, block: 1379584, txHash: '0xfec86de092435e4c502ab26c62e1bb6deb7ce02c65270427d56dd6d35240a0ae', timestamp: 1512754703, contribution: '1 ETH', referralHash: 'ef46135efb976e4cd578b5c01186aebd39616086b58dd3a44364b7a80b1b8b61' },
-        ],
-        emptyTxn: [
-          { txNo: 0, block: 0, txHash: '', timestamp: 0, contribution: '', referralHash: '' },
-          { txNo: 0, block: 0, txHash: '', timestamp: 0, contribution: '', referralHash: '' },
-          { txNo: 0, block: 0, txHash: '', timestamp: 0, contribution: '', referralHash: '' },
-          { txNo: 0, block: 0, txHash: '', timestamp: 0, contribution: '', referralHash: '' },
-          { txNo: 0, block: 0, txHash: '', timestamp: 0, contribution: '', referralHash: '' },
-          { txNo: 0, block: 0, txHash: '', timestamp: 0, contribution: '', referralHash: '' },
-        ]
-      }
+        transactions: [],
+        emptyTxn: [],
+      };
     },
-    async mounted () {
+    mounted() {
+      vm.email = vm.user.email;
       vm.timer = setInterval(() => {
         vm.count = vm.getTimer();
       }, 1000);
-
-      const res = await vm.$axios.get('users?$select=eth_address');
-      vm.ethAddress = res.data.data[0].eth_address;
-
-      vm.$eth.ico.methods.totalFund().call((error, result) => {
-        if (error) throw error;
-        vm.collected = parseInt(vm.$eth.utils.fromWei(result));
-      });
-
-      vm.$eth.ico.methods.contributionsPerAddress(vm.ethAddress).call((error, result) => {
-        if (error) throw error;
-        vm.eth = parseInt(result);
-      });
-
-      // const addressTopic = `0x${'0'.repeat(24)}${vm.ethAddress.substring(2)}`;
-      // const blockNumber = vm.$eth.utils.toHex(1379584);
-      // const topic0 = vm.$eth.utils.sha3('Contribute(uint256,uint256,address,address,uint256,bytes32)');
-      // vm.$axios.$post('https://rinkeby.infura.io/VihYi00x9NbdZ1abMuRz', {
-      //   headers: {
-      //     'Access-Control-Allow-Origin': '*',
-      //   },
-      //   jsonrpc: '2.0',
-      //   method: 'eth_getLogs',
-      //   params: [{
-      //     topics: [topic0, addressTopic],
-      //     fromBlock: blockNumber,
-      //     address: vm.ethAddress,
-      //   }],
-      //   id: 1,
-      // }).then((err, res) => {
-      //   console.log(err);
-      //   console.log(res);
-      // });
     },
     computed: {
       ...mapGetters({
         isEmailVerified: 'user/isEmailVerified',
+        isKYCSubmitted: 'user/isKYCSubmitted',
+        isKYCVerified: 'user/isKYCVerified',
       }),
+      ...mapState([
+        'user',
+      ]),
       days() {
-        return this.count.days;
+        return vm.count.days;
       },
       hours() {
-        return this.count.hours;
+        return vm.count.hours;
       },
       min() {
-        return this.count.minutes;
+        return vm.count.minutes;
       },
       sec() {
-        return this.count.seconds;
+        return vm.count.seconds;
       },
     },
     methods: {
       getTimer() {
-        return countdown( null, date, countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS );
+        return countdown(
+          null,
+          date,
+          countdown.DAYS | countdown.HOURS | countdown.MINUTES | countdown.SECONDS, // eslint-disable-line no-bitwise,max-len
+        );
       },
       navigate(component) {
-        this.$emit('event-navigate', component);
+        vm.$emit('event-navigate', component);
+      },
+      verifyEmail() {
+        vm.$axios.post('authManagement', {
+          action: 'resendVerifySignup',
+          value: {
+            email: vm.email,
+          },
+        })
+          .then(() => {
+            vm.$notify({
+              group: 'notify',
+              title: 'Verification Email Sent',
+              text: 'A verification email was sent to your email address.',
+              type: 'success',
+            });
+          });
       },
     },
+    props: ['sale'],
   };
 </script>
 <template src="./templates/dashboard.html"></template>

@@ -10,20 +10,20 @@ export default {
   },
   data() {
     return {
-      activeItem: 'dashboard'
-    }
+      activeItem: 'dashboard',
+    };
   },
   methods: {
     navigate(component) {
-      this.$emit('event-navigate', component);
-      this.setActive(component);
+      vm.$emit('event-navigate', component);
+      vm.setActive(component);
     },
-    isActive: function (menuItem) {
-      return this.activeItem === menuItem
+    isActive(menuItem) {
+      return vm.activeItem === menuItem;
     },
-    setActive: function (menuItem) {
-      this.activeItem = menuItem // no need for Vue.set()
-    }
+    setActive(menuItem) {
+      vm.activeItem = menuItem;
+    },
   },
 };
 </script>

@@ -158,7 +158,17 @@
           All documents need to be uploaded before submission
         </i>
       </h5>
-      <div class="notice text-left notify" v-if="!isKYCVerified && !kycSubmitted">
+      <div class="notice text-left notify" v-if="isKYCSubmitted && !isKYCVerified">
+        <h6 class="failure">
+          KYC verification is pending
+        </h6>
+        <div class="remarks">
+          <span class="failure">
+            Your KYC details is being reviewed by our KYC partner
+          </span>
+        </div>
+      </div>
+      <div class="notice text-left notify" v-if="!isKYCSubmitted">
         <h6 class="failure">
           KYC verification not completed
         </h6>
@@ -168,16 +178,16 @@
           </span>
         </div>
       </div>
-      <div class="notice text-left notify" v-if="kycSubmitted && !isKYCVerified">
+      <!-- <div class="notice text-left notify" v-if="kycSubmitted && !isKYCVerified">
         <h6 class="pending">
           Account pending KYC approval
         </h6>
-        <!-- <div class="remarks">
+        <div class="remarks">
           <span class="failure">
             Please submit your KYC details for verification
           </span>
-        </div> -->
-      </div>
+        </div>
+      </div> -->
 
       <!-- Details -->
 
@@ -285,7 +295,7 @@
               <b-form-select
                 v-model="birthCountry"
                 :disabled="kycSubmitted && !editing"
-                v-bind:options="countries"
+                v-bind:options="fields.countries"
               >
               </b-form-select>
             </b-input-group>
@@ -305,7 +315,7 @@
               <b-form-select
                 v-model="nationality"
                 :disabled="kycSubmitted && !editing"
-                v-bind:options="nationalities"
+                v-bind:options="fields.nationalities"
               >
               </b-form-select>
             </b-input-group>
@@ -325,7 +335,7 @@
               <b-form-select
                 v-model="residenceCountry"
                 :disabled="kycSubmitted && !editing"
-                v-bind:options="countries"
+                v-bind:options="fields.countries"
               >
               </b-form-select>
             </b-input-group>
@@ -345,7 +355,7 @@
               <b-form-select
                 v-model="gender"
                 :disabled="kycSubmitted && !editing"
-                v-bind:options="genders"
+                v-bind:options="fields.genders"
               >
               </b-form-select>
             </b-input-group>
@@ -468,7 +478,7 @@
               <b-form-file
                 accept="image/*"
                 choose-label="Upload"
-                v-model="signedform_tsa"
+                v-model="signedformTSA"
                 :disabled="kycSubmitted && !editing">
               </b-form-file>
             </b-input-group>
@@ -491,7 +501,7 @@
               <b-form-file
                 accept="image/*"
                 choose-label="Upload"
-                v-model="signedform_pin"
+                v-model="signedformPIN"
                 :disabled="kycSubmitted && !editing">
               </b-form-file>
             </b-input-group>
@@ -514,7 +524,7 @@
               <b-form-file
                 accept="image/*"
                 choose-label="Upload"
-                v-model="signedform_cin"
+                v-model="signedformCIN"
                 :disabled="kycSubmitted && !editing">
               </b-form-file>
             </b-input-group>
@@ -537,7 +547,7 @@
               <b-form-file
                 accept="image/*"
                 choose-label="Upload"
-                v-model="signedform_pp"
+                v-model="signedformPP"
                 :disabled="kycSubmitted && !editing">
               </b-form-file>
             </b-input-group>
@@ -578,10 +588,11 @@
                             identification,
                             selfie,
                             residence,
-                            signedform_tsa,
-                            signedform_pin,
-                            signedform_cin,
-                            signedform_pp,
+                            signedformTSA,
+                            signedformPIN,
+                            signedformCIN,
+                            signedformPP,
+                            ethAddress,
                           })"
         v-bind:disabled="canSubmit"
         v-if="!kycSubmitted ||  editing"

@@ -15,7 +15,7 @@
   <div class="crowdvilla">
     <b-container class="component-container">
       <Login />
-      <NeedHelp />
+      <!-- <NeedHelp /> -->
     </b-container>
   </div>
 </template>

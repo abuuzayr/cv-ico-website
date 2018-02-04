@@ -1,10 +1,10 @@
 import * as cookies from 'js-cookie';
 import createPersistedState from 'vuex-persistedstate';
 
-export default ({ store, isHMR, isClient }) => {
+export default ({ store, isHMR }) => {
   if (isHMR) return;
 
-  if (isClient) {
+  if (process.client) {
     window.onNuxtReady(() => {
       createPersistedState({
         key: 'crowdvilla',
