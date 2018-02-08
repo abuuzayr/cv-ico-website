@@ -43,7 +43,6 @@ export const actions = {
 
       this.$axios.setToken(accessToken, 'Bearer');
       commit('SET_ACCESSTOKEN', accessToken);
-      console.log('done login');
     } catch (error) {
       throw error;
     }

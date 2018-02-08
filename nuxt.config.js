@@ -13,8 +13,8 @@ module.exports = {
   */
   axios: {
     baseURL: 'http://localhost:1337',
-    credentials: false,
-    debug: false,
+    credentials: true,
+    debug: true,
   },
   /*
   ** Build configuration
