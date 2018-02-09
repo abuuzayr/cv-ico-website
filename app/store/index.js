@@ -19,6 +19,9 @@ export const actions = {
         const { accessToken } = storage.authentication;
 
         if (accessToken) {
+          this.$axios.setToken(accessToken, 'Bearer');
+          this.$axios.setHeader('origin', `http://${req.headers.host}`);
+
           await dispatch('authentication/jwt', { accessToken });
           await dispatch('user/setPersistence');
         }

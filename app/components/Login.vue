@@ -78,6 +78,7 @@
     },
     methods: {
       ...mapActions({
+        jwt: 'authentication/jwt',
         login: 'authentication/login',
         setPersistence: 'user/setPersistence',
       }),

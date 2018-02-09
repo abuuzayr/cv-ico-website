@@ -9,18 +9,18 @@
     async asyncData({ $axios, $eth, store }) {
       const { data } = await $axios.get(`users/${store.state.user.userID}`);
 
-      let fields = {
+      const fields = {
         idTypes: [{
-            text: 'Identification Type',
-            value: null
-          },
-          'PASSPORT', 'DRIVING LICENSE'
+          text: 'Identification Type',
+          value: null,
+        },
+        'PASSPORT', 'DRIVING LICENSE',
         ],
         genders: [{
-            text: 'Gender',
-            value: null
-          },
-          'MALE', 'FEMALE'
+          text: 'Gender',
+          value: null,
+        },
+        'MALE', 'FEMALE',
         ],
         countries: [{
           text: 'Country',
@@ -28,11 +28,11 @@
         }],
         nationalities: [{
           text: 'Nationality',
-          value: null
+          value: null,
         }],
-      }
+      };
 
-      let sale = {
+      const sale = {
         totalCollected: 0,
         userContribution: 0,
         userTxHistory: {},
@@ -40,13 +40,20 @@
       };
 
       fields.countries = fields.countries.concat((await $axios.get('countries.txt')).data.split('\n'));
-      fields.nationalities = fields.nationalities.concat((await $axios.get('nationalities.txt')).data.split('\n'));
+      fields.nationalities =
+        fields.nationalities.concat((await $axios.get('nationalities.txt'))
+          .data
+          .split('\n'));
 
       sale.totalCollected = await $eth.ico.methods.totalFund().call();
-      sale.totalCollected = parseInt($eth.utils.fromWei(sale.totalCollected));
+      sale.totalCollected = parseInt($eth.utils.fromWei(sale.totalCollected), 10);
 
-      sale.userContribution = await $eth.ico.methods.contributionsPerAddress(data.kyc.eth_address).call();
-      sale.userContribution = parseInt(sale.userContribution);
+      sale.userContribution =
+        await $eth.ico.methods
+          .contributionsPerAddress(data.kyc.eth_address)
+          .call();
+
+      sale.userContribution = parseInt(sale.userContribution, 10);
 
       // const addressTopic = `0x${'0'.repeat(24)}${vm.ethAddress.substring(2)}`;
       // const blockNumber = vm.$eth.utils.toHex(1379584);
