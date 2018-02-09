@@ -22,6 +22,7 @@
     "@nuxtjs/font-awesome": "^1.0.3",
     "animate.css": "^3.5.2",
     "bootstrap": "4.0.0-beta.3",
+    "bootstrap-vue": "^2.0.0-rc.1",
     "cookie": "^0.3.1",
     "countdown": "^2.6.0",
     "dauria": "^2.0.0",

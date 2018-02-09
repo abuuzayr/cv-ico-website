@@ -24,6 +24,9 @@ export default {
     setActive(menuItem) {
       vm.activeItem = menuItem;
     },
+    externalLink(path) {
+      window.open(`https://crowdvilla.io/${path}`,'_blank');
+    }
   },
 };
 </script>

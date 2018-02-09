@@ -143,7 +143,10 @@
         <b-col v-if="!isEmailVerified" v-on:click="verifyEmail()">
           <b-row>
             <b-col>
-              <b-button variant="warning">Resend Email Verification</b-button>
+              <b-button variant="warning" :disabled="!verifyResend">Resend Email Verification</b-button>
+              <p class="pt-2 pl-4" v-if="remainingTime.length > 0">
+                Resend in {{ remainingTime[0] }} mins {{ remainingTime[1] }} secs
+              </p>
             </b-col>
           </b-row>
         </b-col>
@@ -158,7 +161,7 @@
           All documents need to be uploaded before submission
         </i>
       </h5>
-      <div class="notice text-left notify" v-if="isKYCSubmitted && !isKYCVerified">
+      <div class="notice text-left notify" v-if="kycSubmitted && !isKYCVerified">
         <h6 class="failure">
           KYC verification is pending
         </h6>
@@ -168,7 +171,7 @@
           </span>
         </div>
       </div>
-      <div class="notice text-left notify" v-if="!isKYCSubmitted">
+      <div class="notice text-left notify" v-if="!kycSubmitted">
         <h6 class="failure">
           KYC verification not completed
         </h6>
@@ -401,13 +404,20 @@
           </p>
         </b-col>
         <b-col class="d-flex">
-          <b-form-group class="align-self-center">
+          <div v-if="kycSubmitted" class="justify-content-center">
+            <img :src="identificationImg" class="img-fluid m-3" alt="" style="max-height:100px;" v-if="identificationImg">
+            <strong v-if="!identificationImg && !editing" class="m-3">
+              No image uploaded
+            </strong>
+          </div>
+          <b-form-group class="align-self-center" v-if="editing">
             <b-input-group>
               <b-form-file
                 accept="image/*"
                 choose-label="Upload"
                 v-model="identification"
-                :disabled="kycSubmitted && !editing">
+                id="identification"
+                @change="changedField">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -421,13 +431,20 @@
           </p>
         </b-col>
         <b-col class="d-flex">
-          <b-form-group class="align-self-center">
+          <div v-if="kycSubmitted" class="justify-content-center">
+            <img :src="selfieImg" class="img-fluid m-3" alt="" style="max-height:100px;" v-if="selfieImg">
+            <strong v-if="!selfieImg && !editing" class="m-3">
+              No image uploaded
+            </strong>
+          </div>
+          <b-form-group class="align-self-center" v-if="editing">
             <b-input-group>
               <b-form-file
                 accept="image/*"
                 choose-label="Upload"
                 v-model="selfie"
-                :disabled="kycSubmitted && !editing">
+                id="selfie"
+                @change="changedField">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -441,13 +458,20 @@
           </p>
         </b-col>
         <b-col class="d-flex">
-          <b-form-group class="align-self-center">
+          <div v-if="kycSubmitted" class="justify-content-center">
+            <img :src="residenceImg" class="img-fluid m-3" alt="" style="max-height:100px;" v-if="residenceImg">
+            <strong v-if="!residenceImg && !editing" class="m-3">
+              No image uploaded
+            </strong>
+          </div>
+          <b-form-group class="align-self-center" v-if="editing">
             <b-input-group>
               <b-form-file
                 accept="image/*"
                 choose-label="Upload"
                 v-model="residence"
-                :disabled="kycSubmitted && !editing">
+                id="residence"
+                @change="changedField">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -473,13 +497,20 @@
           </p>
         </b-col>
         <b-col class="d-flex">
-          <b-form-group class="align-self-center">
+          <div v-if="kycSubmitted" class="justify-content-center">
+            <img :src="signedformTSAImg" class="img-fluid m-3" alt="" style="max-height:100px;" v-if="signedformTSAImg">
+            <strong v-if="!signedformTSAImg && !editing" class="m-3">
+              No image uploaded
+            </strong>
+          </div>
+          <b-form-group class="align-self-center" v-if="editing">
             <b-input-group>
               <b-form-file
                 accept="image/*"
                 choose-label="Upload"
                 v-model="signedformTSA"
-                :disabled="kycSubmitted && !editing">
+                id="signedformTSA"
+                @change="changedField">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -496,13 +527,20 @@
           </p>
         </b-col>
         <b-col class="d-flex">
-          <b-form-group class="align-self-center">
+          <div v-if="kycSubmitted" class="justify-content-center">
+            <img :src="signedformPINImg" class="img-fluid m-3" alt="" style="max-height:100px;" v-if="signedformPINImg">
+            <strong v-if="!signedformPINImg && !editing" class="m-3">
+              No image uploaded
+            </strong>
+          </div>
+          <b-form-group class="align-self-center" v-if="editing">
             <b-input-group>
               <b-form-file
                 accept="image/*"
                 choose-label="Upload"
                 v-model="signedformPIN"
-                :disabled="kycSubmitted && !editing">
+                id="signedformPIN"
+                @change="changedField">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -519,13 +557,20 @@
           </p>
         </b-col>
         <b-col class="d-flex">
-          <b-form-group class="align-self-center">
+          <div v-if="kycSubmitted" class="justify-content-center">
+            <img :src="signedformCINImg" class="img-fluid m-3" alt="" style="max-height:100px;" v-if="signedformCINImg">
+            <strong v-if="!signedformCINImg && !editing" class="m-3">
+              No image uploaded
+            </strong>
+          </div>
+          <b-form-group class="align-self-center" v-if="editing">
             <b-input-group>
               <b-form-file
                 accept="image/*"
                 choose-label="Upload"
                 v-model="signedformCIN"
-                :disabled="kycSubmitted && !editing">
+                id="signedformCIN"
+                @change="changedField">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -542,13 +587,20 @@
           </p>
         </b-col>
         <b-col class="d-flex">
-          <b-form-group class="align-self-center">
+          <div v-if="kycSubmitted" class="justify-content-center">
+            <img :src="signedformPPImg" class="img-fluid m-3" alt="" style="max-height:100px;" v-if="signedformPPImg">
+            <strong v-if="!signedformPPImg && !editing" class="m-3">
+              No image uploaded
+            </strong>
+          </div>
+          <b-form-group class="align-self-center" v-if="editing">
             <b-input-group>
               <b-form-file
                 accept="image/*"
                 choose-label="Upload"
                 v-model="signedformPP"
-                :disabled="kycSubmitted && !editing">
+                id="signedformPP"
+                @change="changedField">
               </b-form-file>
             </b-input-group>
           </b-form-group>
@@ -562,7 +614,7 @@
       </h5>
       <p class="mb-3 word-break-all">
         <b-form-input
-          v-model.trim="ethAddress"
+          v-model="ethAddress"
           placeholder="0x0"
           ref="ethAddress"
           type="text"

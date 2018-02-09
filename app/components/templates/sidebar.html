@@ -16,7 +16,7 @@
         My Profile
       </span>
     </b-nav-item>
-    <b-nav-item v-bind:active="isActive('help')" v-on:click="navigate('help')">
+    <b-nav-item v-bind:active="isActive('help')" v-on:click="externalLink('help')">
       <span class="img-wrapper text-center">
         <img src="~@/assets/images/full-size-user-help-icon.png" alt="">
       </span>
@@ -24,7 +24,7 @@
         Help
       </span>
     </b-nav-item>
-    <b-nav-item v-bind:active="isActive('faq')" v-on:click="navigate('faq')">
+    <b-nav-item v-bind:active="isActive('faq')" v-on:click="externalLink('faq')">
       <span class="img-wrapper text-center">
         <img src="~@/assets/images/full-size-faq-icon.png" alt="">
       </span>
