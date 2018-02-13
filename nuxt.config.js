@@ -12,9 +12,13 @@ module.exports = {
   ** Axios configuration
   */
   axios: {
-    baseURL: 'http://localhost:1337',
+    // baseURL: 'http://localhost:1337',
+    // browserBaseURL: 'http://localhost:1337',
     credentials: true,
     debug: true,
+    https: false,
+    proxy: true,
+    proxyHeaders: true,
   },
   /*
   ** Build configuration
@@ -67,6 +71,7 @@ module.exports = {
     HOST: process.env.HOST || 'localhost',
     PORT: process.env.PORT || 1338,
     RECAPTCHA: process.env.RECAPTCHA_KEY,
+    APIKEY: process.env.CLIENT_APIKEY,
   },
   /*
   ** Headers of the page
@@ -92,15 +97,20 @@ module.exports = {
     '@nuxtjs/axios',
     '@nuxtjs/bootstrap-vue',
     '@nuxtjs/font-awesome',
+    '@nuxtjs/proxy',
   ],
   plugins: [
     { src: '@/plugins/vue-components-ssr.js', ssr: true },
     { src: '@/plugins/vue-plugins-ssr.js', ssr: false },
     { src: '@/plugins/vue-plugins.js', ssr: false },
+    { src: '@/plugins/apikey.js', ssr: true },
     { src: '@/plugins/filters.js', ssr: true },
     { src: '@/plugins/local-storage.js', ssr: false },
     { src: '@/plugins/ga.js', ssr: false },
     { src: '@/plugins/eth.js', ssr: true },
   ],
+  proxy: {
+    '/api': 'http://localhost:1337',
+  },
   srcDir: 'app/',
 };
