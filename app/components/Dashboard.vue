@@ -65,7 +65,7 @@
         vm.$emit('event-navigate', component);
       },
       verifyEmail() {
-        vm.$axios.post('authManagement', {
+        vm.$axios.post('/api/authManagement', {
           action: 'resendVerifySignup',
           value: {
             email: vm.email,

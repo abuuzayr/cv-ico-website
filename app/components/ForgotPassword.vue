@@ -60,7 +60,7 @@
         vm.recaptcha = event;
       },
       submit(_email, _recaptcha) {
-        vm.$axios.post('authManagement', {
+        vm.$axios.post('/api/authManagement', {
           action: 'sendResetPwd',
           value: {
             email: _email,

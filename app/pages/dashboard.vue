@@ -7,7 +7,7 @@
   export default {
     name: 'Dashboard-Page',
     async asyncData({ $axios, $eth, store }) {
-      const { data } = await $axios.get(`users/${store.state.user.userID}`);
+      const { data } = await $axios.get(`/users/${store.state.user.userID}`);
 
       const fields = {
         idTypes: [{
@@ -39,9 +39,9 @@
         userTotalCRV: 0,
       };
 
-      fields.countries = fields.countries.concat((await $axios.get('countries.txt')).data.split('\n'));
+      fields.countries = fields.countries.concat((await $axios.get('/countries.txt')).data.split('\n'));
       fields.nationalities =
-        fields.nationalities.concat((await $axios.get('nationalities.txt'))
+        fields.nationalities.concat((await $axios.get('/nationalities.txt'))
           .data
           .split('\n'));
 

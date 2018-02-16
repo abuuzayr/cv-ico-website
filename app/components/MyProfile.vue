@@ -218,7 +218,7 @@
       feedbackPassword,
       feedbackConfirmPassword,
       changePassword(oldPassword, password) {
-        vm.$axios.post('authManagement', {
+        vm.$axios.post('/api/authManagement', {
           action: 'passwordChange',
           value: {
             user: {
@@ -249,7 +249,7 @@
         try {
           const buffer = Buffer.alloc(await vm.fileToBuffer(file));
           const uri = getBase64DataURI(buffer, file.type);
-          res = await vm.$axios.post('documents', {
+          res = await vm.$axios.post('/api/documents', {
             uri,
             id: `${vm.user.userID}_${type}.${file.type.split('/')[1]}`,
           });
@@ -279,7 +279,7 @@
           const resSignedFormCIN = await vm.documentUpload(args.signedformCIN, 'signedformCIN');
           const resSignedFormPP = await vm.documentUpload(args.signedformPP, 'signedformPP');
 
-          vm.$axios.patch(`users/${vm.user.userID}`, {
+          vm.$axios.patch(`/api/users/${vm.user.userID}`, {
             'kyc.first_name': args.firstName,
             'kyc.middle_name': args.middleName,
             'kyc.last_name': args.lastName,
@@ -325,7 +325,7 @@
         }
       },
       verifyEmail() {
-        vm.$axios.post('authManagement', {
+        vm.$axios.post('/api/authManagement', {
           action: 'resendVerifySignup',
           value: {
             email: vm.email,

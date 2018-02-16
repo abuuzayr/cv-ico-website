@@ -1,5 +1,5 @@
 <script>
-  import { mapActions } from 'vuex';
+  import { mapActions, mapState } from 'vuex';
   import {
     email,
     sameAs,
@@ -37,6 +37,9 @@
       };
     },
     computed: {
+      ...mapState([
+        'authentication',
+      ]),
       checkValidEmail() {
         states.email = false;
 
@@ -94,7 +97,7 @@
       submit(_email, _password, _recaptcha) {
         vm.login({ email: _email, password: _password, recaptcha: _recaptcha })
           .then(() => {
-            vm.setPersistence();
+            vm.setPersistence({ accessToken: vm.authentication.accessToken });
             vm.$router.push('/dashboard');
           })
           .catch((error) => {

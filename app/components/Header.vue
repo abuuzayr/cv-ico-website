@@ -34,9 +34,13 @@
         logout: 'authentication/logout',
       }),
       signOut() {
-        vm.logout().then(() => {
-          vm.$router.push('/');
-        });
+        vm.logout()
+          .then(() => {
+            vm.$router.push('/');
+          })
+          .catch(() => {
+            vm.$router.push('/');
+          });
       },
     },
     props: ['data'],

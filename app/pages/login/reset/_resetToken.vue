@@ -83,7 +83,7 @@
         vm.recaptcha = event;
       },
       submit(password, recaptcha) {
-        vm.$axios.$post('authManagement', {
+        vm.$axios.$post('/api/authManagement', {
         	action: 'resetPwdLong',
         	value: {
             token: vm.$route.params.resetToken,

@@ -12,8 +12,6 @@ module.exports = {
   ** Axios configuration
   */
   axios: {
-    // baseURL: 'http://localhost:1337',
-    // browserBaseURL: 'http://localhost:1337',
     credentials: true,
     debug: true,
     https: false,
@@ -68,7 +66,7 @@ module.exports = {
   ],
   dev: process.env.NODE_ENV !== 'production',
   env: {
-    HOST: process.env.HOST || 'localhost',
+    HOST: process.env.HOST || '0.0.0.0',
     PORT: process.env.PORT || 1338,
     RECAPTCHA: process.env.RECAPTCHA_KEY,
     APIKEY: process.env.CLIENT_APIKEY,
@@ -110,7 +108,12 @@ module.exports = {
     { src: '@/plugins/eth.js', ssr: true },
   ],
   proxy: {
-    '/api': 'http://localhost:1337',
+    '/api/': {
+      target: process.env.API_URL || 'http://localhost:1337',
+      pathRewrite: {
+        '^/api/': '',
+      },
+    },
   },
   srcDir: 'app/',
 };
