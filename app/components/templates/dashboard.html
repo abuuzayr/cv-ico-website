@@ -10,8 +10,8 @@
         </span>
       </b-col>
     </b-row>
-    <b-row v-if="!isEmailVerified">
-      <b-col class="notice text-left notify">
+    <b-row>
+      <b-col class="notice text-left notify" v-if="!isEmailVerified" cols="12">
         <h6 class="failure">
           Your email address is not verified
         </h6>
@@ -21,9 +21,7 @@
           </span>
         </div>
       </b-col>
-    </b-row>
-    <b-row v-if="isKYCSubmitted && !isKYCVerified">
-      <b-col class="notice text-left notify">
+      <b-col class="notice text-left notify" v-if="isKYCSubmitted && !isKYCVerified" cols="12">
         <h6 class="failure">
           KYC verification is pending
         </h6>
@@ -33,9 +31,7 @@
           </span>
         </div>
       </b-col>
-    </b-row>
-    <b-row v-if="!isKYCSubmitted">
-      <b-col class="notice text-left notify">
+      <b-col class="notice text-left notify" v-if="!isKYCSubmitted" cols="12">
         <h6 class="failure">
           KYC verification not completed
         </h6>

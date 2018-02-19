@@ -13,7 +13,7 @@ module.exports = {
   */
   axios: {
     credentials: true,
-    debug: true,
+    debug: false,
     https: false,
     proxy: true,
     proxyHeaders: true,

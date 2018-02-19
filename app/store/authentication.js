@@ -33,7 +33,15 @@ export const actions = {
       this.$axios.setToken(newAccessToken, 'Bearer');
       commit('SET_ACCESSTOKEN', newAccessToken);
     } catch (error) {
-      dispatch('logout');
+      switch (error.response.status) {
+        case 401:
+          dispatch('logout');
+          break;
+        case 403:
+          throw error;
+        default:
+          break;
+      }
     }
   },
   async login({ commit }, { email, password, recaptcha }) {
@@ -55,7 +63,8 @@ export const actions = {
     try {
       commit('SET_ACCESSTOKEN', null);
       dispatch('user/unsetPersistence', {}, { root: true });
-      await this.$axios.$delete(endpoint());
+      // await this.$axios.$delete(endpoint());
+      console.log('logout');
     } catch (error) {
       throw error;
     }

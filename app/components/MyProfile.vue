@@ -63,30 +63,79 @@
         idType: null,
         idNumber: null,
         identification: null,
+        identificationImg: null,
         selfie: null,
+        selfieImg: null,
         residence: null,
+        residenceImg: null,
         signedformTSA: null,
+        signedformTSAImg: null,
         signedformPIN: null,
+        signedformPINImg: null,
         signedformCIN: null,
+        signedformCINImg: null,
         signedformPP: null,
+        signedformPPImg: null,
+        changedFileFields: [],
         ethAddress: '',
         email: null,
         oldPassword: '',
         password: '',
         confirmPassword: '',
         kycSubmitted: false,
+        editing: false,
+        verifyLastSent: null,
+        verifyResend: false,
+        emailInterval: null,
+        checkTimeInterval: null,
+        remainingTime: [],
       };
     },
-    mounted() {
+    async mounted() {
       vm.email = vm.user.email;
-      vm.kycSubmitted = vm.data.kyc.first_name &&
-                        vm.data.kyc.first_name.length > 0 &&
-                        !vm.isKYCVerified;
+      const { verifyLastSent } = vm.data;
+      vm.verifyLastSent = new Date(verifyLastSent);
+
+      vm.setEmailInterval();
+
+      /* eslint camelcase: 0 */
+      const {
+        first_name,
+        middle_name,
+        last_name,
+        birthday,
+        country_of_birth,
+        nationality,
+        country_of_residence,
+        gender,
+        address,
+        eth_address,
+      } = vm.data.kyc;
+
+      vm.firstName = first_name;
+      vm.middleName = middle_name;
+      vm.lastName = last_name;
+      const parsedBirthday = new Date(birthday);
+      let birthdayFormatted = `${parsedBirthday.getFullYear()}-`;
+      birthdayFormatted += parsedBirthday.getMonth() < 9 ? '0' : '';
+      birthdayFormatted += `${(parsedBirthday.getMonth() + 1)}-`;
+      birthdayFormatted += parsedBirthday.getDate() < 10 ? '0' : '';
+      birthdayFormatted += parsedBirthday.getDate();
+      vm.birthday = birthdayFormatted;
+      vm.birthCountry = country_of_birth;
+      vm.nationality = nationality;
+      vm.residenceCountry = country_of_residence;
+      vm.gender = gender;
+      vm.address = address;
+      vm.ethAddress = eth_address;
+      vm.kycSubmitted = first_name && first_name.length > 0 && !vm.isKYCVerified;
+
+      vm.getImages();
     },
     computed: {
       ...mapGetters({
         isEmailVerified: 'user/isEmailVerified',
-        isKYCSubmitted: 'user/isKYCSubmitted',
+        isKYCSubmitted: 'user/kycSubmitted',
         isKYCVerified: 'user/isKYCVerified',
       }),
       ...mapState([
@@ -201,14 +250,14 @@
           vm.residenceCountry,
           vm.gender,
           vm.address,
-          vm.identification,
-          vm.selfie,
-          vm.residence,
-          vm.signedformTSA,
-          vm.signedformPIN,
-          vm.signedformCIN,
-          vm.signedformPP,
-          vm.ethAddress.length === 42,
+          vm.changedFileFields.indexOf('identification') > -1 || !vm.kycSubmitted ? vm.identification : true,
+          vm.changedFileFields.indexOf('selfie') > -1 || !vm.kycSubmitted ? vm.selfie : true,
+          vm.changedFileFields.indexOf('residence') > -1 || !vm.kycSubmitted ? vm.residence : true,
+          vm.changedFileFields.indexOf('signedformTSA') > -1 || !vm.kycSubmitted ? vm.signedformTSA : true,
+          vm.changedFileFields.indexOf('signedformPIN') > -1 || !vm.kycSubmitted ? vm.signedformPIN : true,
+          vm.changedFileFields.indexOf('signedformCIN') > -1 || !vm.kycSubmitted ? vm.signedformCIN : true,
+          vm.changedFileFields.indexOf('signedformPP') > -1 || !vm.kycSubmitted ? vm.signedformPP : true,
+          vm.$eth.utils.isAddress(vm.ethAddress),
         ].some(e => !e);
       },
     },
@@ -244,22 +293,18 @@
         return !(states.firstName && states.lastName && states.birthday);
       },
       async documentUpload(file, type) {
-        let res;
-
         try {
-          const buffer = Buffer.alloc(await vm.fileToBuffer(file));
+          const buffer = Buffer.from(await vm.fileToBuffer(file));
           const uri = getBase64DataURI(buffer, file.type);
-          res = await vm.$axios.post('/api/documents', {
+          const res = await vm.$axios.post('/api/documents', {
             uri,
             id: `${vm.user.userID}_${type}.${file.type.split('/')[1]}`,
           });
 
           return res;
-        } catch (e) {
-          console.log(e);
+        } catch (error) {
+          throw new Error(`Document upload error: ${error}`);
         }
-
-        return res;
       },
       fileToBuffer(file) {
         return new Promise((resolve, reject) => {
@@ -269,17 +314,93 @@
           reader.onerror = reject;
         });
       },
+      changedField(field) {
+        if (vm.changedFileFields.indexOf(field.srcElement.id) === -1) {
+          vm.changedFileFields.push(field.srcElement.id);
+        }
+        switch (field.srcElement.id) {
+          case 'identification':
+            vm.identificationImg = '';
+            break;
+          case 'selfie':
+            vm.selfieImg = '';
+            break;
+          case 'residence':
+            vm.residenceImg = '';
+            break;
+          case 'signedformTSA':
+            vm.signedformTSAImg = '';
+            break;
+          case 'signedformPIN':
+            vm.signedformPINImg = '';
+            break;
+          case 'signedformCIN':
+            vm.signedformCINImg = '';
+            break;
+          case 'signedformPP':
+            vm.signedformPPImg = '';
+            break;
+          default:
+            break;
+        }
+      },
+      async getImages() {
+        const {
+          refIdentificationBlob,
+          refSelfieBlob,
+          refResidenceBlob,
+          refSignedFormTSABlob,
+          refSignedFormPINBlob,
+          refSignedFormCINBlob,
+          refSignedFormPPBlob,
+        } = vm.data.kyc;
+
+        if (refIdentificationBlob.id) {
+          vm.identificationImg = await vm.$axios.get(`/api/documents/${refIdentificationBlob.id}`)
+            .then(result => result.data.uri);
+        } else {
+          vm.identificationImg = '';
+        }
+        if (refSelfieBlob.id) {
+          vm.selfieImg = await vm.$axios.get(`/api/documents/${refSelfieBlob.id}`)
+            .then(result => result.data.uri);
+        } else {
+          vm.selfieImg = '';
+        }
+        if (refResidenceBlob.id) {
+          vm.residenceImg = await vm.$axios.get(`/api/documents/${refResidenceBlob.id}`)
+            .then(result => result.data.uri);
+        } else {
+          vm.residenceImg = '';
+        }
+        if (refSignedFormTSABlob.id) {
+          vm.signedformTSAImg = await vm.$axios.get(`/api/documents/${refSignedFormTSABlob.id}`)
+            .then(result => result.data.uri);
+        } else {
+          vm.signedformTSAImg = '';
+        }
+        if (refSignedFormPINBlob.id) {
+          vm.signedformPINImg = await vm.$axios.get(`/api/documents/${refSignedFormPINBlob.id}`)
+            .then(result => result.data.uri);
+        } else {
+          vm.signedformPINImg = '';
+        }
+        if (refSignedFormCINBlob.id) {
+          vm.signedformCINImg = await vm.$axios.get(`/api/documents/${refSignedFormCINBlob.id}`)
+            .then(result => result.data.uri);
+        } else {
+          vm.signedformCINImg = '';
+        }
+        if (refSignedFormPPBlob.id) {
+          vm.signedformPPImg = await vm.$axios.get(`/api/documents/${refSignedFormPPBlob.id}`)
+            .then(result => result.data.uri);
+        } else {
+          vm.signedformPPImg = '';
+        }
+      },
       async submit(args) {
         try {
-          const resIdentification = await vm.documentUpload(args.identification, 'identification');
-          const resSelfie = await vm.documentUpload(args.selfie, 'selfie');
-          const resAddress = await vm.documentUpload(args.residence, 'residence');
-          const resSignedFormTSA = await vm.documentUpload(args.signedformTSA, 'signedformTSA');
-          const resSignedFormPIN = await vm.documentUpload(args.signedformPIN, 'signedformPIN');
-          const resSignedFormCIN = await vm.documentUpload(args.signedformCIN, 'signedformCIN');
-          const resSignedFormPP = await vm.documentUpload(args.signedformPP, 'signedformPP');
-
-          vm.$axios.patch(`/api/users/${vm.user.userID}`, {
+          const patchObj = {
             'kyc.first_name': args.firstName,
             'kyc.middle_name': args.middleName,
             'kyc.last_name': args.lastName,
@@ -292,21 +413,51 @@
             'kyc.id_type': args.idType,
             'kyc.id_number': args.idNumber,
             'kyc.eth_address': args.ethAddress,
-            'kyc.refIdentificationBlob.id': resIdentification.data.id,
-            'kyc.refIdentificationBlob.checksum': resIdentification.data.checksum,
-            'kyc.refSelfieBlob.id': resSelfie.data.id,
-            'kyc.refSelfieBlob.checksum': resSelfie.data.checksum,
-            'kyc.refAddressBlob.id': resAddress.data.id,
-            'kyc.refAddressBlob.checksum': resAddress.data.checksum,
-            'kyc.refSignedFormTSABlob.id': resSignedFormTSA.data.id,
-            'kyc.refSignedFormTSABlob.checksum': resSignedFormTSA.data.checksum,
-            'kyc.refSignedFormPINBlob.id': resSignedFormPIN.data.id,
-            'kyc.refSignedFormPINBlob.checksum': resSignedFormPIN.data.checksum,
-            'kyc.refSignedFormCINBlob.id': resSignedFormCIN.data.id,
-            'kyc.refSignedFormCINBlob.checksum': resSignedFormCIN.data.checksum,
-            'kyc.refSignedFormPPBlob.id': resSignedFormPP.data.id,
-            'kyc.refSignedFormPPBlob.checksum': resSignedFormPP.data.checksum,
-          })
+          };
+
+          if ((vm.kycSubmitted && vm.changedFileFields.indexOf('identification') > -1) || !vm.kycSubmitted) {
+            const resIdentification = await vm.documentUpload(args.identification, 'identification');
+            patchObj['kyc.refIdentificationBlob.id'] = resIdentification.data.id;
+            patchObj['kyc.refIdentificationBlob.checksum'] = resIdentification.data.checksum;
+          }
+
+          if ((vm.kycSubmitted && vm.changedFileFields.indexOf('selfie') > -1) || !vm.kycSubmitted) {
+            const resSelfie = await vm.documentUpload(args.selfie, 'selfie');
+            patchObj['kyc.refSelfieBlob.id'] = resSelfie.data.id;
+            patchObj['kyc.refSelfieBlob.checksum'] = resSelfie.data.checksum;
+          }
+
+          if ((vm.kycSubmitted && vm.changedFileFields.indexOf('residence') > -1) || !vm.kycSubmitted) {
+            const refResidence = await vm.documentUpload(args.residence, 'residence');
+            patchObj['kyc.refResidenceBlob.id'] = refResidence.data.id;
+            patchObj['kyc.refResidenceBlob.checksum'] = refResidence.data.checksum;
+          }
+
+          if ((vm.kycSubmitted && vm.changedFileFields.indexOf('signedformTSA') > -1) || !vm.kycSubmitted) {
+            const resSignedFormTSA = await vm.documentUpload(args.signedformTSA, 'signedformTSA');
+            patchObj['kyc.refSignedFormTSABlob.id'] = resSignedFormTSA.data.id;
+            patchObj['kyc.refSignedFormTSABlob.checksum'] = resSignedFormTSA.data.checksum;
+          }
+
+          if ((vm.kycSubmitted && vm.changedFileFields.indexOf('signedformPIN') > -1) || !vm.kycSubmitted) {
+            const resSignedFormPIN = await vm.documentUpload(args.signedformPIN, 'signedformPIN');
+            patchObj['kyc.refSignedFormPINBlob.id'] = resSignedFormPIN.data.id;
+            patchObj['kyc.refSignedFormPINBlob.checksum'] = resSignedFormPIN.data.checksum;
+          }
+
+          if ((vm.kycSubmitted && vm.changedFileFields.indexOf('signedformCIN') > -1) || !vm.kycSubmitted) {
+            const resSignedFormCIN = await vm.documentUpload(args.signedformCIN, 'signedformCIN');
+            patchObj['kyc.refSignedFormCINBlob.id'] = resSignedFormCIN.data.id;
+            patchObj['kyc.refSignedFormCINBlob.checksum'] = resSignedFormCIN.data.checksum;
+          }
+
+          if ((vm.kycSubmitted && vm.changedFileFields.indexOf('signedformPP') > -1) || !vm.kycSubmitted) {
+            const resSignedFormPP = await vm.documentUpload(args.signedformPP, 'signedformPP');
+            patchObj['kyc.refSignedFormPPBlob.id'] = resSignedFormPP.data.id;
+            patchObj['kyc.refSignedFormPPBlob.checksum'] = resSignedFormPP.data.checksum;
+          }
+
+          vm.$axios.patch(`/api/users/${vm.user.userID}`, patchObj)
             .then(() => {
               vm.$notify({
                 group: 'notify',
@@ -314,14 +465,17 @@
                 text: 'Your KYC details have been submitted.',
                 type: 'success',
               });
+              vm.editing = false;
+              vm.getImages();
             });
-        } catch (e) {
+        } catch (error) {
           vm.$notify({
             group: 'notify',
             title: 'Submission Error',
             text: 'There was an error processing your submission. Please try again later.',
             type: 'warning',
           });
+          throw new Error(`Error: ${error}`);
         }
       },
       verifyEmail() {
@@ -332,6 +486,12 @@
           },
         })
           .then(() => {
+            vm.$axios.patch(`/api/users/${vm.user.userID}`, {
+              verifyLastSent: new Date(),
+            });
+            vm.verifyLastSent = new Date();
+            vm.verifyResend = false;
+            vm.setEmailInterval();
             vm.$notify({
               group: 'notify',
               title: 'Verification Email Sent',
@@ -339,6 +499,29 @@
               type: 'success',
             });
           });
+      },
+      setEmailInterval() {
+        vm.emailInterval = setInterval(() => {
+          if (new Date() - vm.verifyLastSent >= 300000) {
+            clearInterval(vm.emailInterval);
+            vm.verifyResend = true;
+          }
+          vm.getRemainingTime();
+        }, 1000);
+      },
+      getRemainingTime() {
+        vm.checkTimeInterval = setInterval(() => {
+          if (new Date() - vm.verifyLastSent >= 300000) {
+            clearInterval(vm.checkTimeInterval);
+            vm.remainingTime = [];
+          } else {
+            const duration = 300000 - (new Date() - vm.verifyLastSent);
+            vm.remainingTime = [
+              parseInt((duration / (1000 * 60)) % 60, 10),
+              parseInt((duration / 1000) % 60, 10),
+            ];
+          }
+        }, 1000);
       },
     },
     props: ['data', 'fields'],
@@ -354,5 +537,8 @@
 <style lang="scss">
   @import '~assets/styles/main.scss';
 
-  .custom-file-control:before { background: $green; color: #fff; }
+  .custom-file-label:after {
+    background: $green;
+    color: #fff;
+    }
 </style>
