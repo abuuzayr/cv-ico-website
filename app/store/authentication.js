@@ -18,10 +18,14 @@ export const getters = {
 
 };
 
+function endpoint() {
+  return (process.server) ? '/authentication' : '/api/authentication';
+}
+
 export const actions = {
   async jwt({ commit, dispatch }, { accessToken }) {
     try {
-      const { accessToken: newAccessToken } = await this.$axios.$post('authentication', {
+      const { accessToken: newAccessToken } = await this.$axios.$post(endpoint(), {
         strategy: 'jwt',
         accessToken,
       });
@@ -29,13 +33,21 @@ export const actions = {
       this.$axios.setToken(newAccessToken, 'Bearer');
       commit('SET_ACCESSTOKEN', newAccessToken);
     } catch (error) {
-      dispatch('logout');
+      switch (error.response.status) {
+        case 401:
+          dispatch('logout');
+          break;
+        case 403:
+          throw error;
+        default:
+          break;
+      }
     }
   },
   async login({ commit }, { email, password, recaptcha }) {
     try {
-      const { accessToken } = await this.$axios.$post('authentication', {
-        strategy: 'local',
+      const { accessToken } = await this.$axios.$post(endpoint(), {
+        strategy: 'user',
         email,
         password,
         recaptcha,
@@ -51,7 +63,8 @@ export const actions = {
     try {
       commit('SET_ACCESSTOKEN', null);
       dispatch('user/unsetPersistence', {}, { root: true });
-      await this.$axios.$delete('authentication');
+      // await this.$axios.$delete(endpoint());
+      console.log('logout');
     } catch (error) {
       throw error;
     }

@@ -20,10 +20,9 @@ export const actions = {
 
         if (accessToken) {
           this.$axios.setToken(accessToken, 'Bearer');
-          this.$axios.setHeader('origin', `http://${req.headers.host}`);
-
+          this.$axios.setHeader('origin', `http://${process.env.HOST}:${process.env.PORT}`);
           await dispatch('authentication/jwt', { accessToken });
-          await dispatch('user/setPersistence');
+          await dispatch('user/setPersistence', { accessToken });
         }
       }
     }

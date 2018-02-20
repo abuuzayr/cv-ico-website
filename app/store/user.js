@@ -48,15 +48,14 @@ export const getters = {
 };
 
 export const actions = {
-  setPersistence({ commit, rootState }) {
-    const { authentication } = rootState;
+  setPersistence({ commit }, { accessToken }) {
     const {
       email,
       emailVerified,
       kycSubmitted,
       kycVerified,
       userId,
-    } = decode(authentication.accessToken);
+    } = decode(accessToken);
 
     commit('SET_EMAIL', email);
     commit('SET_EMAILVERIFIED', emailVerified);

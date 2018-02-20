@@ -1,6 +1,6 @@
 <script>
   import { mapGetters, mapState } from 'vuex';
-  import { getBase64DataURI, parseDataURI } from 'dauria';
+  import { getBase64DataURI } from 'dauria';
   import {
     sameAs,
   } from 'vuelidate/lib/validators';
@@ -15,7 +15,6 @@
     isValidBirthday,
     isValidName,
   } from '~/helpers/kyc';
-  var web3 = require("web3")
 
   // Declare global scoped vars
   let vm;
@@ -95,15 +94,14 @@
     },
     async mounted() {
       vm.email = vm.user.email;
-      const verifyLastSent = await vm.$axios.get('users?$select=verifyLastSent');
-      vm.verifyLastSent = new Date(verifyLastSent.data.data[0].verifyLastSent);
-      const adminMessages = await vm.$axios.get('users?$select=adminMessages');
-      vm.adminMessage = adminMessages.data.data[0].adminMessages[0].msg;
+      const { verifyLastSent, adminMessages } = vm.data;
+      vm.verifyLastSent = new Date(verifyLastSent);
+      vm.adminMessage = adminMessages[0].msg;
 
       vm.setEmailInterval();
 
-      let kyc_res = await vm.$axios.get('users?$select=kyc');
-      let {
+      /* eslint camelcase: 0 */
+      const {
         first_name,
         middle_name,
         last_name,
@@ -113,18 +111,18 @@
         country_of_residence,
         gender,
         address,
-        eth_address
-        } = kyc_res.data.data[0].kyc;
+        eth_address,
+      } = vm.data.kyc;
 
       vm.firstName = first_name;
       vm.middleName = middle_name;
       vm.lastName = last_name;
-      birthday = new Date(birthday);
-      let birthdayFormatted = birthday.getFullYear() + '-';
-      birthdayFormatted += birthday.getMonth() < 9 ? '0' : '';
-      birthdayFormatted += (birthday.getMonth() + 1) + '-';
-      birthdayFormatted += birthday.getDate() < 10 ? '0' : '';
-      birthdayFormatted += birthday.getDate();
+      const parsedBirthday = new Date(birthday);
+      let birthdayFormatted = `${parsedBirthday.getFullYear()}-`;
+      birthdayFormatted += parsedBirthday.getMonth() < 9 ? '0' : '';
+      birthdayFormatted += `${(parsedBirthday.getMonth() + 1)}-`;
+      birthdayFormatted += parsedBirthday.getDate() < 10 ? '0' : '';
+      birthdayFormatted += parsedBirthday.getDate();
       vm.birthday = birthdayFormatted;
       vm.birthCountry = country_of_birth;
       vm.nationality = nationality;
@@ -135,7 +133,6 @@
       vm.kycSubmitted = first_name && first_name.length > 0 && !vm.isKYCVerified;
 
       vm.getImages();
-
     },
     computed: {
       ...mapGetters({
@@ -262,7 +259,7 @@
           vm.changedFileFields.indexOf('signedformPIN') > -1 || !vm.kycSubmitted ? vm.signedformPIN : true,
           vm.changedFileFields.indexOf('signedformCIN') > -1 || !vm.kycSubmitted ? vm.signedformCIN : true,
           vm.changedFileFields.indexOf('signedformPP') > -1 || !vm.kycSubmitted ? vm.signedformPP : true,
-          web3.utils.isAddress(vm.ethAddress)
+          vm.$eth.utils.isAddress(vm.ethAddress),
         ].some(e => !e);
       },
     },
@@ -272,7 +269,7 @@
       feedbackPassword,
       feedbackConfirmPassword,
       changePassword(oldPassword, password) {
-        vm.$axios.post('authManagement', {
+        vm.$axios.post('/api/authManagement', {
           action: 'passwordChange',
           value: {
             user: {
@@ -298,20 +295,18 @@
         return !(states.firstName && states.lastName && states.birthday);
       },
       async documentUpload(file, type) {
-        let res;
-
         try {
           const buffer = Buffer.from(await vm.fileToBuffer(file));
           const uri = getBase64DataURI(buffer, file.type);
-          res = await vm.$axios.post('documents', {
+          const res = await vm.$axios.post('/api/documents', {
             uri,
             id: `${vm.user.userID}_${type}.${file.type.split('/')[1]}`,
           });
+
           return res;
-        } catch (e) {
-          console.log("document upload error: " + e);
+        } catch (error) {
+          throw new Error(`Document upload error: ${error}`);
         }
-        return res;
       },
       fileToBuffer(file) {
         return new Promise((resolve, reject) => {
@@ -321,8 +316,8 @@
           reader.onerror = reject;
         });
       },
-      changedField (field) {
-        if (vm.changedFileFields.indexOf(field.srcElement.id) == -1) {
+      changedField(field) {
+        if (vm.changedFileFields.indexOf(field.srcElement.id) === -1) {
           vm.changedFileFields.push(field.srcElement.id);
         }
         switch (field.srcElement.id) {
@@ -348,68 +343,66 @@
             vm.signedformPPImg = '';
             break;
           default:
-            console.log('default');
+            break;
         }
       },
       async getImages() {
-
-        let kyc_res = await vm.$axios.get('users?$select=kyc');
-        let {
+        const {
           refIdentificationBlob,
           refSelfieBlob,
           refResidenceBlob,
           refSignedFormTSABlob,
           refSignedFormPINBlob,
           refSignedFormCINBlob,
-          refSignedFormPPBlob
-        } = kyc_res.data.data[0].kyc;
+          refSignedFormPPBlob,
+        } = vm.data.kyc;
+
         if (refIdentificationBlob.id) {
-          vm.identificationImg = await vm.$axios.get(`documents/${refIdentificationBlob.id}`)
+          vm.identificationImg = await vm.$axios.get(`/api/documents/${refIdentificationBlob.id}`)
             .then(result => result.data.uri);
         } else {
-          vm.identificationImg = "";
+          vm.identificationImg = '';
         }
         if (refSelfieBlob.id) {
-          vm.selfieImg = await vm.$axios.get(`documents/${refSelfieBlob.id}`)
+          vm.selfieImg = await vm.$axios.get(`/api/documents/${refSelfieBlob.id}`)
             .then(result => result.data.uri);
         } else {
-          vm.selfieImg = "";
+          vm.selfieImg = '';
         }
         if (refResidenceBlob.id) {
-          vm.residenceImg = await vm.$axios.get(`documents/${refResidenceBlob.id}`)
+          vm.residenceImg = await vm.$axios.get(`/api/documents/${refResidenceBlob.id}`)
             .then(result => result.data.uri);
         } else {
-          vm.residenceImg = "";
+          vm.residenceImg = '';
         }
         if (refSignedFormTSABlob.id) {
-          vm.signedformTSAImg = await vm.$axios.get(`documents/${refSignedFormTSABlob.id}`)
+          vm.signedformTSAImg = await vm.$axios.get(`/api/documents/${refSignedFormTSABlob.id}`)
             .then(result => result.data.uri);
         } else {
-          vm.signedformTSAImg = "";
+          vm.signedformTSAImg = '';
         }
         if (refSignedFormPINBlob.id) {
-          vm.signedformPINImg = await vm.$axios.get(`documents/${refSignedFormPINBlob.id}`)
+          vm.signedformPINImg = await vm.$axios.get(`/api/documents/${refSignedFormPINBlob.id}`)
             .then(result => result.data.uri);
         } else {
-          vm.signedformPINImg = "";
+          vm.signedformPINImg = '';
         }
         if (refSignedFormCINBlob.id) {
-          vm.signedformCINImg = await vm.$axios.get(`documents/${refSignedFormCINBlob.id}`)
+          vm.signedformCINImg = await vm.$axios.get(`/api/documents/${refSignedFormCINBlob.id}`)
             .then(result => result.data.uri);
         } else {
-          vm.signedformCINImg = "";
+          vm.signedformCINImg = '';
         }
         if (refSignedFormPPBlob.id) {
-          vm.signedformPPImg = await vm.$axios.get(`documents/${refSignedFormPPBlob.id}`)
+          vm.signedformPPImg = await vm.$axios.get(`/api/documents/${refSignedFormPPBlob.id}`)
             .then(result => result.data.uri);
         } else {
-          vm.signedformPPImg = "";
+          vm.signedformPPImg = '';
         }
       },
       async submit(args) {
         try {
-
-          let patchObj = {
+          const patchObj = {
             'kyc.first_name': args.firstName,
             'kyc.middle_name': args.middleName,
             'kyc.last_name': args.lastName,
@@ -424,49 +417,49 @@
             'kyc.eth_address': args.ethAddress,
           };
 
-          if (vm.kycSubmitted && vm.changedFileFields.indexOf('identification') > -1 || !vm.kycSubmitted) {
+          if ((vm.kycSubmitted && vm.changedFileFields.indexOf('identification') > -1) || !vm.kycSubmitted) {
             const resIdentification = await vm.documentUpload(args.identification, 'identification');
             patchObj['kyc.refIdentificationBlob.id'] = resIdentification.data.id;
             patchObj['kyc.refIdentificationBlob.checksum'] = resIdentification.data.checksum;
-          };
+          }
 
-          if (vm.kycSubmitted && vm.changedFileFields.indexOf('selfie') > -1 || !vm.kycSubmitted) {
+          if ((vm.kycSubmitted && vm.changedFileFields.indexOf('selfie') > -1) || !vm.kycSubmitted) {
             const resSelfie = await vm.documentUpload(args.selfie, 'selfie');
             patchObj['kyc.refSelfieBlob.id'] = resSelfie.data.id;
             patchObj['kyc.refSelfieBlob.checksum'] = resSelfie.data.checksum;
-          };
+          }
 
-          if (vm.kycSubmitted && vm.changedFileFields.indexOf('residence') > -1 || !vm.kycSubmitted) {
+          if ((vm.kycSubmitted && vm.changedFileFields.indexOf('residence') > -1) || !vm.kycSubmitted) {
             const refResidence = await vm.documentUpload(args.residence, 'residence');
             patchObj['kyc.refResidenceBlob.id'] = refResidence.data.id;
             patchObj['kyc.refResidenceBlob.checksum'] = refResidence.data.checksum;
-          };
+          }
 
-          if (vm.kycSubmitted && vm.changedFileFields.indexOf('signedformTSA') > -1 || !vm.kycSubmitted) {
+          if ((vm.kycSubmitted && vm.changedFileFields.indexOf('signedformTSA') > -1) || !vm.kycSubmitted) {
             const resSignedFormTSA = await vm.documentUpload(args.signedformTSA, 'signedformTSA');
             patchObj['kyc.refSignedFormTSABlob.id'] = resSignedFormTSA.data.id;
             patchObj['kyc.refSignedFormTSABlob.checksum'] = resSignedFormTSA.data.checksum;
-          };
+          }
 
-          if (vm.kycSubmitted && vm.changedFileFields.indexOf('signedformPIN') > -1 || !vm.kycSubmitted) {
+          if ((vm.kycSubmitted && vm.changedFileFields.indexOf('signedformPIN') > -1) || !vm.kycSubmitted) {
             const resSignedFormPIN = await vm.documentUpload(args.signedformPIN, 'signedformPIN');
             patchObj['kyc.refSignedFormPINBlob.id'] = resSignedFormPIN.data.id;
             patchObj['kyc.refSignedFormPINBlob.checksum'] = resSignedFormPIN.data.checksum;
-          };
+          }
 
-          if (vm.kycSubmitted && vm.changedFileFields.indexOf('signedformCIN') > -1 || !vm.kycSubmitted) {
+          if ((vm.kycSubmitted && vm.changedFileFields.indexOf('signedformCIN') > -1) || !vm.kycSubmitted) {
             const resSignedFormCIN = await vm.documentUpload(args.signedformCIN, 'signedformCIN');
             patchObj['kyc.refSignedFormCINBlob.id'] = resSignedFormCIN.data.id;
             patchObj['kyc.refSignedFormCINBlob.checksum'] = resSignedFormCIN.data.checksum;
-          };
+          }
 
-          if (vm.kycSubmitted && vm.changedFileFields.indexOf('signedformPP') > -1 || !vm.kycSubmitted) {
+          if ((vm.kycSubmitted && vm.changedFileFields.indexOf('signedformPP') > -1) || !vm.kycSubmitted) {
             const resSignedFormPP = await vm.documentUpload(args.signedformPP, 'signedformPP');
             patchObj['kyc.refSignedFormPPBlob.id'] = resSignedFormPP.data.id;
             patchObj['kyc.refSignedFormPPBlob.checksum'] = resSignedFormPP.data.checksum;
-          };
+          }
 
-          vm.$axios.patch(`users/${vm.user.userID}`, patchObj)
+          vm.$axios.patch(`/api/users/${vm.user.userID}`, patchObj)
             .then(() => {
               vm.$notify({
                 group: 'notify',
@@ -477,26 +470,26 @@
               vm.editing = false;
               vm.getImages();
             });
-        } catch (e) {
-          console.log("the error: " + e);
+        } catch (error) {
           vm.$notify({
             group: 'notify',
             title: 'Submission Error',
             text: 'There was an error processing your submission. Please try again later.',
             type: 'warning',
           });
+          throw new Error(`Error: ${error}`);
         }
       },
       verifyEmail() {
-        vm.$axios.post('authManagement', {
+        vm.$axios.post('/api/authManagement', {
           action: 'resendVerifySignup',
           value: {
             email: vm.email,
           },
         })
           .then(() => {
-            vm.$axios.patch(`users/${vm.user.userID}`, {
-              'verifyLastSent': new Date()
+            vm.$axios.patch(`/api/users/${vm.user.userID}`, {
+              verifyLastSent: new Date(),
             });
             vm.verifyLastSent = new Date();
             vm.verifyResend = false;
@@ -524,10 +517,10 @@
             clearInterval(vm.checkTimeInterval);
             vm.remainingTime = [];
           } else {
-            let duration = 300000 - (new Date() - vm.verifyLastSent);
+            const duration = 300000 - (new Date() - vm.verifyLastSent);
             vm.remainingTime = [
-              parseInt((duration/(1000*60))%60),
-              parseInt((duration/1000)%60)
+              parseInt((duration / (1000 * 60)) % 60, 10),
+              parseInt((duration / 1000) % 60, 10),
             ];
           }
         }, 1000);
@@ -551,4 +544,3 @@
     color: #fff;
     }
 </style>
-

@@ -10,15 +10,15 @@ export default ({ store, isHMR }) => {
         key: 'crowdvilla',
         storage: {
           getItem: (key) => {
-            window.localStorage.getItem(key);
+            // window.localStorage.getItem(key);
             cookies.get(key);
           },
           setItem: (key, value) => {
-            window.localStorage.setItem(key, value);
+            // window.localStorage.setItem(key, value);
             cookies.set(key, value, { expires: 3 });
           },
           removeItem: (key) => {
-            window.localStorage.removeItem(key);
+            // window.localStorage.removeItem(key);
             cookies.remove(key);
           },
         },

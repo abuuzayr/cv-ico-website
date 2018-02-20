@@ -44,7 +44,7 @@
       };
     },
     async mounted() {
-      const res = await vm.$axios.get('tos.md');
+      const res = await vm.$axios.get('/api/tos.md');
       vm.markdown = marked(res.data, { sanitize: true });
     },
     computed: {
@@ -132,7 +132,7 @@
         vm.recaptcha = event;
       },
       submit(_email, _password, _referralCode, _recaptcha) {
-        vm.$axios.post('users', {
+        vm.$axios.post('/api/users', {
           email: _email,
           password: _password,
           referralCode: _referralCode,
