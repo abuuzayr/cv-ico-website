@@ -89,13 +89,16 @@
         verifyResend: false,
         emailInterval: null,
         checkTimeInterval: null,
-        remainingTime: []
+        remainingTime: [],
+        adminMessage: null
       };
     },
     async mounted() {
       vm.email = vm.user.email;
       const verifyLastSent = await vm.$axios.get('users?$select=verifyLastSent');
       vm.verifyLastSent = new Date(verifyLastSent.data.data[0].verifyLastSent);
+      const adminMessages = await vm.$axios.get('users?$select=adminMessages');
+      vm.adminMessage = adminMessages.data.data[0].adminMessages[0].msg;
 
       vm.setEmailInterval();
 

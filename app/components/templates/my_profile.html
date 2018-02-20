@@ -410,7 +410,7 @@
               No image uploaded
             </strong>
           </div>
-          <b-form-group class="align-self-center" v-if="editing">
+          <b-form-group class="align-self-center" v-if="editing || !kycSubmitted">
             <b-input-group>
               <b-form-file
                 accept="image/*"
@@ -437,7 +437,7 @@
               No image uploaded
             </strong>
           </div>
-          <b-form-group class="align-self-center" v-if="editing">
+          <b-form-group class="align-self-center" v-if="editing || !kycSubmitted">
             <b-input-group>
               <b-form-file
                 accept="image/*"
@@ -464,7 +464,7 @@
               No image uploaded
             </strong>
           </div>
-          <b-form-group class="align-self-center" v-if="editing">
+          <b-form-group class="align-self-center" v-if="editing || !kycSubmitted">
             <b-input-group>
               <b-form-file
                 accept="image/*"
@@ -503,7 +503,7 @@
               No image uploaded
             </strong>
           </div>
-          <b-form-group class="align-self-center" v-if="editing">
+          <b-form-group class="align-self-center" v-if="editing || !kycSubmitted">
             <b-input-group>
               <b-form-file
                 accept="image/*"
@@ -533,7 +533,7 @@
               No image uploaded
             </strong>
           </div>
-          <b-form-group class="align-self-center" v-if="editing">
+          <b-form-group class="align-self-center" v-if="editing || !kycSubmitted">
             <b-input-group>
               <b-form-file
                 accept="image/*"
@@ -563,7 +563,7 @@
               No image uploaded
             </strong>
           </div>
-          <b-form-group class="align-self-center" v-if="editing">
+          <b-form-group class="align-self-center" v-if="editing || !kycSubmitted">
             <b-input-group>
               <b-form-file
                 accept="image/*"
@@ -593,7 +593,7 @@
               No image uploaded
             </strong>
           </div>
-          <b-form-group class="align-self-center" v-if="editing">
+          <b-form-group class="align-self-center" v-if="editing || !kycSubmitted">
             <b-input-group>
               <b-form-file
                 accept="image/*"
@@ -663,7 +663,7 @@
         class="mt-5"
         variant="link"
         v-on:click="editing = false"
-        v-if="editing"
+        v-if="editing || !kycSubmitted"
       >
         Cancel Editing
       </b-button>
