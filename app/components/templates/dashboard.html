@@ -21,17 +21,17 @@
           </span>
         </div>
       </b-col>
-      <b-col class="notice text-left notify" v-if="isKYCSubmitted && !isKYCVerified" cols="12">
-        <h6 class="failure">
+      <b-col class="notice text-left notify" v-if="kycSubmitted && !isKYCVerified" cols="12">
+        <h6 class="pending">
           KYC verification is pending
         </h6>
         <div class="remarks">
-          <span class="failure">
+          <span class="pending">
             Your KYC details is being reviewed by our KYC partner
           </span>
         </div>
       </b-col>
-      <b-col class="notice text-left notify" v-if="!isKYCSubmitted" cols="12">
+      <b-col class="notice text-left notify" v-if="!kycSubmitted" cols="12">
         <h6 class="failure">
           KYC verification not completed
         </h6>

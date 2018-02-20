@@ -1,6 +1,6 @@
 <template>
   <div id="app" v-cloak>
-    <div v-if="initialized">
+    <div v-if="initialized" style="height: 100%;">
       <!-- <Particles
         color="#F5F5F5"
         :particleOpacity="0.7"
@@ -89,9 +89,11 @@
 <style lang="scss">
   @import '~assets/styles/main.scss';
 
+  html,
   body,
   #__nuxt,
-  #app {
+  #app,
+  #__layout {
     height: 100%;
   }
   body {

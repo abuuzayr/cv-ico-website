@@ -22,7 +22,16 @@
         timer: null,
         count: this.getTimer(),
         transactions: [],
-        emptyTxn: [],
+        // Keep this here for showing an empty table with lines - for aesthetic reasons only - doesnt affect anything
+        emptyTxn: [
+          { txNo: '0', block: '0', txHash: '', timestamp: '0', contribution: '', referralHash: '' },
+          { txNo: '0', block: '0', txHash: '', timestamp: '0', contribution: '', referralHash: '' },
+          { txNo: '0', block: '0', txHash: '', timestamp: '0', contribution: '', referralHash: '' },
+          { txNo: '0', block: '0', txHash: '', timestamp: '0', contribution: '', referralHash: '' },
+          { txNo: '0', block: '0', txHash: '', timestamp: '0', contribution: '', referralHash: '' },
+          { txNo: '0', block: '0', txHash: '', timestamp: '0', contribution: '', referralHash: '' },
+        ],
+        kycSubmitted: false,
       };
     },
     mounted() {
@@ -30,6 +39,8 @@
       vm.timer = setInterval(() => {
         vm.count = vm.getTimer();
       }, 1000);
+      const { first_name } = vm.data.kyc;
+      vm.kycSubmitted = first_name && first_name.length > 0 && !vm.isKYCVerified;
     },
     computed: {
       ...mapGetters({
@@ -101,5 +112,8 @@
   .transactions th {
     font-weight: bold;
     color: #b3beca;
+  }
+  .empty.transactions tr td {
+    color: white;
   }
 </style>

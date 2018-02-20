@@ -122,6 +122,7 @@
         <Dashboard
           v-if="component == 'dashboard'"
           v-bind:sale="sale"
+          v-bind:data="data"
         />
         <MyProfile
           v-if="component == 'myprofile'"
