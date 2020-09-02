@@ -23,7 +23,7 @@
     "@nuxtjs/proxy": "^1.1.4",
     "animate.css": "^3.6.1",
     "bootstrap": "4.0.0",
-    "bootstrap-vue": "^2.0.0-rc.1",
+    "bootstrap-vue": "^2.0.0-rc.12",
     "cookie": "^0.3.1",
     "countdown": "^2.6.0",
     "dauria": "^2.0.0",
