@@ -85,7 +85,7 @@
     "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.30.1",
     "mocha": "^5.0.1",
-    "node-sass": "^4.7.2",
+    "node-sass": "^4.13.1",
     "postcss": "^6.0.18",
     "postcss-cssnext": "^3.1.0",
     "postcss-import": "^11.1.0",
