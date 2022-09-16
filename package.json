@@ -22,7 +22,7 @@
     "@nuxtjs/font-awesome": "^1.0.3",
     "@nuxtjs/proxy": "^1.1.4",
     "animate.css": "^3.6.1",
-    "bootstrap": "4.0.0",
+    "bootstrap": "4.3.1",
     "bootstrap-vue": "^2.0.0-rc.1",
     "cookie": "^0.3.1",
     "countdown": "^2.6.0",
